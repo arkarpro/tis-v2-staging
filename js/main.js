@@ -18,23 +18,35 @@ async function loadComponent(id, file) {
 // 🏁 Page စတင်လည်ပတ်သည့် အဓိက Function (ဒီတစ်ခုတည်းကိုပဲ သုံးပါ)
 // =================================================================
 async function initApp() {
-    // ၁။ Static Component များကို အရင်တင်ပါ
     await Promise.all([
         loadComponent('navbar', 'navbar'),
         loadComponent('sidebar', 'sidebar'),
         loadComponent('widgets', 'widgets'),
-        loadComponent('content', 'content'), // Content container ကို အရင်ဆောက်
-        loadComponent('login-container', 'login') // 👈 ဤတစ်ကြောင်း အသစ်ထပ်ထည့်ပေးပါ
+        loadComponent('content', 'content'),
+        loadComponent('login-container', 'login')
     ]);
 
-    // ၂။ Container ဆောက်ပြီးမှ Google Sheet ထဲက Article များကို လှမ်းခေါ်ပါ
-    // ကိုကိုအာကာ့ api.js ထဲက fetchArticles function ကို ခေါ်ခြင်းဖြစ်ပါတယ်
+    // =================================================================
+    // 👤 UI ကို Login အခြေအနေအလိုက် ပြောင်းလဲပေးသည့် အပိုင်း အသစ်
+    // =================================================================
+    const isLoggedIn = typeof checkLoginStatus === 'function' ? checkLoginStatus() : false;
+    const userName = localStorage.getItem('tis_user_name');
+
+    // နာမည်ပြောင်းခြင်း
+    const nameSpan = document.getElementById('dynamic-username');
+    if (nameSpan) {
+        nameSpan.innerText = isLoggedIn && userName ? userName : "Data Enthusiast";
+    }
+
+    // Logout ခလုတ် အဖွင့်/အပိတ်
+    const logoutSection = document.getElementById('logout-section');
+    if (logoutSection) {
+        logoutSection.style.display = isLoggedIn ? 'block' : 'none';
+    }
+
+    // Video များကို ခေါ်ယူခြင်း
     if (typeof fetchArticles === 'function') {
         fetchArticles();
-    } else {
-        console.error("fetchArticles function မတွေ့ရှိပါ");
     }
 }
-
-// Window load ဖြစ်ရင် initApp ကို တစ်ကြိမ်တည်း ခေါ်ပါ
 window.onload = initApp;

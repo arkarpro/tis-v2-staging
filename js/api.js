@@ -46,7 +46,7 @@ async function fetchArticles() {
                 const isLocked = isPremium && !isLoggedIn;
 
                 return `
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col">
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden border border-gray-100">
                     <div class="aspect-video w-full bg-gray-900 relative">
                         ${isLocked ? `
                             <!-- 🚫 Lock ကျနေသည့် အခြေအနေ (Login ဝင်ရန်လိုအပ်သည်) -->
