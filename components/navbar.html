@@ -4,22 +4,25 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 
-<!-- Background ကို အဖြူရောင် အသေထားရှိမည် -->
 <div class="bg-white w-full h-full flex items-center shadow-sm relative z-50">
-    <div class="w-full max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
+    <!-- flex-between အစား flex ကိုသာ သုံးပြီး နေရာခွဲပါမည် -->
+    <div class="w-full max-w-7xl mx-auto px-4 flex items-center h-16">
         
         <!-- ဘယ်ဘက်: Logo အပိုင်း -->
-        <div class="flex-shrink-0 font-extrabold text-xl text-gray-900 pr-4">
+        <div class="flex-shrink-0 font-extrabold text-xl text-gray-900 mr-4">
             TIS Learning
         </div>
         
-        <!-- ညာဘက်: Menu အပိုင်း (overflow-x-auto ဖြင့် ဘေးတိုက်ဆွဲနိုင်ရန် နှင့် justify-end ဖြင့် ညာဘက်ကပ်ရန်) -->
-        <div class="flex space-x-5 overflow-x-auto justify-end w-full no-scrollbar items-center">
-            <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 whitespace-nowrap transition">Home</a>
-            <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 whitespace-nowrap transition">Excel</a>
-            <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 whitespace-nowrap transition">Power Query</a>
-            <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 whitespace-nowrap transition">Power BI</a>
-            <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 whitespace-nowrap transition">SQL</a>
+        <!-- ညာဘက်: Menu အပိုင်း (Mobile တွင် ဘယ်မှစ၍ Scroll ဆွဲမည်၊ Desktop တွင် ညာကပ်မည် md:justify-end) -->
+        <div class="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-end">
+            <!-- min-w-max ထည့်ထားသဖြင့် စာသားများ ပိန်မသွားဘဲ Scroll ပေါ်လာပါမည် -->
+            <div class="flex space-x-5 min-w-max pr-2 py-2">
+                <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">Home</a>
+                <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">Excel</a>
+                <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">Power Query</a>
+                <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">Power BI</a>
+                <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">SQL</a>
+            </div>
         </div>
         
     </div>
