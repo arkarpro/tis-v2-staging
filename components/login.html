@@ -17,7 +17,7 @@
                 <input type="email" id="loginEmail" placeholder="အီးမေးလ် (Email)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
             </div>
             <div class="mb-6">
-                <input type="password" id="loginPassword" placeholder="စကားဝှက် (Password)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
+                <input type="password" id="loginPassword" autocomplete="current-password" placeholder="စကားဝှက် (Password)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"">
             </div>
             <button onclick="submitLogin()" id="btn-login" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition shadow-lg mb-4">ဝင်မည် (Login)</button>
             
@@ -40,7 +40,7 @@
             <div class="mb-4"><input type="text" id="regName" placeholder="အမည် (Name)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
             <div class="mb-4"><input type="email" id="regEmail" placeholder="အီးမေးလ် (Email)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
             <div class="mb-4"><input type="text" id="regPhone" placeholder="ဖုန်းနံပါတ် (Phone)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
-            <div class="mb-6"><input type="password" id="regPassword" placeholder="စကားဝှက်အသစ် (Password)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
+            <div class="mb-6"><input type="password" id="regPassword" autocomplete="new-password" placeholder="စကားဝှက်အသစ် (Password)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
             
             <button onclick="submitRegister()" id="btn-register" class="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition shadow-lg">အတည်ပြုရန် (Sign Up)</button>
             <div class="text-center text-sm mt-4"><a href="#" onclick="switchForm('form-login')" class="text-blue-600 font-bold hover:underline">နောက်သို့ (Back to Login)</a></div>
@@ -59,14 +59,14 @@
         <div id="form-otp" class="hidden">
             <h2 class="text-xl font-bold text-center text-gray-800 mb-6">OTP စစ်ဆေးခြင်း</h2>
             <p id="otpDisplayEmail" class="text-sm text-blue-600 mb-4 text-center font-bold"></p>
-            <div class="mb-6"><input type="text" id="otpCode" placeholder="ဂဏန်း (၆) လုံး ထည့်ပါ" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50 text-center tracking-widest text-xl font-bold"></div>
+            <div class="mb-6"><input type="text" id="otpCode" autocomplete="one-time-code" placeholder="ဂဏန်း (၆) လုံး ထည့်ပါ" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50 text-center tracking-widest text-xl font-bold"></div>
             <button onclick="submitOTP()" id="btn-otp" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 transition shadow-lg">ကုဒ်အတည်ပြုမည် (Verify)</button>
         </div>
 
         <!-- ==================== ၅။ စကားဝှက်အသစ် ပေးရန် FORM ==================== -->
         <div id="form-reset" class="hidden">
             <h2 class="text-xl font-bold text-center text-gray-800 mb-6">စကားဝှက်အသစ် ဖန်တီးရန်</h2>
-            <div class="mb-6"><input type="password" id="newPassword" placeholder="စကားဝှက်အသစ် (New Password)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
+            <div class="mb-6"><input type="password" id="newPassword" autocomplete="new-password" placeholder="စကားဝှက်အသစ် (New Password)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
             <button onclick="submitNewPassword()" id="btn-reset" class="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition shadow-lg">ပြောင်းလဲမည် (Change Password)</button>
         </div>
 
