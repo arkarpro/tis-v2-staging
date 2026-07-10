@@ -6,27 +6,31 @@
     <title>The Insights Solution</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // အရောင်များ စနစ်တကျ သတ်မှတ်ခြင်း (Global Config)
         tailwind.config = { theme: { extend: { colors: { tis: { dark: '#0f172a', primary: '#2563eb', secondary: '#1e3a8a', gold: '#eab308' } } } } }
     </script>
 </head>
-<body class="bg-gray-100 font-sans">
+<!-- Menu Bar အပေါ်ထပ်နေခြင်းမှ ကာကွယ်ရန် pt-20 ထည့်ထားပါသည် -->
+<body class="bg-gray-100 font-sans pt-20">
 
-    <div id="navbar"></div>
+    <!-- 1. Navbar ကို အပေါ်ဆုံးတွင် အမြဲကပ်နေစေရန် (fixed, z-50) -->
+    <div id="navbar" class="fixed top-0 left-0 w-full z-50 bg-white shadow-sm"></div>
 
-    <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-12 gap-6">
+    <!-- 2. Sticky အလုပ်လုပ်စေရန် items-start ထည့်ထားပါသည် -->
+    <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
         
-        <div id="sidebar" class="md:col-span-3"></div>
+        <!-- 3. ဘယ်ဘက် Sidebar ကို Freeze လုပ်ထားရန် (sticky, top-24) -->
+        <div id="sidebar" class="md:col-span-3 sticky top-24 h-max"></div>
         
+        <!-- အလယ်က Video Content နေရာ (ပုံမှန်အတိုင်း Scroll ဆွဲ၍ရမည်) -->
         <div id="content" class="md:col-span-6"></div>
         
-        <div id="widgets" class="md:col-span-3"></div>
+        <!-- 4. ညာဘက် Widgets ကို Freeze လုပ်ထားရန် (sticky, top-24) -->
+        <div id="widgets" class="md:col-span-3 sticky top-24 h-max"></div>
         
     </main>
 
-    <!-- index.html အောက်ခြေ -->
-<script src="js/api.js"></script> <!-- ဒီဖိုင်ကို အရင်ချိတ်ပါ -->
-<script src="js/main.js"></script> <!-- ပြီးမှ main.js ကို ချိတ်ပါ -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
 
