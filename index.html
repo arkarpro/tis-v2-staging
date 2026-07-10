@@ -1,312 +1,318 @@
 <!DOCTYPE html>
+
 <html lang="my">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Insights Solution (TIS) - Data Strategy</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'Padauk', 'sans-serif'] },
-                    colors: {
-                        tis: { dark: '#0f172a', primary: '#2563eb', secondary: '#1e3a8a', gold: '#eab308' }
-                    }
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: { sans: ['Inter', 'Padauk', 'sans-serif'] },
+                colors: {
+                    tis: { dark: '#0f172a', primary: '#2563eb', secondary: '#1e3a8a', gold: '#eab308' }
                 }
             }
         }
-    </script>
-    <style>
-        body { line-height: 1.8; }
-        .blur-content { filter: blur(5px); user-select: none; pointer-events: none; }
-        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    </style>
+    }
+</script>
+<style>
+    body { line-height: 1.8; }
+    .blur-content { filter: blur(5px); user-select: none; pointer-events: none; }
+    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+</style>
+
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans selection:bg-tis-primary selection:text-white">
-
+         <!-- =======================================================
+         🖼️ အပိုင်း (၂) အတွက် (Logo)
+        ======================================================== -->
     <div class="bg-tis-dark text-white py-3 px-6 flex justify-between items-center z-40 relative shadow-md">
-        <div class="font-bold text-tis-gold tracking-widest text-lg">TIS</div>
-        <div id="user-status" class="text-sm">
-            </div>
+        <div class="font-bold text-tis-gold tracking-widest text-lg">
+            <img src="https://drive.google.com/uc?export=view&id=1nB_GsMeikU2GhW_F87bheT7lEKoQfzTg" class="h-10 w-auto" alt="TIS Logo">
+        </div>
+        <div id="user-status" class="text-sm"></div>
     </div>
-
-    <section class="bg-tis-dark text-white py-16 px-4 text-center relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <!-- =======================================================
+         🎯 အပိုင်း (၃) အတွက် (Banner)
+        ======================================================== -->
+    <section class="bg-tis-dark text-white py-24 px-4 text-center relative overflow-hidden">
+        <img src="https://drive.google.com/uc?export=view&id=1FUy3Uxq1Hxr1_5w7ckHW2034FlrTFn3d" class="absolute inset-0 w-full h-full object-cover opacity-20" alt="TIS Banner">
         <div class="max-w-4xl mx-auto relative z-10" data-aos="zoom-in">
             <h1 class="text-4xl md:text-5xl font-bold mb-4 text-tis-gold tracking-tight">The Insights Solution</h1>
             <p class="text-lg mb-8 text-gray-300 font-light tracking-wide">Data Strategy & Corporate Training Center</p>
 
-            <div class="bg-tis-secondary/50 border border-tis-primary/50 rounded-2xl p-6 inline-block max-w-2xl mx-auto backdrop-blur-md shadow-xl">
-                <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3 inline-block animate-pulse">Hot Intake</span>
-                <h2 class="text-2xl font-bold text-white mb-2">🚀 May 2, 2026 Power BI Master Class</h2>
-                <p class="text-gray-300 mb-5">Price Lock Offer: <span class="text-tis-gold font-bold text-2xl">200,000 Ks</span></p>
-                <button class="bg-tis-primary hover:bg-blue-500 text-white font-bold py-2.5 px-8 rounded-full transition-all duration-300 shadow-lg hover:-translate-y-1">
-                    Register Now
-                </button>
-            </div>
+        <div class="bg-tis-secondary/70 border border-tis-primary/50 rounded-2xl p-6 inline-block max-w-2xl mx-auto backdrop-blur-md shadow-xl">
+            <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3 inline-block animate-pulse">Hot Intake</span>
+            <h2 class="text-2xl font-bold text-white mb-2">🚀 May 2, 2026 Power BI Master Class</h2>
+            <p class="text-gray-300 mb-5">Price Lock Offer: <span class="text-tis-gold font-bold text-2xl">200,000 Ks</span></p>
+            <button class="bg-tis-primary hover:bg-blue-500 text-white font-bold py-2.5 px-8 rounded-full transition-all duration-300 shadow-lg hover:-translate-y-1">Register Now</button>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="py-16 px-4 bg-gray-100 min-h-screen">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-end mb-10">
-                <h2 class="text-3xl font-bold text-tis-dark border-l-4 border-tis-primary pl-4" data-aos="fade-right">Latest Resources</h2>
-            </div>
-            
-            <div id="content-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="col-span-full text-center py-20">
-                    <div class="inline-block w-12 h-12 border-4 border-tis-primary border-t-transparent rounded-full animate-spin mb-4"></div>
-                    <p class="text-tis-primary font-semibold">Loading resources... ⏳</p>
-                </div>
-            </div>
+<section class="py-16 px-4 bg-gray-100 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex justify-between items-end mb-10">
+            <h2 class="text-3xl font-bold text-tis-dark border-l-4 border-tis-primary pl-4" data-aos="fade-right">Latest Resources</h2>
         </div>
-    </section>
-
-    <div id="auth-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
-            
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-            
-            <div class="p-8">
-                <div class="text-center mb-6">
-                    <h3 id="modal-title" class="text-2xl font-bold text-tis-dark">Welcome to TIS</h3>
-                    <p id="modal-subtitle" class="text-sm text-gray-500 mt-1">Login to access premium resources</p>
-                </div>
-
-                <div id="alert-box" class="hidden text-sm font-semibold p-3 rounded-lg mb-4 text-center"></div>
-
-                <form id="login-form" class="space-y-4">
-                    <div><label class="block text-sm font-medium text-gray-700">Email Address</label><input type="email" id="login-email" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
-                    <div><label class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="login-pass" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
-                    <div class="flex justify-end"><button type="button" onclick="switchForm('forgot')" class="text-xs text-tis-primary hover:underline">Forgot Password?</button></div>
-                    <button type="submit" class="w-full bg-tis-dark hover:bg-tis-secondary text-white font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center">
-                        <span id="login-btn-text">Sign In</span>
-                        <div id="login-spinner" class="hidden ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    </button>
-                    <p class="text-center text-sm text-gray-600 mt-4">Don't have an account? <button type="button" onclick="switchForm('register')" class="text-tis-primary font-bold hover:underline">Register</button></p>
-                </form>
-
-                <form id="register-form" class="space-y-4 hidden">
-                    <div><label class="block text-sm font-medium text-gray-700">Full Name</label><input type="text" id="reg-name" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
-                    <div><label class="block text-sm font-medium text-gray-700">Phone Number</label><input type="text" id="reg-phone" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
-                    <div><label class="block text-sm font-medium text-gray-700">Email Address</label><input type="email" id="reg-email" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
-                    <div><label class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="reg-pass" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
-                    
-                    <button type="submit" class="w-full bg-tis-primary hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center mt-4">
-                        <span id="reg-btn-text">Create Account</span>
-                        <div id="reg-spinner" class="hidden ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    </button>
-                    <p class="text-center text-sm text-gray-600 mt-4">Already have an account? <button type="button" onclick="switchForm('login')" class="text-tis-primary font-bold hover:underline">Login</button></p>
-                </form>
-
-                <form id="forgot-form" class="space-y-4 hidden">
-                    <p class="text-sm text-gray-600 text-center mb-2">Enter your registered email. We will send you an OTP code.</p>
-                    <div><label class="block text-sm font-medium text-gray-700">Email Address</label><input type="email" id="forgot-email" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
-                    
-                    <button type="submit" class="w-full bg-tis-gold hover:bg-yellow-600 text-tis-dark font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center">
-                        <span id="forgot-btn-text">Send OTP</span>
-                        <div id="forgot-spinner" class="hidden ml-2 w-4 h-4 border-2 border-tis-dark border-t-transparent rounded-full animate-spin"></div>
-                    </button>
-                    <p class="text-center text-sm mt-4"><button type="button" onclick="switchForm('login')" class="text-gray-500 font-bold hover:underline">&larr; Back to Login</button></p>
-                </form>
-
-                <form id="verify-form" class="space-y-4 hidden">
-                    <p class="text-sm text-gray-600 text-center mb-2">Please enter the 6-digit OTP sent to your email.</p>
-                    <div><label class="block text-sm font-medium text-gray-700">OTP Code</label><input type="text" id="verify-otp" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary text-center tracking-widest text-lg font-bold" placeholder="------" maxlength="6"></div>
-                    
-                    <button type="submit" class="w-full bg-tis-primary hover:bg-blue-600 text-white font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center">
-                        <span id="verify-btn-text">Verify OTP</span>
-                        <div id="verify-spinner" class="hidden ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    </button>
-                    <p class="text-center text-sm mt-4"><button type="button" onclick="switchForm('login')" class="text-gray-500 font-bold hover:underline">&larr; Cancel</button></p>
-                </form>
-
-                <form id="reset-form" class="space-y-4 hidden">
-                    <p class="text-sm text-gray-600 text-center mb-2">OTP verified! You can now create a new password.</p>
-                    <div><label class="block text-sm font-medium text-gray-700">New Password</label><input type="password" id="reset-pass" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary" placeholder="Enter new password"></div>
-                    
-                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center">
-                        <span id="reset-btn-text">Save New Password</span>
-                        <div id="reset-spinner" class="hidden ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    </button>
-                </form>
+        
+        <div id="content-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="col-span-full text-center py-20">
+                <div class="inline-block w-12 h-12 border-4 border-tis-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                <p class="text-tis-primary font-semibold">Loading resources... ⏳</p>
             </div>
         </div>
     </div>
+</section>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        // =======================================================
-        // ⚙️ အပိုင်း (၆) - API Links များနှင့် အခြေခံ Setup
-        // =======================================================
-        AOS.init({ duration: 800, once: true });
-
-        const CONTENT_API = "https://script.google.com/macros/s/AKfycbyPPCYnpCs4FuIlnmOP-Xfldqjq3NCr9wdEio96mtyg9Y0EuisM8Q6J9H9Gl1IJ1XGrqg/exec";
-        const USER_API = "https://script.google.com/macros/s/AKfycbwKjSsZdC1B1_ciKrxO48btuP9HF5-XiPWOKaaS2MAWIaeVVgyNIdsHloMtc8DCiatd8A/exec";
-
-        let currentResetEmail = ""; // Email ကို ယာယီမှတ်ထားရန်
-        let currentValidOTP = "";   // မှန်ကန်သော OTP ကို ယာယီမှတ်ထားရန်
-
-        // ... [အပိုင်း ၇ Content ဆွဲယူသော ကုဒ်များသည် ယခင်အတိုင်းဖြစ်ပါသည်] ...
+<div id="auth-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
         
-        // =======================================================
-        // 🪟 အပိုင်း (၈) - Modal အဖွင့်/အပိတ် နှင့် Form အပြောင်းအလဲများ
-        // =======================================================
-        const modal = document.getElementById('auth-modal');
-        const alertBox = document.getElementById('alert-box');
-
-        function openModal() { modal.classList.remove('hidden'); switchForm('login'); showAlert('', 'hidden'); }
-        function closeModal() { modal.classList.add('hidden'); }
+        <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
         
-        function switchForm(type) {
-            document.getElementById('login-form').classList.add('hidden');
-            document.getElementById('register-form').classList.add('hidden');
-            document.getElementById('forgot-form').classList.add('hidden');
-            document.getElementById('verify-form').classList.add('hidden');
-            document.getElementById('reset-form').classList.add('hidden');
-            showAlert('', 'hidden');
+        <div class="p-8">
+            <div class="text-center mb-6">
+                <h3 id="modal-title" class="text-2xl font-bold text-tis-dark">Welcome to TIS</h3>
+                <p id="modal-subtitle" class="text-sm text-gray-500 mt-1">Login to access premium resources</p>
+            </div>
 
-            if(type === 'login') {
-                document.getElementById('login-form').classList.remove('hidden');
-                document.getElementById('modal-title').innerText = "Welcome Back";
-                document.getElementById('modal-subtitle').innerText = "Login to access premium resources";
-            } else if(type === 'register') {
-                document.getElementById('register-form').classList.remove('hidden');
-                document.getElementById('modal-title').innerText = "Create Account";
-                document.getElementById('modal-subtitle').innerText = "Join TIS to accelerate your data journey";
-            } else if(type === 'forgot') {
-                document.getElementById('forgot-form').classList.remove('hidden');
-                document.getElementById('modal-title').innerText = "Reset Password";
-                document.getElementById('modal-subtitle').innerText = "Forgot your password?";
-            } else if(type === 'verify') {
-                document.getElementById('verify-form').classList.remove('hidden');
-                document.getElementById('modal-title').innerText = "Verify OTP";
-                document.getElementById('modal-subtitle').innerText = "Enter the code sent to your email";
-            } else if(type === 'reset') {
-                document.getElementById('reset-form').classList.remove('hidden');
-                document.getElementById('modal-title').innerText = "Set New Password";
-                document.getElementById('modal-subtitle').innerText = "Secure your account";
+            <div id="alert-box" class="hidden text-sm font-semibold p-3 rounded-lg mb-4 text-center"></div>
+
+            <form id="login-form" class="space-y-4">
+                <div><label class="block text-sm font-medium text-gray-700">Email Address</label><input type="email" id="login-email" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
+                <div><label class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="login-pass" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
+                <div class="flex justify-end"><button type="button" onclick="switchForm('forgot')" class="text-xs text-tis-primary hover:underline">Forgot Password?</button></div>
+                <button type="submit" class="w-full bg-tis-dark hover:bg-tis-secondary text-white font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center">
+                    <span id="login-btn-text">Sign In</span>
+                    <div id="login-spinner" class="hidden ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                </button>
+                <p class="text-center text-sm text-gray-600 mt-4">Don't have an account? <button type="button" onclick="switchForm('register')" class="text-tis-primary font-bold hover:underline">Register</button></p>
+            </form>
+
+            <form id="register-form" class="space-y-4 hidden">
+                <div><label class="block text-sm font-medium text-gray-700">Full Name</label><input type="text" id="reg-name" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
+                <div><label class="block text-sm font-medium text-gray-700">Phone Number</label><input type="text" id="reg-phone" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
+                <div><label class="block text-sm font-medium text-gray-700">Email Address</label><input type="email" id="reg-email" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
+                <div><label class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="reg-pass" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
+                
+                <button type="submit" class="w-full bg-tis-primary hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center mt-4">
+                    <span id="reg-btn-text">Create Account</span>
+                    <div id="reg-spinner" class="hidden ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                </button>
+                <p class="text-center text-sm text-gray-600 mt-4">Already have an account? <button type="button" onclick="switchForm('login')" class="text-tis-primary font-bold hover:underline">Login</button></p>
+            </form>
+
+            <form id="forgot-form" class="space-y-4 hidden">
+                <p class="text-sm text-gray-600 text-center mb-2">Enter your registered email. We will send you an OTP code.</p>
+                <div><label class="block text-sm font-medium text-gray-700">Email Address</label><input type="email" id="forgot-email" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary"></div>
+                
+                <button type="submit" class="w-full bg-tis-gold hover:bg-yellow-600 text-tis-dark font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center">
+                    <span id="forgot-btn-text">Send OTP</span>
+                    <div id="forgot-spinner" class="hidden ml-2 w-4 h-4 border-2 border-tis-dark border-t-transparent rounded-full animate-spin"></div>
+                </button>
+                <p class="text-center text-sm mt-4"><button type="button" onclick="switchForm('login')" class="text-gray-500 font-bold hover:underline">&larr; Back to Login</button></p>
+            </form>
+
+            <form id="verify-form" class="space-y-4 hidden">
+                <p class="text-sm text-gray-600 text-center mb-2">Please enter the 6-digit OTP sent to your email.</p>
+                <div><label class="block text-sm font-medium text-gray-700">OTP Code</label><input type="text" id="verify-otp" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary text-center tracking-widest text-lg font-bold" placeholder="------" maxlength="6"></div>
+                
+                <button type="submit" class="w-full bg-tis-primary hover:bg-blue-600 text-white font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center">
+                    <span id="verify-btn-text">Verify OTP</span>
+                    <div id="verify-spinner" class="hidden ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                </button>
+                <p class="text-center text-sm mt-4"><button type="button" onclick="switchForm('login')" class="text-gray-500 font-bold hover:underline">&larr; Cancel</button></p>
+            </form>
+
+            <form id="reset-form" class="space-y-4 hidden">
+                <p class="text-sm text-gray-600 text-center mb-2">OTP verified! You can now create a new password.</p>
+                <div><label class="block text-sm font-medium text-gray-700">New Password</label><input type="password" id="reset-pass" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary" placeholder="Enter new password"></div>
+                
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center">
+                    <span id="reset-btn-text">Save New Password</span>
+                    <div id="reset-spinner" class="hidden ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // =======================================================
+    // ⚙️ အပိုင်း (၆) - API Links များနှင့် အခြေခံ Setup
+    // =======================================================
+    AOS.init({ duration: 800, once: true });
+
+    const CONTENT_API = "https://script.google.com/macros/s/AKfycbyPPCYnpCs4FuIlnmOP-Xfldqjq3NCr9wdEio96mtyg9Y0EuisM8Q6J9H9Gl1IJ1XGrqg/exec";
+    const USER_API = "https://script.google.com/macros/s/AKfycbwKjSsZdC1B1_ciKrxO48btuP9HF5-XiPWOKaaS2MAWIaeVVgyNIdsHloMtc8DCiatd8A/exec";
+
+    let currentResetEmail = ""; // Email ကို ယာယီမှတ်ထားရန်
+    let currentValidOTP = "";   // မှန်ကန်သော OTP ကို ယာယီမှတ်ထားရန်
+
+    // ... [အပိုင်း ၇ Content ဆွဲယူသော ကုဒ်များသည် ယခင်အတိုင်းဖြစ်ပါသည်] ...
+    
+    // =======================================================
+    // 🪟 အပိုင်း (၈) - Modal အဖွင့်/အပိတ် နှင့် Form အပြောင်းအလဲများ
+    // =======================================================
+    const modal = document.getElementById('auth-modal');
+    const alertBox = document.getElementById('alert-box');
+
+    function openModal() { modal.classList.remove('hidden'); switchForm('login'); showAlert('', 'hidden'); }
+    function closeModal() { modal.classList.add('hidden'); }
+    
+    function switchForm(type) {
+        document.getElementById('login-form').classList.add('hidden');
+        document.getElementById('register-form').classList.add('hidden');
+        document.getElementById('forgot-form').classList.add('hidden');
+        document.getElementById('verify-form').classList.add('hidden');
+        document.getElementById('reset-form').classList.add('hidden');
+        showAlert('', 'hidden');
+
+        if(type === 'login') {
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('modal-title').innerText = "Welcome Back";
+            document.getElementById('modal-subtitle').innerText = "Login to access premium resources";
+        } else if(type === 'register') {
+            document.getElementById('register-form').classList.remove('hidden');
+            document.getElementById('modal-title').innerText = "Create Account";
+            document.getElementById('modal-subtitle').innerText = "Join TIS to accelerate your data journey";
+        } else if(type === 'forgot') {
+            document.getElementById('forgot-form').classList.remove('hidden');
+            document.getElementById('modal-title').innerText = "Reset Password";
+            document.getElementById('modal-subtitle').innerText = "Forgot your password?";
+        } else if(type === 'verify') {
+            document.getElementById('verify-form').classList.remove('hidden');
+            document.getElementById('modal-title').innerText = "Verify OTP";
+            document.getElementById('modal-subtitle').innerText = "Enter the code sent to your email";
+        } else if(type === 'reset') {
+            document.getElementById('reset-form').classList.remove('hidden');
+            document.getElementById('modal-title').innerText = "Set New Password";
+            document.getElementById('modal-subtitle').innerText = "Secure your account";
+        }
+    }
+
+    function showAlert(msg, type) {
+        alertBox.innerText = msg;
+        alertBox.className = `text-sm font-semibold p-3 rounded-lg mb-4 text-center ${type === 'error' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-700'}`;
+        if(type === 'hidden') alertBox.classList.add('hidden');
+    }
+
+    // =======================================================
+    // 🛡️ အပိုင်း (၉) - API သို့ Data ပို့ခြင်း (Core Auth Logic)
+    // =======================================================
+    async function submitAuth(payload, btnId, spinnerId, successCallback) {
+        const btnText = document.getElementById(btnId);
+        const spinner = document.getElementById(spinnerId);
+        const originalText = btnText.innerText;
+        
+        btnText.innerText = "Processing..."; spinner.classList.remove('hidden');
+        showAlert('', 'hidden');
+
+        try {
+            const response = await fetch(USER_API, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+            });
+            const result = await response.json();
+
+            if(result.status === 'success') {
+                showAlert(result.message, 'success');
+                if(successCallback) successCallback(result);
+            } else {
+                showAlert(result.message, 'error');
             }
+        } catch (err) {
+            showAlert("Network Error. Please try again.", 'error');
+        } finally {
+            btnText.innerText = originalText; spinner.classList.add('hidden');
         }
+    }
 
-        function showAlert(msg, type) {
-            alertBox.innerText = msg;
-            alertBox.className = `text-sm font-semibold p-3 rounded-lg mb-4 text-center ${type === 'error' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-700'}`;
-            if(type === 'hidden') alertBox.classList.add('hidden');
-        }
-
-        // =======================================================
-        // 🛡️ အပိုင်း (၉) - API သို့ Data ပို့ခြင်း (Core Auth Logic)
-        // =======================================================
-        async function submitAuth(payload, btnId, spinnerId, successCallback) {
-            const btnText = document.getElementById(btnId);
-            const spinner = document.getElementById(spinnerId);
-            const originalText = btnText.innerText;
-            
-            btnText.innerText = "Processing..."; spinner.classList.remove('hidden');
-            showAlert('', 'hidden');
-
-            try {
-                const response = await fetch(USER_API, {
-                    method: 'POST',
-                    body: JSON.stringify(payload),
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-                });
-                const result = await response.json();
-
-                if(result.status === 'success') {
-                    showAlert(result.message, 'success');
-                    if(successCallback) successCallback(result);
-                } else {
-                    showAlert(result.message, 'error');
-                }
-            } catch (err) {
-                showAlert("Network Error. Please try again.", 'error');
-            } finally {
-                btnText.innerText = originalText; spinner.classList.add('hidden');
-            }
-        }
-
-        // =======================================================
-        // 🖱️ အပိုင်း (၁၀) - ခလုတ်များနှိပ်သည့်အခါ အလုပ်လုပ်မည့် Event များ
-        // =======================================================
-        
-        // 🔑 Login Event
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const payload = { action: 'login', email: document.getElementById('login-email').value, password: document.getElementById('login-pass').value };
-            submitAuth(payload, 'login-btn-text', 'login-spinner', (res) => {
-                localStorage.setItem('tis_user_name', res.userName);
-                localStorage.setItem('tis_user_email', res.email);
-                setTimeout(() => { closeModal(); fetchTISData(); }, 1500);
-            });
+    // =======================================================
+    // 🖱️ အပိုင်း (၁၀) - ခလုတ်များနှိပ်သည့်အခါ အလုပ်လုပ်မည့် Event များ
+    // =======================================================
+    
+    // 🔑 Login Event
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const payload = { action: 'login', email: document.getElementById('login-email').value, password: document.getElementById('login-pass').value };
+        submitAuth(payload, 'login-btn-text', 'login-spinner', (res) => {
+            localStorage.setItem('tis_user_name', res.userName);
+            localStorage.setItem('tis_user_email', res.email);
+            setTimeout(() => { closeModal(); fetchTISData(); }, 1500);
         });
+    });
 
-        // 📝 Register Event
-        document.getElementById('register-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const payload = {
-                action: 'register', 
-                name: document.getElementById('reg-name').value, 
-                phone: document.getElementById('reg-phone').value,
-                email: document.getElementById('reg-email').value, 
-                password: document.getElementById('reg-pass').value 
-            };
-            submitAuth(payload, 'reg-btn-text', 'reg-spinner', () => {
-                setTimeout(() => { switchForm('login'); document.getElementById('login-email').value = payload.email; }, 2000);
-            });
+    // 📝 Register Event
+    document.getElementById('register-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const payload = {
+            action: 'register', 
+            name: document.getElementById('reg-name').value, 
+            phone: document.getElementById('reg-phone').value,
+            email: document.getElementById('reg-email').value, 
+            password: document.getElementById('reg-pass').value 
+        };
+        submitAuth(payload, 'reg-btn-text', 'reg-spinner', () => {
+            setTimeout(() => { switchForm('login'); document.getElementById('login-email').value = payload.email; }, 2000);
         });
+    });
 
-        // 📩 Forgot Password (Step 1 - Send OTP)
-        document.getElementById('forgot-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            currentResetEmail = document.getElementById('forgot-email').value; 
-            const payload = { action: 'forgot_password', email: currentResetEmail };
-            submitAuth(payload, 'forgot-btn-text', 'forgot-spinner', () => {
-                setTimeout(() => { switchForm('verify'); }, 1500); // Verify Form သို့ ပြောင်းမည်
-            });
+    // 📩 Forgot Password (Step 1 - Send OTP)
+    document.getElementById('forgot-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        currentResetEmail = document.getElementById('forgot-email').value; 
+        const payload = { action: 'forgot_password', email: currentResetEmail };
+        submitAuth(payload, 'forgot-btn-text', 'forgot-spinner', () => {
+            setTimeout(() => { switchForm('verify'); }, 1500); // Verify Form သို့ ပြောင်းမည်
         });
+    });
 
-        // 🔍 Verify OTP (Step 2 - Check OTP)
-        document.getElementById('verify-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            currentValidOTP = document.getElementById('verify-otp').value; // OTP ကို မှတ်ထားမည်
-            const payload = { 
-                action: 'verify_otp', 
-                email: currentResetEmail, 
-                otp: currentValidOTP 
-            };
-            submitAuth(payload, 'verify-btn-text', 'verify-spinner', () => {
-                setTimeout(() => { switchForm('reset'); }, 1500); // Reset Form သို့ ပြောင်းမည်
-            });
+    // 🔍 Verify OTP (Step 2 - Check OTP)
+    document.getElementById('verify-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        currentValidOTP = document.getElementById('verify-otp').value; // OTP ကို မှတ်ထားမည်
+        const payload = { 
+            action: 'verify_otp', 
+            email: currentResetEmail, 
+            otp: currentValidOTP 
+        };
+        submitAuth(payload, 'verify-btn-text', 'verify-spinner', () => {
+            setTimeout(() => { switchForm('reset'); }, 1500); // Reset Form သို့ ပြောင်းမည်
         });
+    });
 
-        // 🔄 Reset Password (Step 3 - Save New Password)
-        document.getElementById('reset-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const payload = { 
-                action: 'reset_password', 
-                email: currentResetEmail, 
-                otp: currentValidOTP, // မှန်ကန်ကြောင်း စစ်ဆေးပြီးသော OTP
-                password: document.getElementById('reset-pass').value
-            };
-            submitAuth(payload, 'reset-btn-text', 'reset-spinner', () => {
-                setTimeout(() => { 
-                    switchForm('login'); 
-                    document.getElementById('login-email').value = currentResetEmail;
-                    document.getElementById('login-pass').value = '';
-                }, 2000);
-            });
+    // 🔄 Reset Password (Step 3 - Save New Password)
+    document.getElementById('reset-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const payload = { 
+            action: 'reset_password', 
+            email: currentResetEmail, 
+            otp: currentValidOTP, // မှန်ကန်ကြောင်း စစ်ဆေးပြီးသော OTP
+            password: document.getElementById('reset-pass').value
+        };
+        submitAuth(payload, 'reset-btn-text', 'reset-spinner', () => {
+            setTimeout(() => { 
+                switchForm('login'); 
+                document.getElementById('login-email').value = currentResetEmail;
+                document.getElementById('login-pass').value = '';
+            }, 2000);
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
