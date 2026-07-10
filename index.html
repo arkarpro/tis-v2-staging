@@ -12,26 +12,18 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
-
-<!-- အပေါ်မှ နေရာအနည်းငယ် လျှော့ချထားပါသည် (pt-16) -->
 <body class="bg-gray-100 font-sans pt-16">
 
     <div id="navbar" class="fixed top-0 left-0 w-full z-50 bg-white shadow-sm"></div>
 
-    <!-- အပေါ်နေရာချန်ခြင်းကို အနည်းငယ် ကျဉ်းထားပါသည် (pt-4 pb-6) -->
     <main class="max-w-7xl mx-auto px-4 pt-4 pb-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-        
-        <!-- 🔴 ပြင်ဆင်ချက် - sticky အစား md:sticky ဟု ပြောင်းထားပါသည် -->
         <div id="sidebar" class="md:col-span-3 md:sticky top-20 h-max"></div>
-        
         <div id="content" class="md:col-span-6"></div>
-        
-        <!-- 🔴 ပြင်ဆင်ချက် - sticky အစား md:sticky ဟု ပြောင်းထားပါသည် -->
         <div id="widgets" class="md:col-span-3 md:sticky top-20 h-max"></div>
-        
     </main>
 
     <div id="login-container"></div>
+
     <!-- ================================================================= -->
     <!-- 🎓 PL-300 Mock Test မျက်နှာပြင်အပြည့် (Full-Screen Modal)          -->
     <!-- ================================================================= -->
@@ -42,7 +34,11 @@
             <h2 class="text-xl font-bold text-gray-800" id="quizTitle">PL-300 Mock Test (Loading...)</h2>
             <div class="flex items-center space-x-4">
                 <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-lg font-bold tracking-wider" id="quizTimer">00:00</div>
-                <button onclick="closeQuiz()" class="text-gray-500 hover:text-red-500 font-bold transition">✖ ပိတ်မည်</button>
+                <!-- 🏠 Home သို့ ပြန်သွားရန် ခလုတ် -->
+                <button onclick="closeQuiz()" class="flex items-center text-gray-500 hover:text-red-500 font-bold transition bg-gray-100 hover:bg-red-50 px-4 py-2 rounded-lg">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    Home သို့ ပြန်သွားမည်
+                </button>
             </div>
         </div>
 
@@ -63,7 +59,6 @@
                     
                     <h3 class="text-lg font-bold text-gray-800 mb-6 leading-relaxed" id="qText">Question Text Here?</h3>
                     
-                    <!-- ရွေးချယ်စရာ (A, B, C, D) နေရာ -->
                     <div class="space-y-3" id="optionsContainer">
                         <!-- Options များကို JS မှ အလိုအလျောက် ထည့်သွင်းပေးမည် -->
                     </div>
@@ -79,12 +74,11 @@
             <button onclick="submitQuiz()" id="btnSubmitQuiz" class="px-6 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition hidden shadow-lg">အဖြေလွှာတင်မည် (Submit)</button>
         </div>
     </div>
+
+    <!-- Script ဖိုင်များ ချိတ်ဆက်ခြင်း (quiz.js ထပ်ဖြည့်ထားပါသည်) -->
     <script src="js/auth.js"></script>
     <script src="js/api.js"></script>
+    <script src="js/quiz.js"></script> 
     <script src="js/main.js"></script>
 </body>
 </html>
-
-</body>
-</html>
-

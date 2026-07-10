@@ -15,45 +15,55 @@ let secondsElapsed = 0;
 // ၁။ Quiz စတင်ခြင်း
 // --------------------------------------------------
 async function startMockTest(sheetName = "1") {
-    // Login ဝင်ထားခြင်း ရှိ/မရှိ အရင်စစ်မည်
     if (!checkLoginStatus()) {
         alert("စာမေးပွဲဖြေဆိုရန် Login အရင်ဝင်ပေးပါခင်ဗျာ။");
         openLoginModal();
         return;
     }
 
-    // Modal ဖွင့်မည်၊ UI ရှင်းလင်းမည်
     document.getElementById('quizModal').classList.remove('hidden');
     document.getElementById('quizModal').classList.add('flex');
-    document.getElementById('quizLoading').classList.remove('hidden');
+    
+    // Loading ပြမည်
+    const loadingDiv = document.getElementById('quizLoading');
+    loadingDiv.classList.remove('hidden');
+    loadingDiv.innerHTML = "မေးခွန်းများ ဆွဲယူနေပါသည်... ⏳";
+    
     document.getElementById('questionContainer').classList.add('hidden');
     document.getElementById('quizResults').classList.add('hidden');
     document.getElementById('quizTitle').innerText = `PL-300 Mock Test (${sheetName})`;
     
-    // Variables များ Reset ချမည်
     questions = [];
     currentQuestionIndex = 0;
     userAnswers = {};
     secondsElapsed = 0;
     clearInterval(quizTimer);
+    document.getElementById('quizTimer').innerText = "00:00";
 
     try {
-        // API မှ မေးခွန်းများ လှမ်းခေါ်မည်
         const response = await fetch(`${QUIZ_API_URL}?action=get_questions&sheetName=${sheetName}`);
         const result = await response.json();
         
-        if (result.status === "success" && result.data.length > 0) {
+        // 🔴 Data ရှိ/မရှိ စစ်ဆေးခြင်း
+        if (result.status === "success" && result.data && result.data.length > 0) {
             questions = result.data;
-            document.getElementById('quizLoading').classList.add('hidden');
+            loadingDiv.classList.add('hidden');
             document.getElementById('questionContainer').classList.remove('hidden');
             
-            startTimer(); // အချိန်စမှတ်မည်
-            renderQuestion(); // ပထမဆုံး မေးခွန်းကို ပြမည်
+            startTimer(); 
+            renderQuestion(); 
         } else {
-            document.getElementById('quizLoading').innerText = "မေးခွန်းများ ရှာမတွေ့ပါ။";
+            // Data မရှိပါက ပြသမည့် စာသား (We're Preparing)
+            loadingDiv.innerHTML = `
+                <div class="flex flex-col items-center justify-center mt-10">
+                    <div class="text-5xl mb-4">🚧</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">We're Preparing for this Mock Test!</h3>
+                    <p class="text-gray-500">မကြာမီ လာမည်... ဤစာမေးပွဲ မေးခွန်းများကို ပြင်ဆင်နေဆဲဖြစ်ပါသည်။</p>
+                </div>
+            `;
         }
     } catch (error) {
-        document.getElementById('quizLoading').innerText = "ချိတ်ဆက်မှု ချို့ယွင်းနေပါသည်။";
+        loadingDiv.innerHTML = "ချိတ်ဆက်မှု ချို့ယွင်းနေပါသည်။ (Internet Connection စစ်ဆေးပါ)";
     }
 }
 
