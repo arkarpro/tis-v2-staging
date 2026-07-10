@@ -3,7 +3,7 @@
 // =================================================================
 
 const USERS_DB_URL = "https://script.google.com/macros/s/AKfycbwKjSsZdC1B1_ciKrxO48btuP9HF5-XiPWOKaaS2MAWIaeVVgyNIdsHloMtc8DCiatd8A/exec"; // 👈 ပြောင်းရန်
-const GOOGLE_CLIENT_ID = "http://710420508887-aekrb2bugfeeaa3hnhv71o5etts76gnn.apps.googleusercontent.com"; // 👈 ပြောင်းရန်
+const GOOGLE_CLIENT_ID = "710420508887-aekrb2bugfeeaa3hnhv71o5etts76gnn.apps.googleusercontent.com"; // 👈 ပြောင်းရန်
 
 let tempEmail = ""; 
 let otpFlowType = ""; // 'register' သို့မဟုတ် 'forgot' ဟု မှတ်သားထားမည်
