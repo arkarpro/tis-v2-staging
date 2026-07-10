@@ -1,33 +1,84 @@
 <!-- ================================================================= -->
-<!-- 🔐 လော့ဂ်အင် (Login) ဝင်ရန် ပေါ့ပ်အပ် (Modal) မျက်နှာပြင်         -->
+<!-- 🔐 Auth Modal (Login / Register / Forgot Password)                -->
 <!-- ================================================================= -->
-<div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-[60]">
-    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md relative">
-        <!-- ❌ ပိတ်ရန် ခလုတ် (Close Button) -->
-        <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-500 hover:text-red-500 transition">
+<div id="loginModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-[60] backdrop-blur-sm">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md relative overflow-hidden">
+        
+        <!-- ❌ ပိတ်ရန် ခလုတ် -->
+        <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
 
-        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">TIS Academy သို့ ဝင်ရောက်ရန်</h2>
+        <!-- 💬 အသိပေးစာများ ပြသမည့်နေရာ -->
+        <div id="authMessage" class="mb-4 text-center text-sm font-bold"></div>
 
-        <!-- 📧 အီးမေးလ် ထည့်ရန် နေရာ -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">အီးမေးလ် (Email)</label>
-            <input type="email" id="loginEmail" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="your@email.com">
+        <!-- ==================== ၁။ LOGIN FORM ==================== -->
+        <div id="form-login" class="block">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">TIS Academy သို့ ဝင်ရောက်ရန်</h2>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">အီးမေးလ် (Email)</label>
+                <input type="email" id="loginEmail" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 bg-gray-50">
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2">စကားဝှက် (Password)</label>
+                <input type="password" id="loginPassword" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 bg-gray-50">
+            </div>
+
+            <button onclick="submitLogin()" id="btn-login" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition shadow-lg mb-4">
+                ဝင်မည် (Login)
+            </button>
+
+            <!-- 🌐 Google Login ခလုတ် ပေါ်မည့်နေရာ -->
+            <div id="googleButtonDiv" class="flex justify-center mb-4"></div>
+
+            <div class="flex justify-between text-sm text-blue-600 font-bold mt-4">
+                <a href="#" onclick="switchForm('form-forgot')" class="hover:underline">စကားဝှက်မေ့နေပါသလား?</a>
+                <a href="#" onclick="switchForm('form-register')" class="hover:underline">အကောင့်သစ်ဖွင့်မည်</a>
+            </div>
         </div>
 
-        <!-- 🔑 စကားဝှက် ထည့်ရန် နေရာ -->
-        <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-bold mb-2">စကားဝှက် (Password)</label>
-            <input type="password" id="loginPassword" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="••••••••">
+        <!-- ==================== ၂။ REGISTER FORM ==================== -->
+        <div id="form-register" class="hidden">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">အကောင့်သစ် ဖွင့်ရန်</h2>
+            
+            <div class="mb-4">
+                <input type="text" id="regName" placeholder="အမည် (Name)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
+            </div>
+            <div class="mb-4">
+                <input type="email" id="regEmail" placeholder="အီးမေးလ် (Email)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
+            </div>
+            <div class="mb-4">
+                <input type="text" id="regPhone" placeholder="ဖုန်းနံပါတ် (Phone)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
+            </div>
+            <div class="mb-6">
+                <input type="password" id="regPassword" placeholder="စကားဝှက်အသစ် (Password)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
+            </div>
+
+            <button onclick="submitRegister()" id="btn-register" class="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition shadow-lg">
+                အကောင့်ဖွင့်မည် (Sign Up)
+            </button>
+            <div class="text-center text-sm mt-4">
+                <a href="#" onclick="switchForm('form-login')" class="text-blue-600 font-bold hover:underline">အကောင့်ရှိပြီးသားပါ (Back to Login)</a>
+            </div>
         </div>
 
-        <!-- 🚀 ဝင်မည် ခလုတ် -->
-        <button onclick="submitLogin()" id="loginBtn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition">
-            ဝင်မည် (Login)
-        </button>
-        
-        <!-- 💬 အသိပေးစာများ ပြသမည့်နေရာ (Error / Success message) -->
-        <div id="loginMessage" class="mt-4 text-center text-sm font-bold"></div>
+        <!-- ==================== ၃။ FORGOT PASSWORD FORM ==================== -->
+        <div id="form-forgot" class="hidden">
+            <h2 class="text-xl font-bold text-center text-gray-800 mb-6">စကားဝှက် အသစ်ပြန်ယူရန်</h2>
+            <p class="text-xs text-gray-500 mb-4 text-center">သင့်အီးမေးလ်ကို ထည့်ပေးပါ။ OTP ကုဒ် ပို့ပေးပါမည်။</p>
+            
+            <div class="mb-6">
+                <input type="email" id="forgotEmail" placeholder="အီးမေးလ် (Email)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
+            </div>
+
+            <button onclick="submitForgotPassword()" id="btn-forgot" class="w-full bg-yellow-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-yellow-600 transition shadow-lg">
+                OTP ပို့ရန် (Send OTP)
+            </button>
+            <div class="text-center text-sm mt-4">
+                <a href="#" onclick="switchForm('form-login')" class="text-blue-600 font-bold hover:underline">နောက်သို့ (Back)</a>
+            </div>
+        </div>
+
     </div>
 </div>

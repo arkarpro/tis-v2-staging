@@ -1,98 +1,172 @@
 // =================================================================
-// 🔐 အကောင့်ဝင်ခြင်းနှင့် ထွက်ခြင်းဆိုင်ရာ လုပ်ဆောင်ချက်များ (Auth Logic)
+// 🔐 အကောင့်ဆိုင်ရာ လုပ်ဆောင်ချက်များ (Login, Register, Google, Forgot)
 // =================================================================
 
-// ⚠️ Database နှင့် ချိတ်ဆက်မည့် URL (TIS_Users_DB မှ Web App URL ကို ဤနေရာတွင် ထည့်ပါ)
-const USERS_DB_URL = "YOUR_TIS_USERS_DB_WEB_APP_URL";
+// ⚠️ အရေးကြီး - အောက်ပါ URL နှင့် Client ID ကို ဆရာ့အချက်အလက်များနှင့် အစားထိုးပါ
+const USERS_DB_URL = "https://script.google.com/macros/s/AKfycbwKjSsZdC1B1_ciKrxO48btuP9HF5-XiPWOKaaS2MAWIaeVVgyNIdsHloMtc8DCiatd8A/exec"; // TIS_Users_DB ၏ Web App URL (ဥပမာပြထားခြင်းဖြစ်သည်)
+const GOOGLE_CLIENT_ID = "http://710420508887-aekrb2bugfeeaa3hnhv71o5etts76gnn.apps.googleusercontent.com"; // Google Client ID
 
 // --------------------------------------------------
-// ၁။ Modal ကို ဖွင့်/ပိတ် လုပ်မည့် Function များ
+// UI အဖွင့်/အပိတ် နှင့် Form အပြောင်းအလဲများ
 // --------------------------------------------------
 function openLoginModal() {
     document.getElementById('loginModal').classList.remove('hidden');
     document.getElementById('loginModal').classList.add('flex');
+    switchForm('form-login'); // ဖွင့်တိုင်း Login Form ကိုအရင်ပြမည်
+    renderGoogleButton(); // Google ခလုတ်ကို ဆွဲတင်မည်
 }
 
 function closeLoginModal() {
     document.getElementById('loginModal').classList.add('hidden');
     document.getElementById('loginModal').classList.remove('flex');
-    document.getElementById('loginMessage').innerText = ""; // အမှားပြစာသားများကို ရှင်းလင်းရန်
+    showMessage("", ""); // စာသားများဖျက်မည်
+}
+
+function switchForm(formId) {
+    document.getElementById('form-login').classList.add('hidden');
+    document.getElementById('form-register').classList.add('hidden');
+    document.getElementById('form-forgot').classList.add('hidden');
+    document.getElementById(formId).classList.remove('hidden');
+    showMessage("", ""); 
+}
+
+function showMessage(text, type) {
+    const msgBox = document.getElementById('authMessage');
+    msgBox.innerText = text;
+    if (type === 'error') msgBox.className = "mb-4 text-center text-sm font-bold text-red-500";
+    else if (type === 'success') msgBox.className = "mb-4 text-center text-sm font-bold text-green-600";
+    else msgBox.className = "hidden";
 }
 
 // --------------------------------------------------
-// ၂။ Login ခလုတ်နှိပ်သောအခါ အလုပ်လုပ်မည့် Function
+// API လှမ်းခေါ်မည့် Helper Function (CORS Error မတက်အောင် ပြင်ဆင်ထားသည်)
+// --------------------------------------------------
+async function fetchAuthAPI(payload) {
+    try {
+        const response = await fetch(USERS_DB_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // GAS အတွက် text/plain သုံးရပါမည်
+            body: JSON.stringify(payload)
+        });
+        return await response.json();
+    } catch (error) {
+        console.error("API Error:", error);
+        return { status: "error", message: "စနစ်ချို့ယွင်းမှုဖြစ်ပွားနေပါသည်။ ခဏနေမှ ထပ်စမ်းကြည့်ပါ။" };
+    }
+}
+
+// --------------------------------------------------
+// ၁။ သာမန် Login ဝင်ခြင်း
 // --------------------------------------------------
 async function submitLogin() {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
-    const msgBox = document.getElementById('loginMessage');
-    const btn = document.getElementById('loginBtn');
+    const btn = document.getElementById('btn-login');
 
-    // Data ပြည့်စုံမှု ရှိ/မရှိ စစ်ဆေးခြင်း
-    if (!email || !password) {
-        msgBox.innerText = "အီးမေးလ် နှင့် စကားဝှက်ကို ပြည့်စုံစွာ ထည့်ပေးပါ။";
-        msgBox.className = "mt-4 text-center text-sm font-bold text-red-500";
-        return;
-    }
+    if (!email || !password) return showMessage("အီးမေးလ် နှင့် စကားဝှက် ထည့်ပါ။", "error");
 
-    // Loading အခြေအနေပြောင်းခြင်း
-    btn.innerText = "စစ်ဆေးနေပါသည်... ⏳";
-    btn.disabled = true;
-    msgBox.innerText = "";
-
-    try {
-        // TIS_Users_DB သို့ Data ပို့၍ စစ်ဆေးခြင်း (POST Request)
-        const response = await fetch(USERS_DB_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-                action: 'login',
-                email: email,
-                password: password
-            })
-        });
-
-        const result = await response.json();
-
-        // ဝင်ရောက်ခြင်း အောင်မြင်ပါက
-        if (result.status === "success") {
-            // Browser ထဲတွင် မှတ်သားထားမည် (Local Storage)
-            localStorage.setItem('tis_user_email', email);
-            localStorage.setItem('tis_user_name', result.userName);
-            localStorage.setItem('tis_is_logged_in', 'true');
-
-            msgBox.innerText = "အောင်မြင်စွာ ဝင်ရောက်သွားပါပြီ!";
-            msgBox.className = "mt-4 text-center text-sm font-bold text-green-600";
-            
-            // မျက်နှာပြင်ကို အသစ်ပြန်ခေါ်မည် (Premium Content များ ပွင့်သွားစေရန်)
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-        } else {
-            // မှားယွင်းပါက Error ပြမည်
-            msgBox.innerText = result.message || "အီးမေးလ် သို့မဟုတ် စကားဝှက် မှားယွင်းနေပါသည်။";
-            msgBox.className = "mt-4 text-center text-sm font-bold text-red-500";
-            btn.innerText = "ဝင်မည် (Login)";
-            btn.disabled = false;
-        }
-    } catch (error) {
-        msgBox.innerText = "စနစ်ချို့ယွင်းမှုဖြစ်ပွားနေပါသည်။ ခဏနေမှ ထပ်စမ်းကြည့်ပါ။";
-        msgBox.className = "mt-4 text-center text-sm font-bold text-red-500";
-        btn.innerText = "ဝင်မည် (Login)";
-        btn.disabled = false;
+    btn.innerText = "စစ်ဆေးနေပါသည်... ⏳"; btn.disabled = true;
+    
+    const result = await fetchAuthAPI({ action: 'login', email: email, password: password });
+    
+    if (result.status === "success") {
+        saveLoginSession(email, result.userName);
+    } else {
+        showMessage(result.message, "error");
+        btn.innerText = "ဝင်မည် (Login)"; btn.disabled = false;
     }
 }
 
 // --------------------------------------------------
-// ၃။ Login ဝင်ထားခြင်း ရှိ/မရှိ စစ်ဆေးမည့် Function (Page Load တိုင်း စစ်မည်)
+// ၂။ အကောင့်သစ် ဖွင့်ခြင်း (Sign Up)
 // --------------------------------------------------
+async function submitRegister() {
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const phone = document.getElementById('regPhone').value;
+    const password = document.getElementById('regPassword').value;
+    const btn = document.getElementById('btn-register');
+
+    if (!name || !email || !password) return showMessage("အချက်အလက်များ ပြည့်စုံစွာ ထည့်ပါ။", "error");
+
+    btn.innerText = "ဖွင့်နေပါသည်... ⏳"; btn.disabled = true;
+
+    const result = await fetchAuthAPI({ action: 'register', name: name, email: email, phone: phone, password: password });
+    
+    if (result.status === "success") {
+        showMessage("အကောင့်ဖွင့်ခြင်း အောင်မြင်ပါသည်။ Login ဝင်နိုင်ပါပြီ!", "success");
+        setTimeout(() => switchForm('form-login'), 2000);
+    } else {
+        showMessage(result.message, "error");
+    }
+    btn.innerText = "အကောင့်ဖွင့်မည် (Sign Up)"; btn.disabled = false;
+}
+
+// --------------------------------------------------
+// ၃။ Google ဖြင့် ဝင်ခြင်း
+// --------------------------------------------------
+function renderGoogleButton() {
+    if (typeof google === 'undefined') return; // Google script မတက်လာသေးရင် ကျော်မည်
+    
+    google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredentialResponse
+    });
+    
+    google.accounts.id.renderButton(
+        document.getElementById("googleButtonDiv"),
+        { theme: "outline", size: "large", width: "100%" } 
+    );
+}
+
+async function handleGoogleCredentialResponse(response) {
+    showMessage("Google အကောင့် စစ်ဆေးနေပါသည်...", "success");
+    const result = await fetchAuthAPI({ action: 'google_login', token: response.credential });
+    
+    if (result.status === "success") {
+        saveLoginSession(result.email, result.userName);
+    } else {
+        showMessage(result.message, "error");
+    }
+}
+
+// --------------------------------------------------
+// ၄။ Forgot Password (OTP လှမ်းတောင်းခြင်း)
+// --------------------------------------------------
+async function submitForgotPassword() {
+    const email = document.getElementById('forgotEmail').value;
+    const btn = document.getElementById('btn-forgot');
+
+    if (!email) return showMessage("အီးမေးလ် ထည့်ပေးပါ။", "error");
+
+    btn.innerText = "ပို့နေပါသည်... ⏳"; btn.disabled = true;
+
+    const result = await fetchAuthAPI({ action: 'forgot_password', email: email });
+    
+    if (result.status === "success") {
+        showMessage("OTP ကုဒ်ကို အီးမေးလ်သို့ ပို့လိုက်ပါပြီ။ (Reset လုပ်ရန် စနစ်ကို ဆက်လက်ပြင်ဆင်ပါမည်)", "success");
+    } else {
+        showMessage(result.message, "error");
+    }
+    btn.innerText = "OTP ပို့ရန် (Send OTP)"; btn.disabled = false;
+}
+
+// --------------------------------------------------
+// Session သိမ်းခြင်း နှင့် စစ်ဆေးခြင်း
+// --------------------------------------------------
+function saveLoginSession(email, name) {
+    localStorage.setItem('tis_user_email', email);
+    localStorage.setItem('tis_user_name', name);
+    localStorage.setItem('tis_is_logged_in', 'true');
+    showMessage("အောင်မြင်စွာ ဝင်ရောက်သွားပါပြီ!", "success");
+    setTimeout(() => window.location.reload(), 1000);
+}
+
 function checkLoginStatus() {
     return localStorage.getItem('tis_is_logged_in') === 'true';
 }
 
-// --------------------------------------------------
-// ၄။ Logout ထွက်မည့် Function
-// --------------------------------------------------
 function logoutUser() {
-    localStorage.clear(); // မှတ်သားထားသမျှ အကုန်ဖျက်မည်
-    window.location.reload(); // Page ပြန်ခေါ်မည်
+    localStorage.clear();
+    window.location.reload();
 }
