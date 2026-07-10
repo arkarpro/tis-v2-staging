@@ -4,23 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Insights Solution (TIS) - Data Strategy</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <script>
-        // TIS Theme Colors သတ်မှတ်ခြင်း
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: { sans: ['Inter', 'Padauk', 'sans-serif'] },
                     colors: {
-                        tis: {
-                            dark: '#0f172a', // Slate-900
-                            primary: '#2563eb', // Blue-600
-                            secondary: '#1e3a8a', // Blue-900
-                            gold: '#eab308' // Yellow-500
-                        }
+                        tis: { dark: '#0f172a', primary: '#2563eb', secondary: '#1e3a8a', gold: '#eab308' }
                     }
                 }
             }
@@ -30,27 +27,40 @@
         body { line-height: 1.8; }
         .blur-content { filter: blur(5px); user-select: none; pointer-events: none; }
         .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        /* Modal Animation */
+        .modal-enter { opacity: 0; transform: scale(0.9); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: opacity 300ms, transform 300ms; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans selection:bg-tis-primary selection:text-white">
 
-    <section class="bg-tis-dark text-white py-20 px-4 text-center relative overflow-hidden">
+    <!-- Top Navigation (Login Status) -->
+    <div class="bg-tis-dark text-white py-3 px-6 flex justify-between items-center z-40 relative shadow-md">
+        <div class="font-bold text-tis-gold tracking-widest text-lg">TIS</div>
+        <div id="user-status" class="text-sm">
+            <!-- ဤနေရာတွင် JS မှ Login အခြေအနေကို ပြပါမည် -->
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="bg-tis-dark text-white py-16 px-4 text-center relative overflow-hidden">
         <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
         <div class="max-w-4xl mx-auto relative z-10" data-aos="zoom-in">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4 text-tis-gold tracking-tight">The Insights Solution</h1>
-            <p class="text-lg md:text-xl mb-10 text-gray-300 font-light tracking-wide">Data Strategy & Corporate Training Center</p>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-tis-gold tracking-tight">The Insights Solution</h1>
+            <p class="text-lg mb-8 text-gray-300 font-light tracking-wide">Data Strategy & Corporate Training Center</p>
 
-            <div class="bg-tis-secondary/50 border border-tis-primary/50 rounded-2xl p-8 inline-block max-w-2xl mx-auto backdrop-blur-md shadow-2xl shadow-tis-primary/20">
-                <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block animate-pulse">Hot Intake</span>
-                <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">🚀 May 2, 2026 Power BI Master Class</h2>
-                <p class="text-gray-300 mb-6 text-lg">Price Lock Offer: <span class="text-tis-gold font-bold text-3xl">200,000 Ks</span> <br><span class="text-sm text-gray-400">အရစ်ကျပေးသွင်းနိုင်ပါသည်</span></p>
-                <button class="bg-tis-primary hover:bg-blue-500 text-white font-bold py-3 px-10 rounded-full transition-all duration-300 shadow-lg hover:shadow-blue-500/50 hover:-translate-y-1">
+            <div class="bg-tis-secondary/50 border border-tis-primary/50 rounded-2xl p-6 inline-block max-w-2xl mx-auto backdrop-blur-md shadow-xl">
+                <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3 inline-block animate-pulse">Hot Intake</span>
+                <h2 class="text-2xl font-bold text-white mb-2">🚀 May 2, 2026 Power BI Master Class</h2>
+                <p class="text-gray-300 mb-5">Price Lock Offer: <span class="text-tis-gold font-bold text-2xl">200,000 Ks</span></p>
+                <button class="bg-tis-primary hover:bg-blue-500 text-white font-bold py-2.5 px-8 rounded-full transition-all duration-300 shadow-lg hover:-translate-y-1">
                     Register Now
                 </button>
             </div>
         </div>
     </section>
 
+    <!-- Content Section -->
     <section class="py-16 px-4 bg-gray-100 min-h-screen">
         <div class="max-w-7xl mx-auto">
             <div class="flex justify-between items-end mb-10">
@@ -58,6 +68,7 @@
             </div>
             
             <div id="content-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Loading State -->
                 <div class="col-span-full text-center py-20">
                     <div class="inline-block w-12 h-12 border-4 border-tis-primary border-t-transparent rounded-full animate-spin mb-4"></div>
                     <p class="text-tis-primary font-semibold">Data များ ဆွဲယူနေပါသည်... ⏳</p>
@@ -66,14 +77,84 @@
         </div>
     </section>
 
+    <!-- 🔐 Authentication Modal (Login / Register / Forgot Password) -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            
+            <div class="p-8">
+                <div class="text-center mb-6">
+                    <h3 id="modal-title" class="text-2xl font-bold text-tis-dark">Welcome to TIS</h3>
+                    <p id="modal-subtitle" class="text-sm text-gray-500 mt-1">Premium မှတ်စုများကို ဖတ်ရန် လော့ဂ်အင် ဝင်ပါ</p>
+                </div>
+
+                <!-- Alert Message Box -->
+                <div id="alert-box" class="hidden text-sm font-semibold p-3 rounded-lg mb-4 text-center"></div>
+
+                <!-- 1. Login Form -->
+                <form id="login-form" class="space-y-4">
+                    <div><label class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="login-email" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary focus:border-tis-primary"></div>
+                    <div><label class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="login-pass" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-tis-primary focus:border-tis-primary"></div>
+                    <div class="flex justify-end"><button type="button" onclick="switchForm('forgot')" class="text-xs text-tis-primary hover:underline">Forgot Password?</button></div>
+                    <button type="submit" class="w-full bg-tis-dark hover:bg-tis-secondary text-white font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center">
+                        <span id="login-btn-text">Sign In</span>
+                        <div id="login-spinner" class="hidden ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </button>
+                    <p class="text-center text-sm text-gray-600 mt-4">အကောင့်မရှိသေးဘူးလား? <button type="button" onclick="switchForm('register')" class="text-tis-primary font-bold hover:underline">Register လုပ်ရန်</button></p>
+                </form>
+
+                <!-- 2. Register Form (Hidden by default) -->
+                <form id="register-form" class="space-y-4 hidden">
+                    <div><label class="block text-sm font-medium text-gray-700">အမည်</label><input type="text" id="reg-name" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg"></div>
+                    <div><label class="block text-sm font-medium text-gray-700">ဖုန်းနံပါတ်</label><input type="text" id="reg-phone" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg"></div>
+                    <div><label class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="reg-email" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg"></div>
+                    <div><label class="block text-sm font-medium text-gray-700">Password အသစ်</label><input type="password" id="reg-pass" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg"></div>
+                    
+                    <!-- 💡 Smart Marketing Checkbox -->
+                    <div class="flex items-start mt-2">
+                        <div class="flex items-center h-5">
+                            <input id="reg-terms" type="checkbox" checked required class="w-4 h-4 text-tis-primary border-gray-300 rounded focus:ring-tis-primary">
+                        </div>
+                        <div class="ml-2 text-xs text-gray-600">
+                            <label for="reg-terms">TIS ၏ Terms & Conditions ကို သဘောတူပါသည်။ ထို့အပြင် Data Strategy အသစ်များ၊ Tutorial Videos များနှင့် သင်တန်း Promotion များကို Email မှတစ်ဆင့် လက်ခံရယူလိုပါသည်။</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-tis-primary hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center mt-2">
+                        <span id="reg-btn-text">Create Account</span>
+                        <div id="reg-spinner" class="hidden ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </button>
+                    <p class="text-center text-sm text-gray-600">အကောင့်ရှိပြီးသားလား? <button type="button" onclick="switchForm('login')" class="text-tis-primary font-bold hover:underline">Login ဝင်ရန်</button></p>
+                </form>
+
+                <!-- 3. Forgot Password Form (Hidden by default) -->
+                <form id="forgot-form" class="space-y-4 hidden">
+                    <p class="text-sm text-gray-600 text-center mb-2">မှတ်ပုံတင်ခဲ့သော Email ကို ရိုက်ထည့်ပေးပါ။ OTP Code ကို ပေးပို့ပေးပါမည်။</p>
+                    <div><label class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="forgot-email" required class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg"></div>
+                    
+                    <button type="submit" class="w-full bg-tis-gold hover:bg-yellow-600 text-tis-dark font-bold py-2.5 rounded-lg transition-colors flex justify-center items-center">
+                        <span id="forgot-btn-text">Send OTP to Email</span>
+                        <div id="forgot-spinner" class="hidden ml-2 w-4 h-4 border-2 border-tis-dark border-t-transparent rounded-full animate-spin"></div>
+                    </button>
+                    <p class="text-center text-sm mt-4"><button type="button" onclick="switchForm('login')" class="text-gray-500 font-bold hover:underline">&larr; Back to Login</button></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // ကိုကိုအာကာ့ရဲ့ Web App URL အသစ်
-        const API_URL = "https://script.google.com/macros/s/AKfycbyPPCYnpCs4FuIlnmOP-Xfldqjq3NCr9wdEio96mtyg9Y0EuisM8Q6J9H9Gl1IJ1XGrqg/exec";
+        // 🔗 APIs (ကိုကိုအာကာ့ရဲ့ လင့်ခ်အသစ်များ)
+        const CONTENT_API = "https://script.google.com/macros/s/AKfycbyPPCYnpCs4FuIlnmOP-Xfldqjq3NCr9wdEio96mtyg9Y0EuisM8Q6J9H9Gl1IJ1XGrqg/exec";
+        const USER_API = "https://script.google.com/macros/s/AKfycbwKjSsZdC1B1_ciKrxO48btuP9HF5-XiPWOKaaS2MAWIaeVVgyNIdsHloMtc8DCiatd8A/exec";
 
-        // YouTube URL မှ ID ခွဲထုတ်သော Function
+        // ---- 1. Content ဆွဲယူခြင်း အပိုင်း ----
         function getYouTubeId(url) {
             if(!url) return null;
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -81,87 +162,183 @@
             return (match && match[2].length === 11) ? match[2] : null;
         }
 
+        function checkLoginStatus() {
+            const userName = localStorage.getItem('tis_user_name');
+            const statusDiv = document.getElementById('user-status');
+            if(userName) {
+                statusDiv.innerHTML = `👋 Hello, <span class="font-bold text-tis-gold">${userName}</span> | <button onclick="logout()" class="ml-2 hover:underline text-gray-300">Logout</button>`;
+                return true;
+            } else {
+                statusDiv.innerHTML = `<button onclick="openModal()" class="bg-tis-primary hover:bg-blue-500 text-white px-4 py-1 rounded-full text-sm transition-all shadow-md">Login / Sign Up</button>`;
+                return false;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('tis_user_name');
+            localStorage.removeItem('tis_user_email');
+            checkLoginStatus();
+            fetchTISData(); // UI ကို ဝါးမယ့်ပုံစံ (Blur) အတိုင်း ပြန်ပြောင်းရန်
+        }
+
         async function fetchTISData() {
+            const isLoggedIn = checkLoginStatus();
             const container = document.getElementById('content-container');
+            
             try {
-                const response = await fetch(API_URL);
+                const response = await fetch(CONTENT_API);
                 const data = await response.json();
-                
                 container.innerHTML = ''; 
 
                 data.forEach((item, index) => {
-                    // Check Premium Status
-                    const isPremium = item.Is_Premium === true || item.Is_Premium === "TRUE" || item.Is_Premium === "true";
+                    const isPremium = (item.Is_Premium === true || String(item.Is_Premium).toUpperCase() === "TRUE");
+                    const needsLogin = isPremium && !isLoggedIn; // ပရီမီယံဖြစ်ပြီး Login မဝင်ရသေးရင် ဝါးမည်
                     
-                    // ပုံပေါ်စေရန် Logic (YouTube လား၊ Drive လား စစ်ဆေးခြင်း)
-                    let imageUrl = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"; // Default Image
-                    
+                    let imageUrl = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"; 
                     const ytId = getYouTubeId(item.Media_URL);
-                    if (ytId) {
-                        imageUrl = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`; // YouTube Thumbnail အကြည်
-                    } else if (item.Media_URL && item.Media_URL.length > 15) {
-                        imageUrl = `https://drive.google.com/uc?export=view&id=${item.Media_URL}`; // Google Drive
-                    }
+                    if (ytId) imageUrl = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+                    else if (item.Media_URL && item.Media_URL.length > 15) imageUrl = `https://drive.google.com/uc?export=view&id=${item.Media_URL}`;
 
-                    // Category အရောင်ခွဲခြားခြင်း
                     let badgeColor = "bg-blue-100 text-blue-700";
                     if(item.Category === "Excel") badgeColor = "bg-green-100 text-green-700";
                     if(item.Category === "PowerBI") badgeColor = "bg-yellow-100 text-yellow-700";
 
-                    // Card HTML
                     const card = document.createElement('div');
                     card.className = "bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden relative group flex flex-col h-full";
                     card.setAttribute('data-aos', 'fade-up');
-                    card.setAttribute('data-aos-delay', (index * 100).toString());
-
+                    
                     card.innerHTML = `
                         <div class="h-52 overflow-hidden relative bg-gray-200">
-                            <img src="${imageUrl}" alt="${item.Title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'">
+                            <img src="${imageUrl}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'">
                             ${ytId ? `<div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-all"><div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-lg"><div class="w-0 h-0 border-t-[8px] border-t-transparent border-l-[14px] border-l-white border-b-[8px] border-b-transparent ml-1"></div></div></div>` : ''}
                         </div>
-                        
                         <div class="p-6 flex-grow flex flex-col">
-                            <div class="mb-3">
-                                <span class="text-xs font-bold ${badgeColor} py-1 px-3 rounded-full uppercase tracking-wider">${item.Category}</span>
-                            </div>
-                            <h3 class="text-xl font-bold text-tis-dark mb-3 line-clamp-2 group-hover:text-tis-primary transition-colors">${item.Title}</h3>
-                            
+                            <div class="mb-3"><span class="text-xs font-bold ${badgeColor} py-1 px-3 rounded-full uppercase tracking-wider">${item.Category}</span></div>
+                            <h3 class="text-xl font-bold text-tis-dark mb-3 line-clamp-2">${item.Title}</h3>
                             <div class="relative flex-grow">
-                                <p class="text-gray-600 text-sm leading-relaxed ${isPremium ? 'blur-content' : ''}">
-                                    ${item.Description}
-                                </p>
-                                
-                                ${isPremium ? `
+                                <p class="text-gray-600 text-sm leading-relaxed ${needsLogin ? 'blur-content' : ''}">${item.Description}</p>
+                                ${needsLogin ? `
                                     <div class="absolute inset-0 flex flex-col items-center justify-center bg-white/40 backdrop-blur-[1px] z-10 rounded-lg">
-                                        <button class="bg-tis-dark hover:bg-tis-secondary text-white text-sm font-semibold py-2.5 px-6 rounded-xl shadow-lg transition-all flex items-center gap-2 transform hover:scale-105">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                                            Login to Read
+                                        <button onclick="openModal()" class="bg-tis-dark hover:bg-tis-secondary text-white text-sm font-semibold py-2.5 px-6 rounded-xl shadow-lg transition-all flex items-center gap-2 transform hover:scale-105">
+                                            🔒 Login to Read
                                         </button>
                                     </div>
                                 ` : ''}
                             </div>
-                            
-                            ${!isPremium ? `
+                            ${!needsLogin ? `
                                 <div class="mt-5 pt-4 border-t border-gray-100 flex justify-between items-center">
-                                    <span class="text-tis-primary text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all cursor-pointer">
-                                        Read More <span class="text-lg">&rarr;</span>
-                                    </span>
+                                    <span class="text-tis-primary text-sm font-semibold flex items-center gap-1 cursor-pointer">Read More &rarr;</span>
                                 </div>
                             ` : ''}
                         </div>
                     `;
                     container.appendChild(card);
                 });
-
             } catch (error) {
-                container.innerHTML = `
-                    <div class="col-span-full text-center py-10">
-                        <p class="text-red-500 font-semibold">⚠️ Database နှင့် ချိတ်ဆက်မှု ပြတ်တောက်နေပါသည်။</p>
-                    </div>`;
+                container.innerHTML = `<div class="col-span-full text-center py-10"><p class="text-red-500 font-semibold">⚠️ Error Loading Data.</p></div>`;
+            }
+        }
+        fetchTISData();
+
+        // ---- 2. Login & Authentication Logic အပိုင်း ----
+        const modal = document.getElementById('auth-modal');
+        const alertBox = document.getElementById('alert-box');
+
+        function openModal() { modal.classList.remove('hidden'); switchForm('login'); showAlert('', 'hidden'); }
+        function closeModal() { modal.classList.add('hidden'); }
+        
+        function switchForm(type) {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('register-form').classList.add('hidden');
+            document.getElementById('forgot-form').classList.add('hidden');
+            showAlert('', 'hidden');
+
+            if(type === 'login') {
+                document.getElementById('login-form').classList.remove('hidden');
+                document.getElementById('modal-title').innerText = "Welcome Back";
+                document.getElementById('modal-subtitle').innerText = "Premium မှတ်စုများကို ဖတ်ရန် လော့ဂ်အင် ဝင်ပါ";
+            } else if(type === 'register') {
+                document.getElementById('register-form').classList.remove('hidden');
+                document.getElementById('modal-title').innerText = "Create Account";
+                document.getElementById('modal-subtitle').innerText = "TIS မှ ကြိုဆိုပါတယ်ရှင့်";
+            } else if(type === 'forgot') {
+                document.getElementById('forgot-form').classList.remove('hidden');
+                document.getElementById('modal-title').innerText = "Reset Password";
+                document.getElementById('modal-subtitle').innerText = "စကားဝှက်မေ့နေပါသလား?";
             }
         }
 
-        fetchTISData();
+        function showAlert(msg, type) {
+            alertBox.innerText = msg;
+            alertBox.className = `text-sm font-semibold p-3 rounded-lg mb-4 text-center ${type === 'error' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-700'}`;
+            if(type === 'hidden') alertBox.classList.add('hidden');
+        }
+
+        async function submitAuth(payload, btnId, spinnerId, successCallback) {
+            const btnText = document.getElementById(btnId);
+            const spinner = document.getElementById(spinnerId);
+            const originalText = btnText.innerText;
+            
+            btnText.innerText = "Processing..."; spinner.classList.remove('hidden');
+            showAlert('', 'hidden');
+
+            try {
+                // Apps Script ကို Data လှမ်းပို့ခြင်း (text/plain ဖြင့် ပို့မှ CORS ပြဿနာမရှိပါ)
+                const response = await fetch(USER_API, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+                const result = await response.json();
+
+                if(result.status === 'success') {
+                    showAlert(result.message, 'success');
+                    if(successCallback) successCallback(result);
+                } else {
+                    showAlert(result.message, 'error');
+                }
+            } catch (err) {
+                showAlert("Network Error: ကျေးဇူးပြု၍ ခေတ္တစောင့်ပြီး ပြန်စမ်းကြည့်ပါရှင့်", 'error');
+            } finally {
+                btnText.innerText = originalText; spinner.classList.add('hidden');
+            }
+        }
+
+        // လော့ဂ်အင် ခလုတ်နှိပ်လျှင်
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const payload = { action: 'login', email: document.getElementById('login-email').value, password: document.getElementById('login-pass').value };
+            submitAuth(payload, 'login-btn-text', 'login-spinner', (res) => {
+                // Login အောင်မြင်ပါက Browser တွင် မှတ်သားပြီး Modal ပိတ်မည်
+                localStorage.setItem('tis_user_name', res.userName);
+                localStorage.setItem('tis_user_email', res.email);
+                setTimeout(() => { closeModal(); fetchTISData(); }, 1500); // 1.5s နေရင် UI Refresh လုပ်မည်
+            });
+        });
+
+        // စာရင်းသွင်း ခလုတ်နှိပ်လျှင်
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const payload = {
+                action: 'register', 
+                name: document.getElementById('reg-name').value, 
+                phone: document.getElementById('reg-phone').value,
+                email: document.getElementById('reg-email').value, 
+                password: document.getElementById('reg-pass').value 
+            };
+            submitAuth(payload, 'reg-btn-text', 'reg-spinner', () => {
+                setTimeout(() => { switchForm('login'); document.getElementById('login-email').value = payload.email; }, 2000);
+            });
+        });
+
+        // OTP တောင်းခံ ခလုတ်နှိပ်လျှင်
+        document.getElementById('forgot-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const payload = { action: 'forgot_password', email: document.getElementById('forgot-email').value };
+            submitAuth(payload, 'forgot-btn-text', 'forgot-spinner', () => {
+                // ဤနေရာတွင် ဒုတိယအဆင့် (OTP ရိုက်ထည့်မည့် အပိုင်း) သို့ ဆက်လက်သွားနိုင်ပါသည်။
+            });
+        });
     </script>
 </body>
 </html>
