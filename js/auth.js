@@ -26,6 +26,12 @@ function switchForm(formId) {
     forms.forEach(f => document.getElementById(f).classList.add('hidden'));
     document.getElementById(formId).classList.remove('hidden');
     showMessage("", ""); 
+
+    // 🧹 Form ပြောင်းတိုင်း Password နှင့် OTP အကွက်များကို အလွတ် (Blank) ဖြစ်စေမည်
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('regPassword').value = '';
+    document.getElementById('newPassword').value = '';
+    document.getElementById('otpCode').value = ''; 
 }
 
 function showMessage(text, type) {
