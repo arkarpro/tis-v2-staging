@@ -1,35 +1,31 @@
 <!-- ================================================================= -->
-<!-- 🔐 Auth Modal (Login / Register / Forgot Password)                -->
+<!-- 🔐 Auth Modal (Login / Register / Forgot / OTP / Reset)           -->
 <!-- ================================================================= -->
 <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-[60] backdrop-blur-sm">
     <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md relative overflow-hidden">
         
-        <!-- ❌ ပိတ်ရန် ခလုတ် -->
         <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
 
-        <!-- 💬 အသိပေးစာများ ပြသမည့်နေရာ -->
         <div id="authMessage" class="mb-4 text-center text-sm font-bold"></div>
 
         <!-- ==================== ၁။ LOGIN FORM ==================== -->
         <div id="form-login" class="block">
             <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">TIS Academy သို့ ဝင်ရောက်ရန်</h2>
-            
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">အီးမေးလ် (Email)</label>
-                <input type="email" id="loginEmail" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 bg-gray-50">
+                <input type="email" id="loginEmail" placeholder="အီးမေးလ် (Email)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
             </div>
             <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2">စကားဝှက် (Password)</label>
-                <input type="password" id="loginPassword" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 bg-gray-50">
+                <input type="password" id="loginPassword" placeholder="စကားဝှက် (Password)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
+            </div>
+            <button onclick="submitLogin()" id="btn-login" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition shadow-lg mb-4">ဝင်မည် (Login)</button>
+            
+            <div class="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
+                <p class="text-center font-semibold mx-4 mb-0 text-gray-400 text-sm">OR</p>
             </div>
 
-            <button onclick="submitLogin()" id="btn-login" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition shadow-lg mb-4">
-                ဝင်မည် (Login)
-            </button>
-
-            <!-- 🌐 Google Login ခလုတ် ပေါ်မည့်နေရာ -->
+            <!-- 🌐 Google Login Button နေရာ -->
             <div id="googleButtonDiv" class="flex justify-center mb-4"></div>
 
             <div class="flex justify-between text-sm text-blue-600 font-bold mt-4">
@@ -41,43 +37,37 @@
         <!-- ==================== ၂။ REGISTER FORM ==================== -->
         <div id="form-register" class="hidden">
             <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">အကောင့်သစ် ဖွင့်ရန်</h2>
+            <div class="mb-4"><input type="text" id="regName" placeholder="အမည် (Name)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
+            <div class="mb-4"><input type="email" id="regEmail" placeholder="အီးမေးလ် (Email)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
+            <div class="mb-4"><input type="text" id="regPhone" placeholder="ဖုန်းနံပါတ် (Phone)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
+            <div class="mb-6"><input type="password" id="regPassword" placeholder="စကားဝှက်အသစ် (Password)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
             
-            <div class="mb-4">
-                <input type="text" id="regName" placeholder="အမည် (Name)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
-            </div>
-            <div class="mb-4">
-                <input type="email" id="regEmail" placeholder="အီးမေးလ် (Email)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
-            </div>
-            <div class="mb-4">
-                <input type="text" id="regPhone" placeholder="ဖုန်းနံပါတ် (Phone)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
-            </div>
-            <div class="mb-6">
-                <input type="password" id="regPassword" placeholder="စကားဝှက်အသစ် (Password)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
-            </div>
-
-            <button onclick="submitRegister()" id="btn-register" class="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition shadow-lg">
-                အကောင့်ဖွင့်မည် (Sign Up)
-            </button>
-            <div class="text-center text-sm mt-4">
-                <a href="#" onclick="switchForm('form-login')" class="text-blue-600 font-bold hover:underline">အကောင့်ရှိပြီးသားပါ (Back to Login)</a>
-            </div>
+            <button onclick="submitRegister()" id="btn-register" class="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition shadow-lg">အတည်ပြုရန် (Sign Up)</button>
+            <div class="text-center text-sm mt-4"><a href="#" onclick="switchForm('form-login')" class="text-blue-600 font-bold hover:underline">နောက်သို့ (Back to Login)</a></div>
         </div>
 
         <!-- ==================== ၃။ FORGOT PASSWORD FORM ==================== -->
         <div id="form-forgot" class="hidden">
             <h2 class="text-xl font-bold text-center text-gray-800 mb-6">စကားဝှက် အသစ်ပြန်ယူရန်</h2>
             <p class="text-xs text-gray-500 mb-4 text-center">သင့်အီးမေးလ်ကို ထည့်ပေးပါ။ OTP ကုဒ် ပို့ပေးပါမည်။</p>
-            
-            <div class="mb-6">
-                <input type="email" id="forgotEmail" placeholder="အီးမေးလ် (Email)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50">
-            </div>
+            <div class="mb-6"><input type="email" id="forgotEmail" placeholder="အီးမေးလ် (Email)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
+            <button onclick="submitForgotPassword()" id="btn-forgot" class="w-full bg-yellow-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-yellow-600 transition shadow-lg">OTP ပို့ရန် (Send OTP)</button>
+            <div class="text-center text-sm mt-4"><a href="#" onclick="switchForm('form-login')" class="text-blue-600 font-bold hover:underline">နောက်သို့ (Back)</a></div>
+        </div>
 
-            <button onclick="submitForgotPassword()" id="btn-forgot" class="w-full bg-yellow-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-yellow-600 transition shadow-lg">
-                OTP ပို့ရန် (Send OTP)
-            </button>
-            <div class="text-center text-sm mt-4">
-                <a href="#" onclick="switchForm('form-login')" class="text-blue-600 font-bold hover:underline">နောက်သို့ (Back)</a>
-            </div>
+        <!-- ==================== ၄။ OTP ထည့်ရန် FORM ==================== -->
+        <div id="form-otp" class="hidden">
+            <h2 class="text-xl font-bold text-center text-gray-800 mb-6">OTP စစ်ဆေးခြင်း</h2>
+            <p id="otpDisplayEmail" class="text-sm text-blue-600 mb-4 text-center font-bold"></p>
+            <div class="mb-6"><input type="text" id="otpCode" placeholder="ဂဏန်း (၆) လုံး ထည့်ပါ" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50 text-center tracking-widest text-xl font-bold"></div>
+            <button onclick="submitOTP()" id="btn-otp" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 transition shadow-lg">ကုဒ်အတည်ပြုမည် (Verify)</button>
+        </div>
+
+        <!-- ==================== ၅။ စကားဝှက်အသစ် ပေးရန် FORM ==================== -->
+        <div id="form-reset" class="hidden">
+            <h2 class="text-xl font-bold text-center text-gray-800 mb-6">စကားဝှက်အသစ် ဖန်တီးရန်</h2>
+            <div class="mb-6"><input type="password" id="newPassword" placeholder="စကားဝှက်အသစ် (New Password)" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 bg-gray-50"></div>
+            <button onclick="submitNewPassword()" id="btn-reset" class="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition shadow-lg">ပြောင်းလဲမည် (Change Password)</button>
         </div>
 
     </div>
