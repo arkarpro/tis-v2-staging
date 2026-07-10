@@ -23,7 +23,8 @@ async function initApp() {
         loadComponent('navbar', 'navbar'),
         loadComponent('sidebar', 'sidebar'),
         loadComponent('widgets', 'widgets'),
-        loadComponent('content', 'content') // Content container ကို အရင်ဆောက်
+        loadComponent('content', 'content'), // Content container ကို အရင်ဆောက်
+        loadComponent('login-container', 'login') // 👈 ဤတစ်ကြောင်း အသစ်ထပ်ထည့်ပေးပါ
     ]);
 
     // ၂။ Container ဆောက်ပြီးမှ Google Sheet ထဲက Article များကို လှမ်းခေါ်ပါ

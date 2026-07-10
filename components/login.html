@@ -1,0 +1,33 @@
+<!-- ================================================================= -->
+<!-- 🔐 လော့ဂ်အင် (Login) ဝင်ရန် ပေါ့ပ်အပ် (Modal) မျက်နှာပြင်         -->
+<!-- ================================================================= -->
+<div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-[60]">
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md relative">
+        <!-- ❌ ပိတ်ရန် ခလုတ် (Close Button) -->
+        <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-500 hover:text-red-500 transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">TIS Academy သို့ ဝင်ရောက်ရန်</h2>
+
+        <!-- 📧 အီးမေးလ် ထည့်ရန် နေရာ -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">အီးမေးလ် (Email)</label>
+            <input type="email" id="loginEmail" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="your@email.com">
+        </div>
+
+        <!-- 🔑 စကားဝှက် ထည့်ရန် နေရာ -->
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2">စကားဝှက် (Password)</label>
+            <input type="password" id="loginPassword" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="••••••••">
+        </div>
+
+        <!-- 🚀 ဝင်မည် ခလုတ် -->
+        <button onclick="submitLogin()" id="loginBtn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition">
+            ဝင်မည် (Login)
+        </button>
+        
+        <!-- 💬 အသိပေးစာများ ပြသမည့်နေရာ (Error / Success message) -->
+        <div id="loginMessage" class="mt-4 text-center text-sm font-bold"></div>
+    </div>
+</div>
