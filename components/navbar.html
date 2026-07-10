@@ -1,14 +1,26 @@
-<nav class="bg-white border-b border-gray-200 px-6 py-3">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
+<style>
+    /* Scrollbar မပေါ်အောင် ဖျောက်ထားမည့် CSS */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+
+<!-- Background ကို အဖြူရောင် အသေထားရှိမည် -->
+<div class="bg-white w-full h-full flex items-center shadow-sm relative z-50">
+    <div class="w-full max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
         
-        <div class="text-tis-dark font-bold text-xl">TIS Learning</div>
-        
-        <div class="hidden md:flex gap-6 text-gray-600 font-medium">
-            <a href="#" class="hover:text-tis-primary transition">Home</a>
-            <a href="#" class="hover:text-tis-primary transition">Excel</a>
-            <a href="#" class="hover:text-tis-primary transition">Power Query</a>
-            <a href="#" class="hover:text-tis-primary transition">Power BI</a>
-            <a href="#" class="hover:text-tis-primary transition">SQL</a>
+        <!-- ဘယ်ဘက်: Logo အပိုင်း -->
+        <div class="flex-shrink-0 font-extrabold text-xl text-gray-900 pr-4">
+            TIS Learning
         </div>
+        
+        <!-- ညာဘက်: Menu အပိုင်း (overflow-x-auto ဖြင့် ဘေးတိုက်ဆွဲနိုင်ရန် နှင့် justify-end ဖြင့် ညာဘက်ကပ်ရန်) -->
+        <div class="flex space-x-5 overflow-x-auto justify-end w-full no-scrollbar items-center">
+            <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 whitespace-nowrap transition">Home</a>
+            <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 whitespace-nowrap transition">Excel</a>
+            <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 whitespace-nowrap transition">Power Query</a>
+            <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 whitespace-nowrap transition">Power BI</a>
+            <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 whitespace-nowrap transition">SQL</a>
+        </div>
+        
     </div>
-</nav>
+</div>
