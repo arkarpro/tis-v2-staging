@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Insights Solution (TIS)</title>
+    <title>The Insights Solution (TIS) - Data Strategy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <script>
-        // မြန်မာလို Comment: TIS ၏ Brand Colors နှင့် Font များကို သတ်မှတ်ခြင်း
+        // TIS Theme Colors သတ်မှတ်ခြင်း
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'Padauk', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Inter', 'Padauk', 'sans-serif'] },
                     colors: {
                         tis: {
                             dark: '#0f172a', // Slate-900
@@ -29,63 +27,40 @@
         }
     </script>
     <style>
-        /* မြန်မာစာအတွက် Line Height အနည်းငယ်ချဲ့ပေးခြင်း */
         body { line-height: 1.8; }
-        /* Premium Article များအတွက် စာကိုဝါးထားမည့် CSS Class */
-        .blur-content { filter: blur(4px); user-select: none; }
+        .blur-content { filter: blur(5px); user-select: none; pointer-events: none; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gray-50 text-gray-800 font-sans selection:bg-tis-primary selection:text-white">
 
-    <section class="bg-tis-dark text-white py-20 px-4 text-center">
-        <div class="max-w-4xl mx-auto" data-aos="zoom-in">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-tis-gold">The Insights Solution</h1>
-            <p class="text-lg md:text-xl mb-8 text-gray-300">Data Strategy & Corporate Training Center</p>
+    <section class="bg-tis-dark text-white py-20 px-4 text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div class="max-w-4xl mx-auto relative z-10" data-aos="zoom-in">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 text-tis-gold tracking-tight">The Insights Solution</h1>
+            <p class="text-lg md:text-xl mb-10 text-gray-300 font-light tracking-wide">Data Strategy & Corporate Training Center</p>
 
-            <div class="bg-tis-secondary/40 border border-tis-primary rounded-xl p-6 inline-block max-w-2xl mx-auto backdrop-blur-sm shadow-xl shadow-tis-primary/20">
-                <h2 class="text-2xl font-bold text-white mb-2">🚀 May 2, 2026 Power BI Master Class</h2>
-                <p class="text-gray-300 mb-4">Price Lock Offer: <span class="text-tis-gold font-bold text-2xl">200,000 Ks</span> <br><span class="text-sm text-gray-400">(အရစ်ကျပေးသွင်းနိုင်ပါသည်)</span></p>
-                <button class="bg-tis-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition-all shadow-lg hover:shadow-blue-500/50 hover:-translate-y-1">
+            <div class="bg-tis-secondary/50 border border-tis-primary/50 rounded-2xl p-8 inline-block max-w-2xl mx-auto backdrop-blur-md shadow-2xl shadow-tis-primary/20">
+                <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block animate-pulse">Hot Intake</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">🚀 May 2, 2026 Power BI Master Class</h2>
+                <p class="text-gray-300 mb-6 text-lg">Price Lock Offer: <span class="text-tis-gold font-bold text-3xl">200,000 Ks</span> <br><span class="text-sm text-gray-400">အရစ်ကျပေးသွင်းနိုင်ပါသည်</span></p>
+                <button class="bg-tis-primary hover:bg-blue-500 text-white font-bold py-3 px-10 rounded-full transition-all duration-300 shadow-lg hover:shadow-blue-500/50 hover:-translate-y-1">
                     Register Now
                 </button>
             </div>
         </div>
     </section>
 
-    <section class="py-16 px-4 max-w-6xl mx-auto">
-         <h2 class="text-3xl font-bold text-center text-tis-dark mb-10" data-aos="fade-up">Explore Our Study Areas</h2>
-         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-             <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-green-500 cursor-pointer flex items-center justify-between" data-aos="fade-up" data-aos-delay="100">
-                 <div>
-                     <h3 class="text-xl font-bold text-tis-dark mb-1">Excel</h3>
-                     <p class="text-gray-500 text-sm">Business Management & Hacks</p>
-                 </div>
-                 <span class="text-3xl">📊</span>
-             </div>
-             <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-orange-500 cursor-pointer flex items-center justify-between" data-aos="fade-up" data-aos-delay="200">
-                 <div>
-                     <h3 class="text-xl font-bold text-tis-dark mb-1">Power Query</h3>
-                     <p class="text-gray-500 text-sm">Data Automation</p>
-                 </div>
-                 <span class="text-3xl">⚙️</span>
-             </div>
-             <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-yellow-400 cursor-pointer flex items-center justify-between" data-aos="fade-up" data-aos-delay="300">
-                 <div>
-                     <h3 class="text-xl font-bold text-tis-dark mb-1">Power BI</h3>
-                     <p class="text-gray-500 text-sm">Data Modeling & Visuals</p>
-                 </div>
-                 <span class="text-3xl">📈</span>
-             </div>
-         </div>
-    </section>
-
-    <section class="py-16 px-4 bg-gray-100">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold text-center text-tis-dark mb-10" data-aos="fade-up">Latest Articles & Resources</h2>
+    <section class="py-16 px-4 bg-gray-100 min-h-screen">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-10">
+                <h2 class="text-3xl font-bold text-tis-dark border-l-4 border-tis-primary pl-4" data-aos="fade-right">Latest Resources</h2>
+            </div>
             
             <div id="content-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="col-span-full text-center py-10">
-                    <p class="text-tis-primary font-semibold animate-pulse">Data များ ဆွဲယူနေပါသည်... ခေတ္တစောင့်ပါရှင့် ⏳</p>
+                <div class="col-span-full text-center py-20">
+                    <div class="inline-block w-12 h-12 border-4 border-tis-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <p class="text-tis-primary font-semibold">Data များ ဆွဲယူနေပါသည်... ⏳</p>
                 </div>
             </div>
         </div>
@@ -93,81 +68,99 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Animation ကို စတင်ခြင်း
         AOS.init({ duration: 800, once: true });
 
-        // ⚠️ အစ်ကို့ရဲ့ Google Apps Script (Web App URL အရှည်ကြီး) ကို ဒီနေရာမှာ အစားထိုးထည့်ပေးပါရှင့်
-        const API_URL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE";
+        // ကိုကိုအာကာ့ရဲ့ Web App URL အသစ်
+        const API_URL = "https://script.google.com/macros/s/AKfycbyPPCYnpCs4FuIlnmOP-Xfldqjq3NCr9wdEio96mtyg9Y0EuisM8Q6J9H9Gl1IJ1XGrqg/exec";
 
-        // မြန်မာလို Comment: Google Sheet မှ Data များကို လှမ်းယူမည့် Function
+        // YouTube URL မှ ID ခွဲထုတ်သော Function
+        function getYouTubeId(url) {
+            if(!url) return null;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
         async function fetchTISData() {
             const container = document.getElementById('content-container');
             try {
-                // API ကိုလှမ်းခေါ်ခြင်း
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                container.innerHTML = ''; // Loading စာသားကို ဖျက်ပါမည်
+                container.innerHTML = ''; 
 
-                // Data တစ်ကြောင်းချင်းစီအတွက် HTML Card တည်ဆောက်ခြင်း
                 data.forEach((item, index) => {
-                    // Is_Premium က TRUE ဖြစ်နေရင် စာဝါးရန် (Blur) နှင့် Login Button ပြရန်
+                    // Check Premium Status
                     const isPremium = item.Is_Premium === true || item.Is_Premium === "TRUE" || item.Is_Premium === "true";
                     
+                    // ပုံပေါ်စေရန် Logic (YouTube လား၊ Drive လား စစ်ဆေးခြင်း)
+                    let imageUrl = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"; // Default Image
+                    
+                    const ytId = getYouTubeId(item.Media_URL);
+                    if (ytId) {
+                        imageUrl = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`; // YouTube Thumbnail အကြည်
+                    } else if (item.Media_URL && item.Media_URL.length > 15) {
+                        imageUrl = `https://drive.google.com/uc?export=view&id=${item.Media_URL}`; // Google Drive
+                    }
+
+                    // Category အရောင်ခွဲခြားခြင်း
+                    let badgeColor = "bg-blue-100 text-blue-700";
+                    if(item.Category === "Excel") badgeColor = "bg-green-100 text-green-700";
+                    if(item.Category === "PowerBI") badgeColor = "bg-yellow-100 text-yellow-700";
+
+                    // Card HTML
                     const card = document.createElement('div');
-                    card.className = "bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden relative border border-gray-100 hover:-translate-y-1";
+                    card.className = "bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden relative group flex flex-col h-full";
                     card.setAttribute('data-aos', 'fade-up');
                     card.setAttribute('data-aos-delay', (index * 100).toString());
 
-                    // Drive Image ID (ဥပမာ- 1DUSjz9vJq...) ကို Direct Link အဖြစ်ပြောင်းပေးခြင်း
-                    let imageUrl = "https://via.placeholder.com/400x200/0f172a/ffffff?text=TIS+Resource"; // ပုံမပါရင် ပြမည့် Default ပုံ
-                    if(item.Media_URL && item.Media_URL.length > 10) {
-                        // အစ်ကို Sheet ထဲမှာ ID လေးပဲ ထည့်ထားတယ်ဆိုရင် ဒီကနေ Auto Direct Link လုပ်ပေးပါမယ်
-                        imageUrl = `https://drive.google.com/uc?export=view&id=${item.Media_URL}`; 
-                    }
-
-                    // Card အတွင်းပိုင်း HTML ရေးဆွဲခြင်း
                     card.innerHTML = `
-                        <div class="h-48 overflow-hidden bg-gray-200">
-                            <img src="${imageUrl}" alt="${item.Title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="h-52 overflow-hidden relative bg-gray-200">
+                            <img src="${imageUrl}" alt="${item.Title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'">
+                            ${ytId ? `<div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-all"><div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-lg"><div class="w-0 h-0 border-t-[8px] border-t-transparent border-l-[14px] border-l-white border-b-[8px] border-b-transparent ml-1"></div></div></div>` : ''}
                         </div>
-                        <div class="p-6">
-                            <span class="text-xs font-bold bg-blue-100 text-tis-primary py-1 px-2 rounded-md uppercase tracking-wider">${item.Category}</span>
-                            <h3 class="text-xl font-bold text-tis-dark mt-3 mb-2 leading-tight">${item.Title}</h3>
+                        
+                        <div class="p-6 flex-grow flex flex-col">
+                            <div class="mb-3">
+                                <span class="text-xs font-bold ${badgeColor} py-1 px-3 rounded-full uppercase tracking-wider">${item.Category}</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-tis-dark mb-3 line-clamp-2 group-hover:text-tis-primary transition-colors">${item.Title}</h3>
                             
-                            <div class="relative mt-3">
-                                <p class="text-gray-600 text-sm leading-relaxed ${isPremium ? 'blur-content h-16 overflow-hidden' : ''}">
+                            <div class="relative flex-grow">
+                                <p class="text-gray-600 text-sm leading-relaxed ${isPremium ? 'blur-content' : ''}">
                                     ${item.Description}
                                 </p>
                                 
                                 ${isPremium ? `
-                                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-white/50 backdrop-blur-[2px]">
-                                        <button class="bg-tis-dark hover:bg-tis-secondary text-white text-sm font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all flex items-center gap-2">
-                                            🔒 လော့ဂ်အင် ဝင်ရန်
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-white/40 backdrop-blur-[1px] z-10 rounded-lg">
+                                        <button class="bg-tis-dark hover:bg-tis-secondary text-white text-sm font-semibold py-2.5 px-6 rounded-xl shadow-lg transition-all flex items-center gap-2 transform hover:scale-105">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                                            Login to Read
                                         </button>
                                     </div>
-                                ` : `
-                                    <button class="mt-4 text-tis-primary hover:text-tis-secondary font-semibold text-sm flex items-center gap-1 transition-colors">
-                                        အပြည့်အစုံဖတ်ရန် &rarr;
-                                    </button>
-                                `}
+                                ` : ''}
                             </div>
+                            
+                            ${!isPremium ? `
+                                <div class="mt-5 pt-4 border-t border-gray-100 flex justify-between items-center">
+                                    <span class="text-tis-primary text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all cursor-pointer">
+                                        Read More <span class="text-lg">&rarr;</span>
+                                    </span>
+                                </div>
+                            ` : ''}
                         </div>
                     `;
                     container.appendChild(card);
                 });
 
             } catch (error) {
-                console.error("Data ဆွဲယူရာတွင် အမှားအယွင်းရှိနေပါသည်:", error);
                 container.innerHTML = `
-                    <div class="col-span-full text-center py-10 bg-red-50 rounded-xl border border-red-200">
+                    <div class="col-span-full text-center py-10">
                         <p class="text-red-500 font-semibold">⚠️ Database နှင့် ချိတ်ဆက်မှု ပြတ်တောက်နေပါသည်။</p>
-                        <p class="text-red-400 text-sm mt-1">API Link မှန်ကန်မှုရှိမရှိ ပြန်လည်စစ်ဆေးပေးပါ။</p>
                     </div>`;
             }
         }
 
-        // Webpage ပွင့်လာသည်နှင့် Data ကို စတင်ဆွဲယူပါမည်
         fetchTISData();
     </script>
 </body>
