@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Insights Solution (TIS)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <script>
+        // မြန်မာလို Comment: TIS ၏ Brand Colors နှင့် Font များကို သတ်မှတ်ခြင်း
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Padauk', 'sans-serif'],
+                    },
+                    colors: {
+                        tis: {
+                            dark: '#0f172a', // Slate-900
+                            primary: '#2563eb', // Blue-600
+                            secondary: '#1e3a8a', // Blue-900
+                            gold: '#eab308' // Yellow-500
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* မြန်မာစာအတွက် Line Height အနည်းငယ်ချဲ့ပေးခြင်း */
+        body { line-height: 1.8; }
+        /* Premium Article များအတွက် စာကိုဝါးထားမည့် CSS Class */
+        .blur-content { filter: blur(4px); user-select: none; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <section class="bg-tis-dark text-white py-20 px-4 text-center">
+        <div class="max-w-4xl mx-auto" data-aos="zoom-in">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-tis-gold">The Insights Solution</h1>
+            <p class="text-lg md:text-xl mb-8 text-gray-300">Data Strategy & Corporate Training Center</p>
+
+            <div class="bg-tis-secondary/40 border border-tis-primary rounded-xl p-6 inline-block max-w-2xl mx-auto backdrop-blur-sm shadow-xl shadow-tis-primary/20">
+                <h2 class="text-2xl font-bold text-white mb-2">🚀 May 2, 2026 Power BI Master Class</h2>
+                <p class="text-gray-300 mb-4">Price Lock Offer: <span class="text-tis-gold font-bold text-2xl">200,000 Ks</span> <br><span class="text-sm text-gray-400">(အရစ်ကျပေးသွင်းနိုင်ပါသည်)</span></p>
+                <button class="bg-tis-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition-all shadow-lg hover:shadow-blue-500/50 hover:-translate-y-1">
+                    Register Now
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-4 max-w-6xl mx-auto">
+         <h2 class="text-3xl font-bold text-center text-tis-dark mb-10" data-aos="fade-up">Explore Our Study Areas</h2>
+         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+             <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-green-500 cursor-pointer flex items-center justify-between" data-aos="fade-up" data-aos-delay="100">
+                 <div>
+                     <h3 class="text-xl font-bold text-tis-dark mb-1">Excel</h3>
+                     <p class="text-gray-500 text-sm">Business Management & Hacks</p>
+                 </div>
+                 <span class="text-3xl">📊</span>
+             </div>
+             <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-orange-500 cursor-pointer flex items-center justify-between" data-aos="fade-up" data-aos-delay="200">
+                 <div>
+                     <h3 class="text-xl font-bold text-tis-dark mb-1">Power Query</h3>
+                     <p class="text-gray-500 text-sm">Data Automation</p>
+                 </div>
+                 <span class="text-3xl">⚙️</span>
+             </div>
+             <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-yellow-400 cursor-pointer flex items-center justify-between" data-aos="fade-up" data-aos-delay="300">
+                 <div>
+                     <h3 class="text-xl font-bold text-tis-dark mb-1">Power BI</h3>
+                     <p class="text-gray-500 text-sm">Data Modeling & Visuals</p>
+                 </div>
+                 <span class="text-3xl">📈</span>
+             </div>
+         </div>
+    </section>
+
+    <section class="py-16 px-4 bg-gray-100">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center text-tis-dark mb-10" data-aos="fade-up">Latest Articles & Resources</h2>
+            
+            <div id="content-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="col-span-full text-center py-10">
+                    <p class="text-tis-primary font-semibold animate-pulse">Data များ ဆွဲယူနေပါသည်... ခေတ္တစောင့်ပါရှင့် ⏳</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Animation ကို စတင်ခြင်း
+        AOS.init({ duration: 800, once: true });
+
+        // ⚠️ အစ်ကို့ရဲ့ Google Apps Script (Web App URL အရှည်ကြီး) ကို ဒီနေရာမှာ အစားထိုးထည့်ပေးပါရှင့်
+        const API_URL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE";
+
+        // မြန်မာလို Comment: Google Sheet မှ Data များကို လှမ်းယူမည့် Function
+        async function fetchTISData() {
+            const container = document.getElementById('content-container');
+            try {
+                // API ကိုလှမ်းခေါ်ခြင်း
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                container.innerHTML = ''; // Loading စာသားကို ဖျက်ပါမည်
+
+                // Data တစ်ကြောင်းချင်းစီအတွက် HTML Card တည်ဆောက်ခြင်း
+                data.forEach((item, index) => {
+                    // Is_Premium က TRUE ဖြစ်နေရင် စာဝါးရန် (Blur) နှင့် Login Button ပြရန်
+                    const isPremium = item.Is_Premium === true || item.Is_Premium === "TRUE" || item.Is_Premium === "true";
+                    
+                    const card = document.createElement('div');
+                    card.className = "bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden relative border border-gray-100 hover:-translate-y-1";
+                    card.setAttribute('data-aos', 'fade-up');
+                    card.setAttribute('data-aos-delay', (index * 100).toString());
+
+                    // Drive Image ID (ဥပမာ- 1DUSjz9vJq...) ကို Direct Link အဖြစ်ပြောင်းပေးခြင်း
+                    let imageUrl = "https://via.placeholder.com/400x200/0f172a/ffffff?text=TIS+Resource"; // ပုံမပါရင် ပြမည့် Default ပုံ
+                    if(item.Media_URL && item.Media_URL.length > 10) {
+                        // အစ်ကို Sheet ထဲမှာ ID လေးပဲ ထည့်ထားတယ်ဆိုရင် ဒီကနေ Auto Direct Link လုပ်ပေးပါမယ်
+                        imageUrl = `https://drive.google.com/uc?export=view&id=${item.Media_URL}`; 
+                    }
+
+                    // Card အတွင်းပိုင်း HTML ရေးဆွဲခြင်း
+                    card.innerHTML = `
+                        <div class="h-48 overflow-hidden bg-gray-200">
+                            <img src="${imageUrl}" alt="${item.Title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <span class="text-xs font-bold bg-blue-100 text-tis-primary py-1 px-2 rounded-md uppercase tracking-wider">${item.Category}</span>
+                            <h3 class="text-xl font-bold text-tis-dark mt-3 mb-2 leading-tight">${item.Title}</h3>
+                            
+                            <div class="relative mt-3">
+                                <p class="text-gray-600 text-sm leading-relaxed ${isPremium ? 'blur-content h-16 overflow-hidden' : ''}">
+                                    ${item.Description}
+                                </p>
+                                
+                                ${isPremium ? `
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-white/50 backdrop-blur-[2px]">
+                                        <button class="bg-tis-dark hover:bg-tis-secondary text-white text-sm font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all flex items-center gap-2">
+                                            🔒 လော့ဂ်အင် ဝင်ရန်
+                                        </button>
+                                    </div>
+                                ` : `
+                                    <button class="mt-4 text-tis-primary hover:text-tis-secondary font-semibold text-sm flex items-center gap-1 transition-colors">
+                                        အပြည့်အစုံဖတ်ရန် &rarr;
+                                    </button>
+                                `}
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("Data ဆွဲယူရာတွင် အမှားအယွင်းရှိနေပါသည်:", error);
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-10 bg-red-50 rounded-xl border border-red-200">
+                        <p class="text-red-500 font-semibold">⚠️ Database နှင့် ချိတ်ဆက်မှု ပြတ်တောက်နေပါသည်။</p>
+                        <p class="text-red-400 text-sm mt-1">API Link မှန်ကန်မှုရှိမရှိ ပြန်လည်စစ်ဆေးပေးပါ။</p>
+                    </div>`;
+            }
+        }
+
+        // Webpage ပွင့်လာသည်နှင့် Data ကို စတင်ဆွဲယူပါမည်
+        fetchTISData();
+    </script>
+</body>
+</html>
