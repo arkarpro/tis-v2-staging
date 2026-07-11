@@ -113,7 +113,7 @@ async function fetchArticles(apiUrl, categoryName) {
                     <div class="p-6 md:p-8 flex flex-col flex-grow">
                         <span class="inline-block px-3.5 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest w-max mb-3 ${theme.tag}">${item.Category || categoryName}</span>
                         
-                        <h3 class="font-extrabold text-xl sm:text-2xl mt-1 text-gray-900 tracking-tight leading-snug">${item.Title}</h3>
+                        <h3 class="font-bold text-lg sm:text-xl mt-1 text-gray-900 tracking-tight leading-snug">${item.Title}</h3>
                         
                         <p class="text-[13px] text-gray-600 mt-3 leading-relaxed">${item.Body_Text || item.Description}</p>
                         
