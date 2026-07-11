@@ -1,180 +1,183 @@
 <!-- ================================================================= -->
-<!-- 👤 Profile & Portfolio Pane (Mobile တွင် Profile Tab အဖြစ်ပေါ်မည်) -->
+<!-- 👤 Profile & Portfolio Pane                                       -->
 <!-- ================================================================= -->
 
 <!-- ၁။ Banner, Profile & Org Name -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
-    <div class="h-28 bg-blue-900 relative">
-        <img src="Media_Files/tis_banner.webp" alt="TIS Banner" class="w-full h-full object-cover opacity-60">
-        <div class="absolute inset-0 bg-gradient-to-t from-blue-900/80 to-transparent"></div>
-        <div class="absolute bottom-2 right-4 text-white text-xs font-bold text-right leading-tight">
-            STOP MANUAL WORK.<br>AUTOMATE YOUR FUTURE.
+<div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden mb-6">
+    <div class="h-32 bg-slate-900 relative">
+        <img src="Media_Files/tis_banner.webp" alt="TIS Banner" class="w-full h-full object-cover opacity-50 mix-blend-overlay">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
+        <div class="absolute bottom-3 right-5 text-white/90 text-[10px] font-semibold tracking-widest text-right leading-relaxed uppercase">
+            Stop Manual Work <br><span class="text-white font-bold">Automate Your Future</span>
         </div>
     </div>
-    <div class="px-6 pb-6 text-center -mt-12 relative">
-        <div class="w-24 h-24 mx-auto bg-white rounded-full p-1 shadow-lg mb-3">
+    <div class="px-6 pb-7 text-center -mt-14 relative z-10">
+        <div class="w-24 h-24 mx-auto bg-white rounded-full p-1 shadow-md mb-4">
             <img src="Media_Files/tis_logo.webp" alt="TIS Logo" class="w-full h-full rounded-full object-cover">
         </div>
-        <h2 class="text-lg font-bold text-gray-900">The Insights Solution</h2>
-        <p class="text-xs text-gray-500 font-medium mt-1">Data Strategy Center</p>
+        <h2 class="text-xl font-extrabold text-gray-900 tracking-tight">The Insights Solution</h2>
+        <p class="text-xs text-blue-600 font-bold mt-1 uppercase tracking-wider">Data Strategy Center</p>
     </div>
 </div>
 
 <!-- ၂။ Your Learning (Dashboard Links) -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
-    <h3 class="font-bold text-gray-800 mb-4">Your Learning</h3>
-    <div class="space-y-4">
-        <a href="#" onclick="showComingSoon('Dashboard', 'သင်၏ သင်ယူမှုမှတ်တမ်းများနှင့် အမှတ်စာရင်းများကို ကြည့်ရှုနိုင်မည့် Dashboard ကို ပြင်ဆင်နေပါသည်။')" class="flex justify-between items-center text-sm text-gray-600 hover:text-blue-600 font-medium group">
-            <span>Dashboard</span> 
-            <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+<div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-6 mb-6">
+    <h3 class="font-bold text-gray-900 text-lg mb-4">Your Learning</h3>
+    <div class="space-y-1.5">
+        <a href="#" onclick="showComingSoon('Dashboard', 'သင်၏ သင်ယူမှုမှတ်တမ်းများနှင့် အမှတ်စာရင်းများကို ကြည့်ရှုနိုင်မည့် Dashboard ကို ပြင်ဆင်နေပါသည်။')" class="flex justify-between items-center text-sm text-gray-600 hover:text-blue-700 font-medium hover:bg-blue-50/50 px-3 py-2.5 rounded-xl transition-all group">
+            <span class="flex items-center gap-3">
+                <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                Dashboard
+            </span>
+            <span class="text-gray-300 group-hover:text-blue-300 transition-transform group-hover:translate-x-1">→</span>
         </a>
-        <a href="#" onclick="showComingSoon('My Courses', 'သင်ဝယ်ယူထားသော သင်ခန်းစာ ဗီဒီယိုများကို တစ်နေရာတည်းတွင် လေ့လာနိုင်ရန် ပြင်ဆင်နေပါသည်။')" class="flex justify-between items-center text-sm text-gray-600 hover:text-blue-600 font-medium group">
-            <span>My Courses</span> 
-            <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+        <a href="#" onclick="showComingSoon('My Courses', 'သင်ဝယ်ယူထားသော သင်ခန်းစာ ဗီဒီယိုများကို တစ်နေရာတည်းတွင် လေ့လာနိုင်ရန် ပြင်ဆင်နေပါသည်။')" class="flex justify-between items-center text-sm text-gray-600 hover:text-blue-700 font-medium hover:bg-blue-50/50 px-3 py-2.5 rounded-xl transition-all group">
+            <span class="flex items-center gap-3">
+                <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                My Courses
+            </span>
+            <span class="text-gray-300 group-hover:text-blue-300 transition-transform group-hover:translate-x-1">→</span>
         </a>
-        <a href="#" onclick="showComingSoon('Certificates', 'သင်တန်းပြီးမြောက်မှု အသိအမှတ်ပြု လက်မှတ်များကို ဒေါင်းလုဒ်ရယူနိုင်မည့် နေရာကို တည်ဆောက်နေပါသည်။')" class="flex justify-between items-center text-sm text-gray-600 hover:text-blue-600 font-medium group">
-            <span>Certificates</span> 
-            <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+        <a href="#" onclick="showComingSoon('Certificates', 'သင်တန်းပြီးမြောက်မှု အသိအမှတ်ပြု လက်မှတ်များကို ဒေါင်းလုဒ်ရယူနိုင်မည့် နေရာကို တည်ဆောက်နေပါသည်။')" class="flex justify-between items-center text-sm text-gray-600 hover:text-blue-700 font-medium hover:bg-blue-50/50 px-3 py-2.5 rounded-xl transition-all group">
+            <span class="flex items-center gap-3">
+                <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+                Certificates
+            </span>
+            <span class="text-gray-300 group-hover:text-blue-300 transition-transform group-hover:translate-x-1">→</span>
         </a>
     </div>
-    <div class="mt-4 pt-4 border-t border-gray-100">
-        <button onclick="logoutUser()" class="flex justify-between items-center text-sm font-medium text-gray-500 hover:text-gray-800 w-full text-left group">
-            <span>အကောင့်မှ ထွက်မည် (Logout)</span> 
-            <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+    
+    <div class="mt-4 pt-4 border-t border-gray-100 px-3">
+        <button onclick="logoutUser()" class="flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-red-500 w-full text-left transition-colors group">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+            Logout
         </button>
     </div>
 </div>
 
 <!-- ၃။ Vision & Mission -->
-<div class="space-y-4 mb-6">
-    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-yellow-400">
-        <h2 class="text-sm font-bold text-slate-800 mb-2 flex items-center gap-2"><span>☀️</span> Vision Statement</h2>
-        <p class="text-xs text-gray-600 leading-relaxed">Empowering smarter decisions through data-driven insights.</p>
+<div class="space-y-3 mb-6">
+    <div class="bg-slate-50 p-5 rounded-3xl">
+        <h2 class="text-[11px] font-extrabold text-slate-800 mb-2 tracking-widest uppercase flex items-center gap-2"><span>☀️</span> Vision</h2>
+        <p class="text-[12px] text-gray-600 leading-relaxed font-medium">Empowering smarter decisions through data-driven insights.</p>
     </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-pink-500">
-        <h2 class="text-sm font-bold text-slate-800 mb-2 flex items-center gap-2"><span>🎯</span> Mission Statement</h2>
-        <p class="text-xs text-gray-600 leading-relaxed">Helping professionals unlock the power of data with practical Excel & Power BI training and tailored analytics solutions.</p>
+    <div class="bg-slate-50 p-5 rounded-3xl">
+        <h2 class="text-[11px] font-extrabold text-slate-800 mb-2 tracking-widest uppercase flex items-center gap-2"><span>🎯</span> Mission</h2>
+        <p class="text-[12px] text-gray-600 leading-relaxed font-medium">Helping professionals unlock the power of data with practical Excel & Power BI training.</p>
     </div>
 </div>
 
 <!-- ၄။ About the Founder -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
-    <h2 class="font-bold text-gray-800 mb-4 flex items-center gap-2">👨‍💼 About the Founder</h2>
-    <img src="Media_Files/profile.jpg" alt="Ko Zaw Zaw Aung" class="w-full rounded-xl shadow-sm border border-gray-200 mb-4">
+<div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-6 mb-6">
+    <h2 class="font-bold text-gray-900 text-lg mb-5">About the Founder</h2>
+    <img src="Media_Files/profile.jpg" alt="Ko Zaw Zaw Aung" class="w-full rounded-2xl shadow-sm mb-5 object-cover">
     
-    <div class="text-xs text-gray-700 space-y-3 leading-relaxed">
-        <p>I am a <span class="font-bold text-slate-900">Senior Executive</span> on the Leadership Team of a major international finance organization, advising the CEO and Board on nationwide operational strategy.</p>
+    <div class="text-[13px] text-gray-600 space-y-4 leading-relaxed">
+        <p>I am a <span class="font-bold text-gray-900">Senior Executive</span> on the Leadership Team of a major international finance organization, advising the CEO and Board on nationwide operational strategy.</p>
         <p>My career hasn't just been about <em>analyzing</em> data; it's been about <em>building</em> the institutional systems that deliver it.</p>
         
-        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-            <ul class="list-disc pl-4 space-y-1">
-                <li>Trained <strong>over 300+ students</strong> in advanced data skills.</li>
-                <li>Trusted corporate trainer for <strong>Mottama Holdings</strong>.</li>
-                <li>Developing <strong>cloud-based data systems</strong> for international clients.</li>
-            </ul>
+        <ul class="space-y-2 mt-2">
+            <li class="flex items-start gap-2"><span class="text-blue-500 mt-0.5">•</span> <span>Trained <strong>over 300+ students</strong> in advanced data skills.</span></li>
+            <li class="flex items-start gap-2"><span class="text-blue-500 mt-0.5">•</span> <span>Trusted corporate trainer for <strong>Mottama Holdings</strong>.</span></li>
+            <li class="flex items-start gap-2"><span class="text-blue-500 mt-0.5">•</span> <span>Developing <strong>cloud-based systems</strong> for international clients.</span></li>
+        </ul>
+        
+        <div class="mt-5 relative">
+            <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-100 rounded-full"></div>
+            <p class="italic font-medium text-gray-500 pl-4 py-1">
+                "I don't just teach formulas; I teach how to manage risk, drive growth, and deliver real P&L impact."
+            </p>
         </div>
-        <p class="italic font-medium text-slate-600 border-l-2 border-blue-500 pl-3 py-1 bg-gray-50 rounded-r-lg">
-            "I don't just teach formulas; I teach how to manage risk, drive growth, and deliver real P&L impact."
-        </p>
     </div>
 </div>
 
-<!-- ၅။ My Services (LinkedIn Style) -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
-    <h2 class="font-bold text-gray-800 mb-4 flex items-center gap-2">💼 My Services</h2>
-    
-    <div class="text-[12px] text-gray-700 leading-relaxed mb-4">
-        <p class="mb-2">I build automated Finance & Organizational Dashboards, and deliver specialized Corporate Training to upskill your workforce.</p>
-        <p class="text-gray-500">လူကြီးမင်းလုပ်ငန်းအတွက် အလိုအလျောက် Finance Report/Dashboard များ တည်ဆောက်ပေးခြင်းနှင့် ဝန်ထမ်းများအတွက် Corporate Training များကို အဓိက ဝန်ဆောင်မှုပေးနေပါသည်။</p>
+<!-- ၅။ My Services -->
+<div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-6 mb-6">
+    <h2 class="font-bold text-gray-900 text-lg mb-4">My Services</h2>
+    <div class="text-[12px] text-gray-500 leading-relaxed mb-5 font-medium">
+        လူကြီးမင်းလုပ်ငန်းအတွက် အလိုအလျောက် Finance Report/Dashboard များ တည်ဆောက်ပေးခြင်းနှင့် ဝန်ထမ်းများအတွက် Corporate Training များကို အဓိက ဝန်ဆောင်မှုပေးနေပါသည်။
     </div>
-
     <div class="flex flex-wrap gap-2">
-        <span class="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-[10px] font-bold">Business Analytics</span>
-        <span class="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-[10px] font-bold">Corporate Training</span>
-        <span class="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-[10px] font-bold">Data Reporting</span>
-        <span class="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-[10px] font-bold">Financial Reporting</span>
-        <span class="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-[10px] font-bold">Management Consulting</span>
+        <span class="px-3.5 py-1.5 bg-slate-100 text-slate-700 rounded-full text-[11px] font-bold">Business Analytics</span>
+        <span class="px-3.5 py-1.5 bg-slate-100 text-slate-700 rounded-full text-[11px] font-bold">Corporate Training</span>
+        <span class="px-3.5 py-1.5 bg-slate-100 text-slate-700 rounded-full text-[11px] font-bold">Data Reporting</span>
+        <span class="px-3.5 py-1.5 bg-slate-100 text-slate-700 rounded-full text-[11px] font-bold">Financial Reporting</span>
     </div>
 </div>
 
-<!-- ၆။ What Our Students Say (Gallery Thumbnails) -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
-    <h2 class="font-bold text-gray-800 mb-4 flex items-center gap-2">🗣️ Student Reviews</h2>
-    <p class="text-xs text-gray-500 mb-3">ပုံများကို နှိပ်၍ ဖတ်ရှုနိုင်ပါသည်။</p>
+<!-- ၆။ Student Reviews -->
+<div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-6 mb-6">
+    <h2 class="font-bold text-gray-900 text-lg mb-1">Student Reviews</h2>
+    <p class="text-xs text-gray-400 mb-4">ပုံများကို နှိပ်၍ ဖတ်ရှုနိုင်ပါသည်။</p>
     
-    <div class="grid grid-cols-2 gap-2 cursor-pointer" onclick="openReviewsModal()">
-        <img src="Media_Files/review-001.webp" class="w-full h-24 object-cover rounded-lg shadow-sm border hover:opacity-80 transition" alt="Review 1">
-        <img src="Media_Files/review-002.webp" class="w-full h-24 object-cover rounded-lg shadow-sm border hover:opacity-80 transition" alt="Review 2">
-        <img src="Media_Files/review-003.webp" class="w-full h-24 object-cover rounded-lg shadow-sm border hover:opacity-80 transition" alt="Review 3">
-        <div class="w-full h-24 bg-gray-100 rounded-lg border flex items-center justify-center hover:bg-gray-200 transition">
-            <span class="text-xs font-bold text-blue-600">+ More</span>
+    <div class="grid grid-cols-2 gap-3 cursor-pointer" onclick="openReviewsModal()">
+        <img src="Media_Files/review-001.webp" class="w-full h-24 object-cover rounded-2xl hover:opacity-80 transition" alt="Review 1">
+        <img src="Media_Files/review-002.webp" class="w-full h-24 object-cover rounded-2xl hover:opacity-80 transition" alt="Review 2">
+        <img src="Media_Files/review-003.webp" class="w-full h-24 object-cover rounded-2xl hover:opacity-80 transition" alt="Review 3">
+        <div class="w-full h-24 bg-slate-50 rounded-2xl flex items-center justify-center hover:bg-slate-100 transition">
+            <span class="text-xs font-bold text-slate-500">+ More</span>
         </div>
     </div>
 </div>
-<!-- ================================================================= -->
 
-<!-- ================================================================= -->
-<!-- ၇။ FAQ (Accordion) -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
-    <h2 class="font-bold text-gray-800 mb-4 flex items-center gap-2">❓ FAQ</h2>
-    <div class="space-y-2">
-        
-        <!-- Question 1: သင်တန်းများအကြောင်း -->
-        <details class="group bg-slate-50 p-3 rounded-lg border border-slate-200 cursor-pointer">
-            <summary class="font-bold text-xs text-slate-900 flex justify-between items-center list-none">
-                <span>📚 သင်တန်းများအကြောင်း သိချင်ပါတယ်...</span>
-                <span class="transition group-open:rotate-180">▼</span>
+<!-- ၇။ FAQ -->
+<div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-6 mb-8">
+    <h2 class="font-bold text-gray-900 text-lg mb-5">FAQ</h2>
+    <div class="space-y-3">
+        <!-- Q1 -->
+        <details class="group bg-gray-50 rounded-2xl cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+            <summary class="font-bold text-[13px] text-gray-800 p-4 flex justify-between items-center list-none select-none hover:text-blue-600 transition-colors">
+                <span>သင်တန်းများအကြောင်း သိချင်ပါတယ်</span>
+                <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">▼</span>
             </summary>
-            <p class="text-[11px] text-gray-600 mt-2 leading-relaxed">
-                <strong>Data Analysis Full Package in Excel</strong> နှင့် <strong>Power BI Basic to Master</strong> အတန်းများကို Zoom Live ဖြင့် ပုံမှန် စီစဉ်ပေးပါသည်။ Cloud Integration မှစ၍ Data Flow နှင့် Fully Automate Dashboard အထိ Real Project များဖြင့် လက်တွေ့ စနစ်တကျ သင်ကြားပေးသော အတန်းများ ဖြစ်ပါသည်။
-            </p>
+            <div class="px-4 pb-4 text-[12px] text-gray-500 leading-relaxed border-t border-gray-100 pt-3">
+                <strong>Data Analysis Full Package in Excel</strong> နှင့် <strong>Power BI Basic to Master</strong> အတန်းများကို Zoom Live ဖြင့် ပုံမှန် စီစဉ်ပေးပါသည်။ Cloud Integration မှစ၍ Data Flow နှင့် Dashboard အထိ Real Project များဖြင့် သင်ကြားပေးသော အတန်းများ ဖြစ်ပါသည်။
+            </div>
         </details>
 
-        <!-- Question 2: Training Material & Supports -->
-        <details class="group bg-slate-50 p-3 rounded-lg border border-slate-200 cursor-pointer">
-            <summary class="font-bold text-xs text-slate-900 flex justify-between items-center list-none">
-                <span>🛠️ Training Material & Supports ?</span>
-                <span class="transition group-open:rotate-180">▼</span>
+        <!-- Q2 -->
+        <details class="group bg-gray-50 rounded-2xl cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+            <summary class="font-bold text-[13px] text-gray-800 p-4 flex justify-between items-center list-none select-none hover:text-blue-600 transition-colors">
+                <span>Training Material & Supports</span>
+                <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">▼</span>
             </summary>
-            <p class="text-[11px] text-gray-600 mt-2 leading-relaxed">
-                သင်တန်းသားများအတွက် 1080p Full HD Recordings, သင်ခန်းစာ Notes များ, Exercises များ, Real World Datasets များနှင့် Power BI Account အစရှိသည်တို့ကို အပြည့်အစုံ စီစဉ်ပေးထားပါသည်။ ထို့ကြောင့် Live မတက်ဖြစ်လျှင်လည်း မိမိဘာသာ အချိန်ယူ၍ စနစ်တကျ ပြန်လည်လေ့လာနိုင်ပါသည်။
-            </p>
+            <div class="px-4 pb-4 text-[12px] text-gray-500 leading-relaxed border-t border-gray-100 pt-3">
+                1080p Full HD Recordings, Notes များ, Exercises များ, Real World Datasets များနှင့် Power BI Account တို့ကို အပြည့်အစုံ စီစဉ်ပေးထားပါသည်။ 
+            </div>
         </details>
 
-        <!-- Question 3: Certificate -->
-        <details class="group bg-slate-50 p-3 rounded-lg border border-slate-200 cursor-pointer">
-            <summary class="font-bold text-xs text-slate-900 flex justify-between items-center list-none">
-                <span>🏆 Certificate ရပါသလား?</span>
-                <span class="transition group-open:rotate-180">▼</span>
+        <!-- Q3 -->
+        <details class="group bg-gray-50 rounded-2xl cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+            <summary class="font-bold text-[13px] text-gray-800 p-4 flex justify-between items-center list-none select-none hover:text-blue-600 transition-colors">
+                <span>Certificate ရပါသလား?</span>
+                <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">▼</span>
             </summary>
-            <p class="text-[11px] text-gray-600 mt-2 leading-relaxed">
+            <div class="px-4 pb-4 text-[12px] text-gray-500 leading-relaxed border-t border-gray-100 pt-3">
                 ဟုတ်ကဲ့။ သတ်မှတ်ထားတဲ့ Capstone Project အောင်မြင်စွာ တင်ပြပြီးပါက "Professional Completion Certificate" ပေးအပ်သွားပါမည်။
-            </p>
+            </div>
         </details>
         
-        <!-- Question 4: Services -->
-        <details class="group bg-slate-50 p-3 rounded-lg border border-slate-200 cursor-pointer">
-            <summary class="font-bold text-xs text-slate-900 flex justify-between items-center list-none">
-                <span>💼 မည်သည့် Service များ ရရှိနိုင်သလဲ?</span>
-                <span class="transition group-open:rotate-180">▼</span>
+        <!-- Q4 -->
+        <details class="group bg-gray-50 rounded-2xl cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+            <summary class="font-bold text-[13px] text-gray-800 p-4 flex justify-between items-center list-none select-none hover:text-blue-600 transition-colors">
+                <span>မည်သည့် Service များ ရရှိနိုင်သလဲ?</span>
+                <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">▼</span>
             </summary>
-            <p class="text-[11px] text-gray-600 mt-2 leading-relaxed">
-                Excel, Power Query (PQ) နှင့် Power BI တို့ကို အသုံးပြု၍ လုပ်ငန်းသုံး <strong>Template</strong> များနှင့် <strong>Dashboard</strong> များ တည်ဆောက်ပေးခြင်း၊ <strong>Fully Automate Sales Tracking System</strong> နှင့် <strong>Live Dashboard App</strong> များ ရေးဆွဲပေးခြင်းတို့ကို ဝန်ဆောင်မှုပေးပါသည်။ ထို့အပြင် ဝန်ထမ်းများ အရည်အသွေးမြှင့်တင်ရန်အတွက် <strong>Corporate Training</strong> များကိုလည်း လက်ခံသင်ကြားပေးနေပါသည်။
-            </p>
+            <div class="px-4 pb-4 text-[12px] text-gray-500 leading-relaxed border-t border-gray-100 pt-3">
+                Template များနှင့် Dashboard များ တည်ဆောက်ပေးခြင်း၊ Fully Automate System များ ရေးဆွဲပေးခြင်းနှင့် Corporate Training များကို လက်ခံသင်ကြားပေးနေပါသည်။
+            </div>
         </details>
-        
     </div>
 </div>
 <!-- ================================================================= -->
 
-<!-- ================================================================= -->
 <!-- ၈။ Contact & Footer -->
-<div class="text-center pt-4 pb-6 border-t border-gray-200">
-    <p class="text-xs font-bold text-gray-800 mb-3">Powered by Data Insights with Arkar</p>
-    <div class="flex justify-center items-center gap-4 mb-4">
-        <a href="https://www.linkedin.com/in/arkar-linn-datapro/" target="_blank"><img src="Media_Files/linkedin.png" alt="LinkedIn" class="w-6 h-6 hover:scale-110 transition"></a>
-        <a href="https://youtube.com/@datainsightswitharkar?si=NPDfTvREb0IxtRDj" target="_blank"><img src="Media_Files/youtube.png" alt="YouTube" class="w-6 h-6 hover:scale-110 transition"></a>
-        <a href="https://www.facebook.com/share/1DB4aEH7xs/" target="_blank"><img src="Media_Files/facebook.png" alt="Facebook" class="w-6 h-6 hover:scale-110 transition"></a>
+<div class="text-center pt-2 pb-10">
+    <p class="text-[11px] font-extrabold text-gray-400 mb-4 tracking-widest uppercase">Powered by Data Insights</p>
+    <div class="flex justify-center items-center gap-5 mb-5">
+        <a href="https://www.linkedin.com/in/arkar-linn-datapro/" target="_blank" class="p-2 bg-white rounded-full shadow-sm hover:shadow-md hover:-translate-y-1 transition-all"><img src="Media_Files/linkedin.png" alt="LinkedIn" class="w-5 h-5 opacity-70 hover:opacity-100"></a>
+        <a href="https://youtube.com/@datainsightswitharkar?si=NPDfTvREb0IxtRDj" target="_blank" class="p-2 bg-white rounded-full shadow-sm hover:shadow-md hover:-translate-y-1 transition-all"><img src="Media_Files/youtube.png" alt="YouTube" class="w-5 h-5 opacity-70 hover:opacity-100"></a>
+        <a href="https://www.facebook.com/share/1DB4aEH7xs/" target="_blank" class="p-2 bg-white rounded-full shadow-sm hover:shadow-md hover:-translate-y-1 transition-all"><img src="Media_Files/facebook.png" alt="Facebook" class="w-5 h-5 opacity-70 hover:opacity-100"></a>
     </div>
-    <p class="text-[10px] text-gray-400">&copy; 2026 The Insights Solution.</p>
+    <p class="text-[10px] text-gray-400 font-medium">&copy; 2026 The Insights Solution. All rights reserved.</p>
 </div>
