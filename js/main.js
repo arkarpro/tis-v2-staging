@@ -8,9 +8,12 @@ async function loadComponent(id, file) {
         const response = await fetch(`components/${file}.html`);
         if (!response.ok) throw new Error(`Could not load ${file}.html`);
         const html = await response.text();
-        document.getElementById(id).innerHTML = html;
+        const element = document.getElementById(id);
+        if (element) {
+            element.innerHTML = html;
+        }
     } catch (error) {
-        console.error("Error loading component:", error);
+        console.warn(`Component load warning (${file}):`, error);
     }
 }
 
@@ -22,12 +25,11 @@ async function initApp() {
         loadComponent('navbar', 'navbar'),
         loadComponent('sidebar', 'sidebar'),
         loadComponent('widgets', 'widgets'),
-        loadComponent('content', 'content'),
         loadComponent('login-container', 'login')
     ]);
 
     // =================================================================
-    // 👤 UI ကို Login အခြေအနေအလိုက် ပြောင်းလဲပေးသည့် အပိုင်း အသစ်
+    // 👤 UI ကို Login အခြေအနေအလိုက် ပြောင်းလဲပေးသည့် အပိုင်း
     // =================================================================
     const isLoggedIn = typeof checkLoginStatus === 'function' ? checkLoginStatus() : false;
     const userName = localStorage.getItem('tis_user_name');
@@ -44,9 +46,9 @@ async function initApp() {
         logoutSection.style.display = isLoggedIn ? 'block' : 'none';
     }
 
-    // Video များကို ခေါ်ယူခြင်း
-    if (typeof fetchArticles === 'function') {
-        fetchArticles();
+    // 💡 ပြင်ဆင်ချက်: URL မပါသော fetchArticles() အဟောင်းအစား စနစ်သစ် loadCategory ကို အသုံးပြုပါမည်
+    if (typeof loadCategory === 'function') {
+        loadCategory('Home');
     }
 }
 window.onload = initApp;
