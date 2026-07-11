@@ -4,24 +4,33 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 
-<div class="bg-white w-full h-full flex items-center shadow-sm relative z-50">
+<div class="bg-white w-full h-full flex items-center shadow-sm relative z-50 border-b border-gray-100">
     <!-- flex-between အစား flex ကိုသာ သုံးပြီး နေရာခွဲပါမည် -->
     <div class="w-full max-w-7xl mx-auto px-4 flex items-center h-16">
         
-        <!-- ဘယ်ဘက်: Logo အပိုင်း -->
-        <div class="flex-shrink-0 font-extrabold text-xl text-gray-900 mr-4">
+        <!-- ဘယ်ဘက်: Logo အပိုင်း (နှိပ်လျှင် Home သို့ ပြန်သွားရန် onclick ထည့်ထားပါသည်) -->
+        <a href="#" onclick="loadCategory('Home'); return false;" class="flex-shrink-0 font-extrabold text-xl text-gray-900 mr-4 tracking-tight hover:text-blue-600 transition">
             TIS Learning
-        </div>
+        </a>
         
         <!-- ညာဘက်: Menu အပိုင်း (Mobile တွင် ဘယ်မှစ၍ Scroll ဆွဲမည်၊ Desktop တွင် ညာကပ်မည် md:justify-end) -->
         <div class="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-end">
             <!-- min-w-max ထည့်ထားသဖြင့် စာသားများ ပိန်မသွားဘဲ Scroll ပေါ်လာပါမည် -->
-            <div class="flex space-x-5 min-w-max pr-2 py-2">
-                <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">Home</a>
-                <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">Excel</a>
-                <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">Power Query</a>
-                <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">Power BI</a>
-                <a href="#" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">SQL</a>
+            <div class="flex space-x-6 min-w-max pr-2 py-2">
+                
+                <!-- 💡 onclick ဖြင့် api.js မှ loadCategory function ကို ချိတ်ဆက်ထားသည် -->
+                <!-- 💡 Theme Color များနှင့် လိုက်ဖက်အောင် hover အရောင်များကို ပြင်ဆင်ထားသည် -->
+                
+                <a href="#" onclick="loadCategory('Home'); return false;" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">Home</a>
+                
+                <a href="#" onclick="loadCategory('Excel'); return false;" class="text-sm font-bold text-gray-600 hover:text-green-600 transition">Excel</a>
+                
+                <a href="#" onclick="loadCategory('PowerQuery'); return false;" class="text-sm font-bold text-gray-600 hover:text-orange-600 transition">Power Query</a>
+                
+                <a href="#" onclick="loadCategory('PowerBI'); return false;" class="text-sm font-bold text-gray-600 hover:text-yellow-600 transition">Power BI</a>
+                
+                <a href="#" onclick="loadCategory('SQL'); return false;" class="text-sm font-bold text-gray-600 hover:text-sky-600 transition">SQL</a>
+                
             </div>
         </div>
         
