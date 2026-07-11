@@ -2,17 +2,16 @@
 // 🌐 API & Content Management (api.js)
 // =================================================================
 
-// ⚠️ Database URLs (Category အလိုက် Google Sheets မှ Web App URLs များ)
-// 💡 အသစ် Deploy လုပ်တိုင်း သက်ဆိုင်ရာ နေရာတွင် လင့်ခ်များ လာရောက် အစားထိုးနိုင်ပါသည်။
+// ⚠️ Database URLs
 const CONTENT_DBS = {
     'Home': "https://script.google.com/macros/s/AKfycbyPPCYnpCs4FuIlnmOP-Xfldqjq3NCr9wdEio96mtyg9Y0EuisM8Q6J9H9Gl1IJ1XGrqg/exec",
-    'Excel': "URL_HERE",       // Excel အတွက် Deploy လုပ်ထားသော လင့်ခ်ထည့်ရန်
-    'PowerQuery': "URL_HERE",  // Power Query အတွက် လင့်ခ်
-    'PowerBI': "URL_HERE",     // Power BI အတွက် လင့်ခ်
-    'SQL': "URL_HERE"          // SQL အတွက် လင့်ခ်
+    'Excel': "URL_HERE",       
+    'PowerQuery': "URL_HERE",  
+    'PowerBI': "URL_HERE",     
+    'SQL': "URL_HERE"          
 };
 
-// 🎨 Theme Colors (Software အလိုက် အရောင်များ)
+// 🎨 Theme Colors 
 const THEMES = {
     'Home': { text: 'text-blue-600', border: 'border-blue-100', tag: 'bg-blue-50 text-blue-600' },
     'Excel': { text: 'text-green-700', border: 'border-green-200', tag: 'bg-green-50 text-green-700' },
@@ -29,10 +28,12 @@ let currentCategory = 'Home';
 async function loadCategory(categoryName) {
     currentCategory = categoryName;
     const targetUrl = CONTENT_DBS[categoryName];
-    const container = document.getElementById('content'); // အဓိက Content ပြသမည့်နေရာ
+    const container = document.getElementById('content'); 
     
     // URL မချိတ်ရသေးပါက Placeholder ပြသမည်
     if (!targetUrl || targetUrl === "URL_HERE") {
+        // 💡 md:col-span-6 ကို ပြန်ထည့်ထားပါသည်
+        container.className = "md:col-span-6 w-full";
         container.innerHTML = `
             <div class="flex flex-col items-center justify-center bg-white rounded-2xl shadow-sm border border-gray-100 p-16 text-center">
                 <div class="text-6xl mb-6 animate-bounce">🚧</div>
@@ -53,27 +54,25 @@ async function fetchArticles(apiUrl, categoryName) {
     const container = document.getElementById('content');
     const theme = THEMES[categoryName] || THEMES['Home'];
     
-    container.innerHTML = '<div class="col-span-full text-center text-gray-500 py-10 font-bold">Data များ ဆွဲယူနေပါသည်... ⏳</div>';
+    // 💡 Loading ပြချိန်တွင်လည်း md:col-span-6 မပျောက်စေရန်
+    container.className = "md:col-span-6 w-full";
+    container.innerHTML = '<div class="text-center text-gray-500 py-10 font-bold w-full bg-white rounded-2xl border border-gray-100">Data များ ဆွဲယူနေပါသည်... ⏳</div>';
 
     try {
         const response = await fetch(apiUrl);
         const result = await response.json();
         
-        // API မှ data ကို array အဖြစ် တိုက်ရိုက်ပြန်ပေးလျှင် result ကိုသုံးမည်၊ သို့မဟုတ် result.data ကိုသုံးမည်
         const data = result.data ? result.data : result;
 
         if (data && data.length > 0) {
-            container.className = "flex flex-col gap-6 w-full";
+            // 💡 အရေးကြီးဆုံး ပြင်ဆင်ချက် - md:col-span-6 ကို ပြန်လည် ထည့်သွင်းထားပါသည်
+            container.className = "md:col-span-6 flex flex-col gap-6 w-full";
             
             container.innerHTML = data.map(item => {
-                // =================================================================
-                // 🎬 Media Logic (YouTube Video လား? ပုံလား? ခွဲခြားခြင်း)
-                // =================================================================
                 let mediaContent = '';
                 const mediaVal = item.Media_URL ? item.Media_URL.trim() : '';
 
                 if (mediaVal.includes('youtu.be/') || mediaVal.includes('youtube.com/')) {
-                    // YouTube Video ဖြစ်လျှင်
                     let videoId = '';
                     if (mediaVal.includes('youtu.be/')) {
                         videoId = mediaVal.split('youtu.be/')[1].split('?')[0];
@@ -81,26 +80,19 @@ async function fetchArticles(apiUrl, categoryName) {
                         videoId = mediaVal.split('v=')[1].split('&')[0];
                     }
                     mediaContent = `<iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-                
                 } else if (mediaVal.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
-                    // Image File (Media_Files ဖိုဒါထဲမှ ပုံ) ဖြစ်လျှင်
                     mediaContent = `<img src="Media_Files/${mediaVal}" class="absolute top-0 left-0 w-full h-full object-cover" alt="${item.Title}">`;
-                
                 } else {
-                    // မည်သည့် Link မှ မရှိလျှင် ပြသမည့် Placeholder
                     mediaContent = `<div class="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400 font-bold">No Media Available</div>`;
                 }
 
-                // Premium & Login Check
                 const isPremium = String(item.Is_Premium).toUpperCase() === 'TRUE';
                 const isLoggedIn = typeof checkLoginStatus === 'function' ? checkLoginStatus() : false; 
                 const isLocked = isPremium && !isLoggedIn;
 
-                // Card အား Theme အရောင်များဖြင့် ဖန်တီးခြင်း
                 return `
                 <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden border ${theme.border} w-full relative overflow-hidden">
                     
-                    <!-- 🎨 ဘယ်ဘက်ခြမ်းမှ အရောင်လိုင်းလေး -->
                     <div class="absolute left-0 top-0 bottom-0 w-1 ${theme.tag.split(' ')[0]}"></div>
 
                     <div class="aspect-video w-full bg-gray-900 relative">
@@ -109,7 +101,6 @@ async function fetchArticles(apiUrl, categoryName) {
                                 <svg class="w-10 h-10 mb-2 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
                                 <span class="font-bold text-sm tracking-wide">Premium Access</span>
                             </div>
-                            <!-- Lock ဖြစ်နေလျှင် ပုံ (သို့) Iframe ကို Blur လုပ်ပြမည် -->
                             <div class="w-full h-full opacity-30 blur-sm pointer-events-none">${mediaContent}</div>
                         ` : `
                             ${mediaContent}
@@ -133,20 +124,17 @@ async function fetchArticles(apiUrl, categoryName) {
             
         } else {
             container.innerHTML = `
-                <div class="p-10 text-center bg-white rounded-xl shadow-sm border border-gray-100">
+                <div class="p-10 text-center bg-white rounded-xl shadow-sm border border-gray-100 w-full">
                     <p class="text-gray-500 font-bold">No content available for ${categoryName} yet.</p>
                 </div>
             `;
         }
     } catch (error) {
         console.error("Fetch error:", error);
-        container.innerHTML = '<p class="col-span-full text-center text-red-500 font-bold bg-red-50 p-4 rounded-xl border border-red-200">Failed to load content. Please check internet connection.</p>';
+        container.innerHTML = '<div class="text-center text-red-500 font-bold bg-red-50 p-4 rounded-xl border border-red-200 w-full">Failed to load content. Please check internet connection.</div>';
     }
 }
 
-// =================================================================
-// 🌐 Website စတင်ချိန်တွင် Home Page ကို အလိုအလျောက် ခေါ်ယူရန်
-// =================================================================
 window.addEventListener('DOMContentLoaded', () => {
     loadCategory('Home');
 });
