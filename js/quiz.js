@@ -24,7 +24,7 @@ let secondsElapsed = 0;
 const levelNames = {
     '1': 'Elementary',
     '2': 'Intermediate',
-    '3': 'Advanced Intermediate',
+    '3': 'Upper Intermediate',
     '4': 'Advanced',
     '5': 'Professional Master'
 };
