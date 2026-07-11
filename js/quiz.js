@@ -20,6 +20,15 @@ let secondsElapsed = 0;
 // ၁။ Quiz စတင်ခြင်း (Trigger Functions)
 // --------------------------------------------------
 
+// Level နာမည်များ Mapping
+const levelNames = {
+    '1': 'Elementary',
+    '2': 'Intermediate',
+    '3': 'Advanced Intermediate',
+    '4': 'Advanced',
+    '5': 'Professional Master'
+};
+
 // PL-300 ခလုတ်နှိပ်လျှင်
 async function startMockTest(sheetName = "1") {
     currentApiUrl = PL300_API_URL;
@@ -54,7 +63,10 @@ async function initializeQuiz() {
     
     document.getElementById('questionContainer').classList.add('hidden');
     document.getElementById('quizResults').classList.add('hidden');
-    document.getElementById('quizTitle').innerText = `${currentTestName} (${currentTestNo})`;
+    
+    // 💡 ပြင်ဆင်ထားသည့် Level Name ကို သုံးထားပါသည်
+    const displayLevel = levelNames[currentTestNo] || currentTestNo;
+    document.getElementById('quizTitle').innerText = `${currentTestName} (${displayLevel})`;
     
     questions = [];
     currentQuestionIndex = 0;
