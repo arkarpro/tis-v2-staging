@@ -7,17 +7,17 @@ const CONTENT_DBS = {
     'Home': "https://script.google.com/macros/s/AKfycbyPPCYnpCs4FuIlnmOP-Xfldqjq3NCr9wdEio96mtyg9Y0EuisM8Q6J9H9Gl1IJ1XGrqg/exec",
     'Excel': "https://script.google.com/macros/s/AKfycby4sTVq6cFMH7YovaqO5Wa6PcIgchWlWkIxEoORN-jPG_iH41Rimfg0t9aN-npl4SG5TQ/exec",       
     'PowerQuery': "https://script.google.com/macros/s/AKfycbxbBHgpL6tKsw5waEi7ZW5VGgN0bQKDdRj0WPqA99135iDZevfZjZMHxUmfNWsjYD-d/exec",  
-    'PowerBI': "https://script.google.com/macros/s/AKfycbxMtcuWUCfD4bci7P3ICK01p5AsoGPOw99Gp1SRWlIWqVJaI5CTAXsWYXFG_XuljKu0/exec",     
+    'PowerBI': "https://script.google.com/macros/s/AKfycbxMtcuWUCfD4bci7P3ICK01p5AsoGPOw99Gp1SRWlIWqVJaI5CTAXsWYXFG_XuljKu0/exec",    
     'SQL': "https://script.google.com/macros/s/AKfycbz-wNDbALMpxtuHKe9PGUUb3zlSof-HEuh_IUDG7cu5DhUOWXwMDsqPlEa5f-fNpVYVcw/exec"          
 };
 
-// 🎨 Theme Colors 
+// 🎨 Theme Colors (Borders အစား Soft Tags များဖြင့် ပြင်ဆင်ထားသည်)
 const THEMES = {
-    'Home': { text: 'text-blue-600', border: 'border-blue-100', tag: 'bg-blue-50 text-blue-600' },
-    'Excel': { text: 'text-green-700', border: 'border-green-200', tag: 'bg-green-50 text-green-700' },
-    'PowerQuery': { text: 'text-orange-600', border: 'border-orange-200', tag: 'bg-orange-50 text-orange-600' },
-    'PowerBI': { text: 'text-yellow-600', border: 'border-yellow-200', tag: 'bg-yellow-50 text-yellow-700' },
-    'SQL': { text: 'text-sky-600', border: 'border-sky-200', tag: 'bg-sky-50 text-sky-600' }
+    'Home': { text: 'text-blue-600', tag: 'bg-blue-50 text-blue-700' },
+    'Excel': { text: 'text-green-600', tag: 'bg-green-50 text-green-700' },
+    'PowerQuery': { text: 'text-orange-600', tag: 'bg-orange-50 text-orange-700' },
+    'PowerBI': { text: 'text-yellow-600', tag: 'bg-yellow-50 text-yellow-700' },
+    'SQL': { text: 'text-sky-600', tag: 'bg-sky-50 text-sky-700' }
 };
 
 let currentCategory = 'Home';
@@ -32,13 +32,12 @@ async function loadCategory(categoryName) {
     
     // URL မချိတ်ရသေးပါက Placeholder ပြသမည်
     if (!targetUrl || targetUrl === "URL_HERE") {
-        // 💡 md:col-span-6 ကို ပြန်ထည့်ထားပါသည်
         container.className = "md:col-span-6 w-full";
         container.innerHTML = `
-            <div class="flex flex-col items-center justify-center bg-white rounded-2xl shadow-sm border border-gray-100 p-16 text-center">
-                <div class="text-6xl mb-6 animate-bounce">🚧</div>
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">${categoryName} Content is Coming Soon!</h2>
-                <p class="text-gray-500 max-w-sm mx-auto">အချက်အလက်များ ဖြည့်သွင်းနေဆဲဖြစ်ပါသည်။ Database ချိတ်ဆက်ပြီးပါက ဤနေရာတွင် ပေါ်လာပါမည်။</p>
+            <div class="flex flex-col items-center justify-center bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-16 text-center">
+                <div class="text-6xl mb-6 animate-pulse">🚧</div>
+                <h2 class="text-2xl font-extrabold text-gray-800 mb-2">${categoryName} Content is Coming Soon!</h2>
+                <p class="text-gray-500 max-w-sm mx-auto text-sm">အချက်အလက်များ ဖြည့်သွင်းနေဆဲဖြစ်ပါသည်။ Database ချိတ်ဆက်ပြီးပါက ဤနေရာတွင် ပေါ်လာပါမည်။</p>
             </div>
         `;
         return;
@@ -54,19 +53,23 @@ async function fetchArticles(apiUrl, categoryName) {
     const container = document.getElementById('content');
     const theme = THEMES[categoryName] || THEMES['Home'];
     
-    // 💡 Loading ပြချိန်တွင်လည်း md:col-span-6 မပျောက်စေရန်
+    // Loading State
     container.className = "md:col-span-6 w-full";
-    container.innerHTML = '<div class="text-center text-gray-500 py-10 font-bold w-full bg-white rounded-2xl border border-gray-100">Data များ ဆွဲယူနေပါသည်... ⏳</div>';
+    container.innerHTML = `
+        <div class="flex flex-col items-center justify-center py-20 bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] opacity-80">
+            <div class="w-10 h-10 border-[3px] border-gray-100 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+            <p class="text-sm font-semibold text-gray-400 tracking-wide uppercase">Data များ ဆွဲယူနေပါသည်...</p>
+        </div>
+    `;
 
     try {
         const response = await fetch(apiUrl);
         const result = await response.json();
-        
         const data = result.data ? result.data : result;
 
         if (data && data.length > 0) {
-            // 💡 အရေးကြီးဆုံး ပြင်ဆင်ချက် - md:col-span-6 ကို ပြန်လည် ထည့်သွင်းထားပါသည်
-            container.className = "md:col-span-6 flex flex-col gap-6 w-full";
+            // Cards များကြား Spacing အနည်းငယ် ချဲထားပါသည် (gap-8)
+            container.className = "md:col-span-6 flex flex-col gap-8 w-full";
             
             container.innerHTML = data.map(item => {
                 let mediaContent = '';
@@ -83,7 +86,7 @@ async function fetchArticles(apiUrl, categoryName) {
                 } else if (mediaVal.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
                     mediaContent = `<img src="Media_Files/${mediaVal}" class="absolute top-0 left-0 w-full h-full object-cover" alt="${item.Title}">`;
                 } else {
-                    mediaContent = `<div class="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400 font-bold">No Media Available</div>`;
+                    mediaContent = `<div class="absolute inset-0 flex items-center justify-center bg-gray-50 text-gray-400 font-medium text-sm">No Media Available</div>`;
                 }
 
                 const isPremium = String(item.Is_Premium).toUpperCase() === 'TRUE';
@@ -91,31 +94,35 @@ async function fetchArticles(apiUrl, categoryName) {
                 const isLocked = isPremium && !isLoggedIn;
 
                 return `
-                <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden border ${theme.border} w-full relative overflow-hidden">
+                <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition-all duration-300 flex flex-col overflow-hidden w-full relative">
                     
-                    <div class="absolute left-0 top-0 bottom-0 w-1 ${theme.tag.split(' ')[0]}"></div>
-
-                    <div class="aspect-video w-full bg-gray-900 relative">
+                    <div class="aspect-video w-full bg-slate-900 relative">
                         ${isLocked ? `
-                            <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/90 text-white z-10 backdrop-blur-sm">
-                                <svg class="w-10 h-10 mb-2 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-                                <span class="font-bold text-sm tracking-wide">Premium Access</span>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/60 backdrop-blur-md text-white z-10">
+                                <div class="p-3 bg-white/10 rounded-full mb-3 backdrop-blur-lg">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                </div>
+                                <span class="font-extrabold text-sm tracking-widest uppercase">Premium Access</span>
                             </div>
-                            <div class="w-full h-full opacity-30 blur-sm pointer-events-none">${mediaContent}</div>
+                            <div class="w-full h-full opacity-40 pointer-events-none">${mediaContent}</div>
                         ` : `
                             ${mediaContent}
                         `}
                     </div>
                     
-                    <div class="p-6 pl-8 flex flex-col flex-grow">
-                        <span class="inline-block px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider w-max mb-2 ${theme.tag}">${item.Category || categoryName}</span>
+                    <div class="p-6 md:p-8 flex flex-col flex-grow">
+                        <span class="inline-block px-3.5 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest w-max mb-3 ${theme.tag}">${item.Category || categoryName}</span>
                         
-                        <h3 class="font-bold text-xl mt-1 text-gray-800">${item.Title}</h3>
-                        <p class="text-sm text-gray-600 mt-3 leading-relaxed border-l-2 border-gray-100 pl-3">${item.Body_Text || item.Description}</p>
+                        <h3 class="font-extrabold text-xl sm:text-2xl mt-1 text-gray-900 tracking-tight leading-snug">${item.Title}</h3>
+                        
+                        <p class="text-[13px] text-gray-600 mt-3 leading-relaxed">${item.Body_Text || item.Description}</p>
                         
                         ${isLocked ? `
-                            <div class="mt-5">
-                                <button onclick="openLoginModal()" class="w-full block text-center bg-slate-100 text-slate-700 py-3 rounded-lg text-sm font-bold hover:bg-slate-200 transition">🔒 Login to access content</button>
+                            <div class="mt-6">
+                                <button onclick="openLoginModal()" class="w-full flex items-center justify-center gap-2 bg-slate-100 text-slate-700 py-3.5 rounded-xl text-sm font-bold hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-sm">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                                    Login to Access
+                                </button>
                             </div>
                         ` : ``}
                     </div>
@@ -124,14 +131,18 @@ async function fetchArticles(apiUrl, categoryName) {
             
         } else {
             container.innerHTML = `
-                <div class="p-10 text-center bg-white rounded-xl shadow-sm border border-gray-100 w-full">
-                    <p class="text-gray-500 font-bold">No content available for ${categoryName} yet.</p>
+                <div class="p-16 text-center bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] w-full">
+                    <p class="text-gray-400 font-medium">No content available for ${categoryName} yet.</p>
                 </div>
             `;
         }
     } catch (error) {
         console.error("Fetch error:", error);
-        container.innerHTML = '<div class="text-center text-red-500 font-bold bg-red-50 p-4 rounded-xl border border-red-200 w-full">Failed to load content. Please check internet connection.</div>';
+        container.innerHTML = `
+            <div class="text-center text-red-500 font-bold bg-red-50 p-6 rounded-3xl w-full">
+                Failed to load content. Please check internet connection.
+            </div>
+        `;
     }
 }
 

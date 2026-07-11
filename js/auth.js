@@ -11,14 +11,27 @@ let otpFlowType = ""; // 'register' သို့မဟုတ် 'forgot' ဟု 
 function openLoginModal() {
     document.getElementById('loginModal').classList.remove('hidden');
     document.getElementById('loginModal').classList.add('flex');
+    
+    // 💡 အနည်းငယ် နှောင့်နှေးပြီးမှ scale ကြီးလာစေရန် (Animation အတွက်)
+    setTimeout(() => {
+        document.querySelector('#loginModal > div').classList.remove('scale-95', 'opacity-0');
+        document.querySelector('#loginModal > div').classList.add('scale-100', 'opacity-100');
+    }, 10);
+    
     switchForm('form-login');
     renderGoogleButton();
 }
 
 function closeLoginModal() {
-    document.getElementById('loginModal').classList.add('hidden');
-    document.getElementById('loginModal').classList.remove('flex');
-    showMessage("", ""); 
+    // 💡 အပိတ် Animation
+    document.querySelector('#loginModal > div').classList.remove('scale-100', 'opacity-100');
+    document.querySelector('#loginModal > div').classList.add('scale-95', 'opacity-0');
+    
+    setTimeout(() => {
+        document.getElementById('loginModal').classList.add('hidden');
+        document.getElementById('loginModal').classList.remove('flex');
+        showMessage("", ""); 
+    }, 200);
 }
 
 function switchForm(formId) {
@@ -34,12 +47,32 @@ function switchForm(formId) {
     document.getElementById('otpCode').value = ''; 
 }
 
+// 💡 ပြင်ဆင်ချက်: Message များကို ပိုမို သပ်ရပ်သော Alert Box ပုံစံဖြင့် ပြသမည်
 function showMessage(text, type) {
     const msgBox = document.getElementById('authMessage');
     msgBox.innerText = text;
-    if (type === 'error') msgBox.className = "mb-4 text-center text-sm font-bold text-red-500";
-    else if (type === 'success') msgBox.className = "mb-4 text-center text-sm font-bold text-green-600";
-    else msgBox.className = "hidden";
+    if (type === 'error') {
+        msgBox.className = "mb-5 text-center text-sm font-bold text-red-600 bg-red-50 py-3 px-4 rounded-xl border border-red-100 animate-pulse";
+    } else if (type === 'success') {
+        msgBox.className = "mb-5 text-center text-sm font-bold text-green-700 bg-green-50 py-3 px-4 rounded-xl border border-green-100";
+    } else {
+        msgBox.className = "hidden";
+    }
+}
+
+// 💡 အသစ်ထည့်သွင်းချက်: Loading ချိန်တွင် ခလုတ်ကို Disable လုပ်၍ Double Click ကာကွယ်မည်
+function setButtonState(btnId, isLoading, defaultText) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    if (isLoading) {
+        btn.disabled = true;
+        btn.innerText = "လုပ်ဆောင်နေပါသည်... ⏳";
+        btn.classList.add('opacity-70', 'cursor-not-allowed');
+    } else {
+        btn.disabled = false;
+        btn.innerText = defaultText;
+        btn.classList.remove('opacity-70', 'cursor-not-allowed');
+    }
 }
 
 async function fetchAuthAPI(payload) {
@@ -63,13 +96,13 @@ async function submitLogin() {
     const password = document.getElementById('loginPassword').value;
     if (!email || !password) return showMessage("အချက်အလက်များ ထည့်ပါ။", "error");
 
-    document.getElementById('btn-login').innerText = "စစ်ဆေးနေပါသည်... ⏳";
+    setButtonState('btn-login', true);
     const result = await fetchAuthAPI({ action: 'login', email, password });
     
     if (result.status === "success") saveLoginSession(email, result.userName);
     else {
         showMessage(result.message, "error");
-        document.getElementById('btn-login').innerText = "ဝင်မည် (Login)";
+        setButtonState('btn-login', false, "ဝင်ရောက်မည် (Login)");
     }
 }
 
@@ -83,7 +116,7 @@ async function submitRegister() {
     const password = document.getElementById('regPassword').value;
     if (!name || !email || !password) return showMessage("အချက်အလက်ပြည့်စုံစွာ ထည့်ပါ။", "error");
 
-    document.getElementById('btn-register').innerText = "OTP ပို့နေပါသည်... ⏳";
+    setButtonState('btn-register', true);
     const result = await fetchAuthAPI({ action: 'request_register', name, email, phone, password });
     
     if (result.status === "success") {
@@ -93,7 +126,8 @@ async function submitRegister() {
         switchForm('form-otp');
         showMessage("သင့် Email သို့ OTP ပို့လိုက်ပါပြီ။", "success");
     } else showMessage(result.message, "error");
-    document.getElementById('btn-register').innerText = "အတည်ပြုရန် (Sign Up)";
+    
+    setButtonState('btn-register', false, "အတည်ပြုမည် (Sign Up)");
 }
 
 // --------------------------------------------------
@@ -103,7 +137,7 @@ async function submitForgotPassword() {
     const email = document.getElementById('forgotEmail').value;
     if (!email) return showMessage("အီးမေးလ် ထည့်ပေးပါ။", "error");
 
-    document.getElementById('btn-forgot').innerText = "ပို့နေပါသည်... ⏳";
+    setButtonState('btn-forgot', true);
     const result = await fetchAuthAPI({ action: 'forgot_password', email });
     
     if (result.status === "success") {
@@ -113,7 +147,8 @@ async function submitForgotPassword() {
         switchForm('form-otp');
         showMessage("OTP ကို Email သို့ ပို့လိုက်ပါပြီ။", "success");
     } else showMessage(result.message, "error");
-    document.getElementById('btn-forgot').innerText = "OTP ပို့ရန် (Send OTP)";
+    
+    setButtonState('btn-forgot', false, "OTP ပို့မည်");
 }
 
 // --------------------------------------------------
@@ -123,11 +158,10 @@ async function submitOTP() {
     const otp = document.getElementById('otpCode').value;
     if (!otp) return showMessage("OTP ကုဒ် ထည့်ပါ။", "error");
 
-    document.getElementById('btn-otp').innerText = "စစ်ဆေးနေပါသည်... ⏳";
+    setButtonState('btn-otp', true);
     const result = await fetchAuthAPI({ action: 'verify_otp', email: tempEmail, otp });
     
     if (result.status === "success") {
-        // (က) အကောင့်သစ်ဖွင့်ရန် OTP မှန်သွားပါက
         if (otpFlowType === 'register') {
             const finalResult = await fetchAuthAPI({ action: 'finalize_register', email: tempEmail });
             if (finalResult.status === 'success') {
@@ -135,13 +169,13 @@ async function submitOTP() {
                 setTimeout(() => switchForm('form-login'), 2000);
             }
         } 
-        // (ခ) စကားဝှက်မေ့၍ OTP မှန်သွားပါက (စကားဝှက်အသစ် တောင်းမည်)
         else if (otpFlowType === 'forgot') {
             switchForm('form-reset');
             showMessage("OTP မှန်ကန်ပါသည်။ စကားဝှက်အသစ် ထည့်ပါ။", "success");
         }
     } else showMessage(result.message, "error");
-    document.getElementById('btn-otp').innerText = "ကုဒ်အတည်ပြုမည် (Verify)";
+    
+    setButtonState('btn-otp', false, "ကုဒ်အတည်ပြုမည်");
 }
 
 // --------------------------------------------------
@@ -151,14 +185,15 @@ async function submitNewPassword() {
     const newPassword = document.getElementById('newPassword').value;
     if (!newPassword) return showMessage("စကားဝှက်အသစ် ထည့်ပါ။", "error");
 
-    document.getElementById('btn-reset').innerText = "ပြောင်းလဲနေပါသည်... ⏳";
+    setButtonState('btn-reset', true);
     const result = await fetchAuthAPI({ action: 'reset_password', email: tempEmail, password: newPassword });
     
     if (result.status === "success") {
         showMessage("စကားဝှက် ပြောင်းလဲခြင်း အောင်မြင်ပါသည်။ Login ဝင်ပါ။", "success");
         setTimeout(() => switchForm('form-login'), 2000);
     } else showMessage(result.message, "error");
-    document.getElementById('btn-reset').innerText = "ပြောင်းလဲမည် (Change Password)";
+    
+    setButtonState('btn-reset', false, "စကားဝှက် ပြောင်းမည်");
 }
 
 // --------------------------------------------------
