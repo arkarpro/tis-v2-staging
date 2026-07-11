@@ -217,7 +217,11 @@ async function submitQuiz() {
 
     const percentage = Math.round((score / questions.length) * 100);
     const status = percentage >= 70 ? 'Pass' : 'Fail';
-    const timeTaken = document.getElementById('quizTimer').innerText;
+    
+    // 💡 ပြင်ဆင်ချက်: Screen ပေါ်က ကျန်တဲ့အချိန်ကို မယူဘဲ၊ တကယ်ကြာခဲ့တဲ့ စက္ကန့် (secondsElapsed) ကို ပြန်ဖွဲ့ပြီး ယူပါမည်
+    let takenM = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
+    let takenS = (secondsElapsed % 60).toString().padStart(2, '0');
+    const timeTaken = `${takenM}:${takenS}`;
 
     // Report Database သို့ လှမ်းပို့ခြင်း (POST Request - သက်ဆိုင်ရာ Database သို့ ပို့မည်)
     try {
@@ -228,7 +232,7 @@ async function submitQuiz() {
                 action: 'submit_report',
                 email: localStorage.getItem('tis_user_email'),
                 name: localStorage.getItem('tis_user_name'),
-                testNo: currentTestNo, // 💡 Hardcode '1' အစား ဖြေဆိုနေသော Sheet Number သုံးထားပါသည်
+                testNo: currentTestNo, 
                 attemptCount: 1, 
                 score: score,
                 totalQuestions: questions.length,
@@ -297,8 +301,12 @@ function startTimerStandard() {
 // Excel Quiz အတွက် မိနစ် ၃၀ ကန့်သတ်ထားသော Timer (Count Down)
 function startTimer() {
     let timeLeft = 30 * 60; // 30 Minutes in seconds
+    secondsElapsed = 0; // 💡 ပြင်ဆင်ချက်: အစကတည်းက 0 ပြန်ထားမည်
+    
     quizTimer = setInterval(() => {
         timeLeft--;
+        secondsElapsed++; // 💡 ပြင်ဆင်ချက်: တကယ်သုံးလိုက်တဲ့ အချိန်ကို ၁ စက္ကန့်စီ တိုးမှတ်ထားမည်
+        
         let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
         let s = (timeLeft % 60).toString().padStart(2, '0');
         
