@@ -278,3 +278,58 @@ async function submitQuiz() {
         </div>
     `;
 }
+
+// --------------------------------------------------
+// ၅။ Timer Functions များ
+// --------------------------------------------------
+
+// PL-300 အတွက် ပုံမှန် အချိန်ရေတွက်သော Timer (Count Up)
+function startTimerStandard() {
+    secondsElapsed = 0;
+    quizTimer = setInterval(() => {
+        secondsElapsed++;
+        let m = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
+        let s = (secondsElapsed % 60).toString().padStart(2, '0');
+        document.getElementById('quizTimer').innerText = `${m}:${s}`;
+    }, 1000);
+}
+
+// Excel Quiz အတွက် မိနစ် ၃၀ ကန့်သတ်ထားသော Timer (Count Down)
+function startTimer() {
+    let timeLeft = 30 * 60; // 30 Minutes in seconds
+    quizTimer = setInterval(() => {
+        timeLeft--;
+        let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+        let s = (timeLeft % 60).toString().padStart(2, '0');
+        
+        let timerDisplay = document.getElementById('quizTimer');
+        timerDisplay.innerText = `${m}:${s}`;
+
+        // ၅ မိနစ်ပဲကျန်တော့ရင် အနီရောင်ပြောင်းပြီး သတိပေးရန် (Optional)
+        if (timeLeft <= 300) {
+            timerDisplay.classList.add('text-red-600', 'animate-pulse');
+        }
+
+        if (timeLeft <= 0) {
+            clearInterval(quizTimer);
+            alert("အချိန်စေ့သွားပါပြီ။ အဖြေလွှာကို အလိုအလျောက် ပို့ပေးပါမည်။");
+            submitQuiz(); // အချိန်ပြည့်ရင် အလိုအလျောက် Submit လုပ်မည်
+        }
+    }, 1000);
+}
+
+// --------------------------------------------------
+// ၆။ Modal ပိတ်ရန် Function
+// --------------------------------------------------
+function closeQuiz() {
+    // Timer အလုပ်လုပ်နေတာရှိရင် ရပ်ပါမည်
+    clearInterval(quizTimer);
+    
+    // Quiz Modal ကို ဖျောက်ပါမည်
+    document.getElementById('quizModal').classList.add('hidden');
+    document.getElementById('quizModal').classList.remove('flex');
+    
+    // နောက်တစ်ကြိမ် ဝင်လာရင် အသစ်ပြန်စရန် မျက်နှာပြင်များကို Reset လုပ်ပါမည်
+    document.getElementById('questionContainer').classList.add('hidden');
+    document.getElementById('quizResults').classList.add('hidden');
+}
