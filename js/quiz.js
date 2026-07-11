@@ -333,3 +333,70 @@ function closeQuiz() {
     document.getElementById('questionContainer').classList.add('hidden');
     document.getElementById('quizResults').classList.add('hidden');
 }
+
+// --------------------------------------------------
+// ၇။ Certificate Download လုပ်ရန် Function
+// --------------------------------------------------
+function downloadCertificate() {
+    // ၁။ User Data များ ဆွဲယူခြင်း
+    const userName = localStorage.getItem('tis_user_name') || 'Student';
+    const displayLevel = levelNames[currentTestNo] || currentTestNo;
+    const testName = currentTestName; 
+
+    // Result စာမျက်နှာမှ ရမှတ်ရာခိုင်နှုန်းကို လှမ်းယူခြင်း (DOM ထဲမှ ယူသည်)
+    // Percentage ပြထားသော div ကို အတိအကျလှမ်းဖမ်းခြင်း
+    const percentageElements = document.querySelectorAll('#quizResults .text-2xl');
+    let finalPercentage = "100%";
+    if(percentageElements.length >= 2) {
+        finalPercentage = percentageElements[1].innerText; // ဒုတိယမြောက် div သည် Percentage ဖြစ်သည်
+    }
+
+    // Certificate ID အသစ်ထုတ်ပေးခြင်း (TIS-EX-ခုနှစ်လရက်-ကျပန်းနံပါတ်)
+    const dateStr = new Date().toISOString().slice(2,10).replace(/-/g, '');
+    const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    const certId = `TIS-EX-${dateStr}-${randomNum}`;
+
+    // ၂။ Template ထဲသို့ Data များ ထည့်သွင်းခြင်း
+    const certNode = document.getElementById('certificate');
+    if (!certNode) {
+        alert("Certificate template ကို ရှာမတွေ့ပါ။ index.html ထဲတွင် ထည့်သွင်းထားရန် လိုအပ်ပါသည်။");
+        return;
+    }
+
+    document.getElementById('cert-student-name').innerText = userName;
+    document.getElementById('cert-level-name').innerText = `${testName} (${displayLevel})`;
+    document.getElementById('cert-score').innerText = finalPercentage;
+    document.getElementById('cert-id').innerText = `ID: ${certId}`;
+
+    // ၃။ ပုံအဖြစ်ပြောင်းပြီး Download ဆွဲခြင်း
+    // Loading သိသာစေရန် Alert ပြခြင်း (သို့မဟုတ် Button စာသားပြောင်းနိုင်သည်)
+    alert("Certificate ကို Download လုပ်နေပါသည်။ ခေတ္တစောင့်ဆိုင်းပေးပါ... ⏳");
+
+    // html2canvas အသုံးပြု၍ `#certificate` div ကို ပုံပြောင်းခြင်း
+    html2canvas(certNode, { scale: 2, useCORS: true }).then(canvas => {
+        // Canvas မှ Data URL (PNG) အဖြစ်ပြောင်းခြင်း
+        const image = canvas.toDataURL("image/png");
+        
+        // Download ချရန် <a> tag ဖန်တီး၍ နှိပ်စေခြင်း
+        const link = document.createElement('a');
+        link.download = `${userName}_TIS_Certificate.png`;
+        link.href = image;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+    }).catch(error => {
+        console.error("Certificate Generation Error:", error);
+        alert("Certificate ထုတ်ပေးရာတွင် အခက်အခဲရှိနေပါသည်။");
+    });
+}
+
+// --------------------------------------------------
+// ၈။ Home သို့ ပြန်သွားရန် Function 
+// --------------------------------------------------
+function goHome() {
+    // Quiz ပိတ်ပြီး မူလစာမျက်နှာကို ပြန်ပြမည်
+    closeQuiz();
+    // (သို့) တခြား Page ကို သွားချင်ပါက အောက်ပါကုတ်ကို သုံးပါ
+    // window.location.href = 'index.html';
+}
