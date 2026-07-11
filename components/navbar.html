@@ -4,32 +4,42 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 
-<div class="bg-white w-full h-full flex items-center shadow-sm relative z-50 border-b border-gray-100">
-    <!-- flex-between အစား flex ကိုသာ သုံးပြီး နေရာခွဲပါမည် -->
-    <div class="w-full max-w-7xl mx-auto px-4 flex items-center h-16">
+<!-- 🌟 Glassmorphism (Backdrop Blur) ကိုသုံးထားပြီး ပိုမို ကြည်လင်သပ်ရပ်သော ခံစားမှုကို ပေးပါမည် -->
+<div class="bg-white/90 backdrop-blur-md w-full h-full flex items-center border-b border-gray-100 relative z-50">
+    <div class="w-full max-w-7xl mx-auto px-4 md:px-6 flex items-center h-16">
         
-        <!-- ဘယ်ဘက်: Logo အပိုင်း (နှိပ်လျှင် Home သို့ ပြန်သွားရန် onclick ထည့်ထားပါသည်) -->
-        <a href="#" onclick="loadCategory('Home'); return false;" class="flex-shrink-0 font-extrabold text-xl text-gray-900 mr-4 tracking-tight hover:text-blue-600 transition">
-            TIS Learning
+        <!-- 🎓 Logo အပိုင်း: TIS နှင့် Learning ကို အရောင်ခွဲ၍ Brand Accent Dot လေး ထည့်ထားပါသည် -->
+        <a href="#" onclick="loadCategory('Home'); return false;" class="flex-shrink-0 text-xl font-extrabold tracking-tight mr-6 md:mr-10 flex items-center gap-1 group">
+            <span class="text-blue-600 group-hover:text-blue-700 transition-colors">TIS</span>
+            <span class="text-gray-800 group-hover:text-gray-900 transition-colors">Learning</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 ml-0.5"></span>
         </a>
         
-        <!-- ညာဘက်: Menu အပိုင်း (Mobile တွင် ဘယ်မှစ၍ Scroll ဆွဲမည်၊ Desktop တွင် ညာကပ်မည် md:justify-end) -->
+        <!-- 🧭 Menu အပိုင်း -->
         <div class="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-end">
-            <!-- min-w-max ထည့်ထားသဖြင့် စာသားများ ပိန်မသွားဘဲ Scroll ပေါ်လာပါမည် -->
-            <div class="flex space-x-6 min-w-max pr-2 py-2">
+            <!-- spacing ကို နည်းနည်းလျှော့ပြီး Padding လေးတွေနဲ့ အစားထိုးထားသည် -->
+            <div class="flex items-center space-x-1 sm:space-x-2 min-w-max py-2 pr-2">
                 
-                <!-- 💡 onclick ဖြင့် api.js မှ loadCategory function ကို ချိတ်ဆက်ထားသည် -->
-                <!-- 💡 Theme Color များနှင့် လိုက်ဖက်အောင် hover အရောင်များကို ပြင်ဆင်ထားသည် -->
+                <!-- 💡 Links: font-medium နှင့် Pill Shape Hover Effect များ ထည့်သွင်းထားသည် -->
+                <a href="#" onclick="loadCategory('Home'); return false;" class="text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50/50 px-3.5 py-2 rounded-full transition-all duration-300">
+                    Home
+                </a>
                 
-                <a href="#" onclick="loadCategory('Home'); return false;" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">Home</a>
+                <a href="#" onclick="loadCategory('Excel'); return false;" class="text-sm font-medium text-gray-600 hover:text-green-600 hover:bg-green-50/50 px-3.5 py-2 rounded-full transition-all duration-300">
+                    Excel
+                </a>
                 
-                <a href="#" onclick="loadCategory('Excel'); return false;" class="text-sm font-bold text-gray-600 hover:text-green-600 transition">Excel</a>
+                <a href="#" onclick="loadCategory('PowerQuery'); return false;" class="text-sm font-medium text-gray-600 hover:text-orange-600 hover:bg-orange-50/50 px-3.5 py-2 rounded-full transition-all duration-300">
+                    Power Query
+                </a>
                 
-                <a href="#" onclick="loadCategory('PowerQuery'); return false;" class="text-sm font-bold text-gray-600 hover:text-orange-600 transition">Power Query</a>
+                <a href="#" onclick="loadCategory('PowerBI'); return false;" class="text-sm font-medium text-gray-600 hover:text-yellow-600 hover:bg-yellow-50/50 px-3.5 py-2 rounded-full transition-all duration-300">
+                    Power BI
+                </a>
                 
-                <a href="#" onclick="loadCategory('PowerBI'); return false;" class="text-sm font-bold text-gray-600 hover:text-yellow-600 transition">Power BI</a>
-                
-                <a href="#" onclick="loadCategory('SQL'); return false;" class="text-sm font-bold text-gray-600 hover:text-sky-600 transition">SQL</a>
+                <a href="#" onclick="loadCategory('SQL'); return false;" class="text-sm font-medium text-gray-600 hover:text-sky-600 hover:bg-sky-50/50 px-3.5 py-2 rounded-full transition-all duration-300">
+                    SQL
+                </a>
                 
             </div>
         </div>
