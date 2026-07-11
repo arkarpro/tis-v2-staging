@@ -1,20 +1,43 @@
 // =================================================================
-// 🎓 PL-300 Mock Test Logic
+// 🎓 Quiz & Mock Test System (PL-300 & Excel)
 // =================================================================
 
-// ကိုကိုအာကာ ပေးထားသော PL-300 API လင့်ခ်
-const QUIZ_API_URL = "https://script.google.com/macros/s/AKfycbxzOG_B4J9cX-MJAhDdNzJHMcCNFYOfVoNQcxkjx31XKEGIBR9zPXbt324JScLuBgki/exec";
+// ⚠️ API URLs
+const PL300_API_URL = "https://script.google.com/macros/s/AKfycbxzOG_B4J9cX-MJAhDdNzJHMcCNFYOfVoNQcxkjx31XKEGIBR9zPXbt324JScLuBgki/exec";
+const EXCEL_API_URL = "https://script.google.com/macros/s/AKfycbxMCcQCXzK-aiPrw5ZFGNUQ2mSFO4eRuNvyjkAJsfRuZJMXb4U2PcNXALFc-sWCAdHf/exec";
 
+// Global Variables
+let currentApiUrl = "";
+let currentTestName = "";
+let currentTestNo = "1";
 let questions = [];
 let currentQuestionIndex = 0;
-let userAnswers = {}; // ကျောင်းသားဖြေထားသော အဖြေများ မှတ်ရန်
+let userAnswers = {}; 
 let quizTimer;
 let secondsElapsed = 0;
 
 // --------------------------------------------------
-// ၁။ Quiz စတင်ခြင်း
+// ၁။ Quiz စတင်ခြင်း (Trigger Functions)
 // --------------------------------------------------
+
+// PL-300 ခလုတ်နှိပ်လျှင်
 async function startMockTest(sheetName = "1") {
+    currentApiUrl = PL300_API_URL;
+    currentTestName = "PL-300 Mock Test";
+    currentTestNo = sheetName;
+    await initializeQuiz();
+}
+
+// Excel Quiz ခလုတ်နှိပ်လျှင်
+async function startExcelQuiz(sheetName = "1") {
+    currentApiUrl = EXCEL_API_URL;
+    currentTestName = "Excel Daily Quiz";
+    currentTestNo = sheetName;
+    await initializeQuiz();
+}
+
+// အဓိက Data လှမ်းဆွဲမည့် Function
+async function initializeQuiz() {
     if (!checkLoginStatus()) {
         alert("စာမေးပွဲဖြေဆိုရန် Login အရင်ဝင်ပေးပါခင်ဗျာ။");
         openLoginModal();
@@ -31,7 +54,7 @@ async function startMockTest(sheetName = "1") {
     
     document.getElementById('questionContainer').classList.add('hidden');
     document.getElementById('quizResults').classList.add('hidden');
-    document.getElementById('quizTitle').innerText = `PL-300 Mock Test (${sheetName})`;
+    document.getElementById('quizTitle').innerText = `${currentTestName} (${currentTestNo})`;
     
     questions = [];
     currentQuestionIndex = 0;
@@ -41,7 +64,7 @@ async function startMockTest(sheetName = "1") {
     document.getElementById('quizTimer').innerText = "00:00";
 
     try {
-        const response = await fetch(`${QUIZ_API_URL}?action=get_questions&sheetName=${sheetName}`);
+        const response = await fetch(`${currentApiUrl}?action=get_questions&sheetName=${currentTestNo}`);
         const result = await response.json();
         
         // 🔴 Data ရှိ/မရှိ စစ်ဆေးခြင်း
@@ -57,7 +80,7 @@ async function startMockTest(sheetName = "1") {
             loadingDiv.innerHTML = `
                 <div class="flex flex-col items-center justify-center mt-10">
                     <div class="text-5xl mb-4">🚧</div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">We're Preparing for this Mock Test!</h3>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">We're Preparing for this Test!</h3>
                     <p class="text-gray-500">မကြာမီ လာမည်... ဤစာမေးပွဲ မေးခွန်းများကို ပြင်ဆင်နေဆဲဖြစ်ပါသည်။</p>
                 </div>
             `;
@@ -177,17 +200,17 @@ async function submitQuiz() {
     const status = percentage >= 70 ? 'Pass' : 'Fail';
     const timeTaken = document.getElementById('quizTimer').innerText;
 
-    // Report Database သို့ လှမ်းပို့ခြင်း (POST Request)
+    // Report Database သို့ လှမ်းပို့ခြင်း (POST Request - သက်ဆိုင်ရာ Database သို့ ပို့မည်)
     try {
-        await fetch(QUIZ_API_URL, {
+        await fetch(currentApiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify({
                 action: 'submit_report',
                 email: localStorage.getItem('tis_user_email'),
                 name: localStorage.getItem('tis_user_name'),
-                testNo: "1",
-                attemptCount: 1, // နောင်တွင် စနစ်တကျ ပြန်ရေတွက်နိုင်ရန် ပြင်ဆင်နိုင်သည်
+                testNo: currentTestNo, // 💡 Hardcode '1' အစား ဖြေဆိုနေသော Sheet Number သုံးထားပါသည်
+                attemptCount: 1, 
                 score: score,
                 totalQuestions: questions.length,
                 percentage: `${percentage}%`,
@@ -205,7 +228,7 @@ async function submitQuiz() {
             <h2 class="text-3xl font-bold mb-2 ${status === 'Pass' ? 'text-green-600' : 'text-red-500'}">
                 ${status === 'Pass' ? '🎉 Congratulations!' : '💪 Keep Practicing!'}
             </h2>
-            <p class="text-gray-600 mb-6">You have completed the PL-300 Mock Test.</p>
+            <p class="text-gray-600 mb-6">You have completed the <strong>${currentTestName} (Part ${currentTestNo})</strong>.</p>
             
             <div class="grid grid-cols-2 gap-4 mb-6 text-left">
                 <div class="bg-gray-50 p-4 rounded-xl border">
