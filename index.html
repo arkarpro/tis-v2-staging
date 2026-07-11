@@ -20,6 +20,20 @@
         <!-- 💡 pb-6 အစား pb-24 ဟု ပြောင်းထားပါသည် (အောက်ခြေ Bottom Nav က ဖုံးမသွားစေရန်) -->
         <div id="sidebar" class="md:col-span-3 md:sticky top-20 h-max"></div>
         <div id="content" class="md:col-span-6"></div>
+        
+        <!-- ================================================================= -->
+        <!-- 🚧 Coming Soon Placeholder (Dashboard, Courses နှိပ်လျှင် ပေါ်ရန်)     -->
+        <!-- ================================================================= -->
+        <div id="coming-soon-container" class="md:col-span-6 hidden flex flex-col items-center justify-center text-center bg-white rounded-2xl shadow-sm border border-gray-100 p-10 h-max">
+            <div class="text-6xl mb-6 animate-bounce">🚧</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2" id="cs-title">Coming Soon!</h2>
+            <p class="text-gray-500 mb-8 max-w-sm mx-auto leading-relaxed" id="cs-message">We're building this feature.</p>
+            
+            <button onclick="closeComingSoon()" class="px-6 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-md flex items-center gap-2">
+                <span>←</span> Home သို့ ပြန်သွားမည်
+            </button>
+        </div>
+
         <div id="widgets" class="md:col-span-3 md:sticky top-20 h-max"></div>
         
     </main>

@@ -109,6 +109,7 @@ window.addEventListener('resize', () => {
         switchMobileTab('home');
     }
 });
+// =================================================================
 
 // =================================================================
 // 🖼️ Reviews Floating Gallery Logic
@@ -135,3 +136,38 @@ window.addEventListener('popstate', function(event) {
         closeReviewsModal();
     }
 });
+// =================================================================
+
+// =================================================================
+// 🚧 Coming Soon Placeholder Logic
+// =================================================================
+function showComingSoon(featureName, message) {
+    // မျက်နှာပြင်ပြောင်းခြင်း
+    document.getElementById('content').classList.add('hidden');
+    document.getElementById('coming-soon-container').classList.remove('hidden');
+    
+    // စာသားများ အစားထိုးခြင်း
+    document.getElementById('cs-title').innerText = `Your ${featureName} is Coming Soon!`;
+    document.getElementById('cs-message').innerText = message;
+    
+    // မိုဘိုင်းတွင်ဆိုပါက အလယ် Pane သို့ အလိုအလျောက် ရွှေ့ပေးမည်
+    if (window.innerWidth < 768) {
+        document.getElementById('sidebar').classList.add('hidden');
+        document.getElementById('coming-soon-container').classList.remove('hidden');
+        
+        // အောက်ခြေခလုတ်များကိုပါ Inactive ပြောင်းမည်
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('text-blue-600');
+            btn.classList.add('text-gray-400');
+        });
+    }
+}
+
+function closeComingSoon() {
+    document.getElementById('coming-soon-container').classList.add('hidden');
+    document.getElementById('content').classList.remove('hidden');
+    
+    if (window.innerWidth < 768) {
+        switchMobileTab('home'); // Mobile တွင် Home (Video Feed) သို့ ပြန်သွားမည်
+    }
+}
