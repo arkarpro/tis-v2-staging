@@ -59,12 +59,16 @@ async function initializeQuiz() {
     // Loading ပြမည်
     const loadingDiv = document.getElementById('quizLoading');
     loadingDiv.classList.remove('hidden');
-    loadingDiv.innerHTML = "မေးခွန်းများ ဆွဲယူနေပါသည်... ⏳";
+    loadingDiv.innerHTML = `
+        <div class="flex flex-col items-center justify-center mt-20 opacity-80">
+            <div class="w-10 h-10 border-[3px] border-gray-100 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+            <p class="text-sm font-semibold text-gray-400 tracking-wide uppercase">မေးခွန်းများ ဆွဲယူနေပါသည်...</p>
+        </div>
+    `;
     
     document.getElementById('questionContainer').classList.add('hidden');
     document.getElementById('quizResults').classList.add('hidden');
     
-    // 💡 ပြင်ဆင်ထားသည့် Level Name ကို သုံးထားပါသည်
     const displayLevel = levelNames[currentTestNo] || currentTestNo;
     document.getElementById('quizTitle').innerText = `${currentTestName} (${displayLevel})`;
     
@@ -97,15 +101,19 @@ async function initializeQuiz() {
         } else {
             // Data မရှိပါက ပြသမည့် စာသား
             loadingDiv.innerHTML = `
-                <div class="flex flex-col items-center justify-center mt-10">
-                    <div class="text-5xl mb-4">🚧</div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">We're Preparing for this Test!</h3>
-                    <p class="text-gray-500">မကြာမီ လာမည်... ဤစာမေးပွဲ မေးခွန်းများကို ပြင်ဆင်နေဆဲဖြစ်ပါသည်။</p>
+                <div class="flex flex-col items-center justify-center mt-20 p-10 bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] text-center">
+                    <div class="text-6xl mb-6 animate-pulse">🚧</div>
+                    <h3 class="text-2xl font-extrabold text-gray-800 mb-2">We're Preparing for this Test!</h3>
+                    <p class="text-gray-500 text-sm">မကြာမီ လာမည်... ဤစာမေးပွဲ မေးခွန်းများကို ပြင်ဆင်နေဆဲဖြစ်ပါသည်။</p>
                 </div>
             `;
         }
     } catch (error) {
-        loadingDiv.innerHTML = "ချိတ်ဆက်မှု ချို့ယွင်းနေပါသည်။ (Internet Connection စစ်ဆေးပါ)";
+        loadingDiv.innerHTML = `
+            <div class="flex flex-col items-center justify-center mt-20 p-8 bg-red-50 rounded-3xl text-center">
+                <p class="font-bold text-red-500">ချိတ်ဆက်မှု ချို့ယွင်းနေပါသည်။ (Internet Connection စစ်ဆေးပါ)</p>
+            </div>
+        `;
     }
 }
 
@@ -130,17 +138,25 @@ function renderQuestion() {
         { key: 'D', text: q['Option D'] }
     ];
 
+    // 💡 ပြင်ဆင်ချက်: ရွေးချယ်စရာ (Options) များကို ပိုမိုနူးညံ့သော UI ဖြင့် ပြင်ဆင်ထားသည်
     options.forEach(opt => {
         if (!opt.text) return; // စာသားမရှိပါက ကျော်မည်
         
-        // ယခင်က ရွေးချယ်ထားခဲ့ပါက အရောင်ပြောင်းထားမည်
         const isSelected = userAnswers[currentQuestionIndex] === opt.key;
-        const bgClass = isSelected ? 'bg-blue-50 border-blue-500' : 'bg-gray-50 border-gray-200 hover:bg-gray-100';
+        
+        // Selected နှင့် Unselected အတွက် CSS Class များခွဲခြားခြင်း
+        const bgClass = isSelected 
+            ? 'bg-blue-50/80 border-blue-300 ring-2 ring-blue-500 shadow-md' 
+            : 'bg-slate-50 border-transparent hover:bg-slate-100 hover:border-gray-200 shadow-sm';
+            
+        const circleClass = isSelected 
+            ? 'bg-blue-600 text-white shadow-sm' 
+            : 'bg-white text-gray-500 shadow-sm border border-gray-200';
 
         optionsContainer.innerHTML += `
-            <div onclick="selectOption('${opt.key}')" class="cursor-pointer border-2 ${bgClass} rounded-xl p-4 transition duration-200 flex items-center">
-                <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold mr-4 ${isSelected ? 'bg-blue-600 text-white' : 'bg-white border-2 text-gray-500'}">${opt.key}</div>
-                <div class="text-gray-700 font-medium">${opt.text}</div>
+            <div onclick="selectOption('${opt.key}')" class="cursor-pointer border ${bgClass} rounded-2xl p-4 transition-all duration-200 flex items-center group">
+                <div class="w-9 h-9 flex-shrink-0 rounded-full flex items-center justify-center font-bold text-sm mr-4 transition-colors ${circleClass}">${opt.key}</div>
+                <div class="text-gray-800 font-medium text-[15px] leading-relaxed">${opt.text}</div>
             </div>
         `;
     });
@@ -186,30 +202,35 @@ function prevQuestion() {
 // ၄။ အဖြေလွှာ တင်ခြင်း နှင့် အမှတ်တွက်ခြင်း (Submit)
 // --------------------------------------------------
 async function submitQuiz() {
-    // အားလုံးဖြေပြီး/မပြီး စစ်ဆေးမည်
     const answeredCount = Object.keys(userAnswers).length;
     if (answeredCount < questions.length) {
         const confirmSubmit = confirm(`မေးခွန်း ${questions.length} ခုတွင် ${answeredCount} ခုသာ ဖြေဆိုရပါသေးသည်။ တကယ် Submit လုပ်မှာ သေချာပါသလား?`);
         if (!confirmSubmit) return;
     }
 
-    clearInterval(quizTimer); // အချိန်ရပ်မည်
+    clearInterval(quizTimer); 
     document.getElementById('questionContainer').classList.add('hidden');
-    document.getElementById('btnPrev').style.display = 'none';
-    document.getElementById('btnSubmitQuiz').style.display = 'none';
+    
+    // Button Container ကိုပါ ဖျောက်မည်
+    const actionButtons = document.getElementById('btnPrev').parentElement.parentElement;
+    if(actionButtons) actionButtons.classList.add('hidden');
     
     const resultsDiv = document.getElementById('quizResults');
     resultsDiv.classList.remove('hidden');
-    resultsDiv.innerHTML = `<div class="text-xl font-bold text-gray-700">အမှတ်တွက်ချက်နေပါသည်... ⏳</div>`;
+    
+    // Premium Loading UI
+    resultsDiv.innerHTML = `
+        <div class="flex flex-col items-center justify-center mt-10">
+            <div class="w-10 h-10 border-[3px] border-gray-100 border-t-green-500 rounded-full animate-spin mb-4"></div>
+            <div class="text-sm font-bold text-gray-500 uppercase tracking-widest">အမှတ်တွက်ချက်နေပါသည်...</div>
+        </div>
+    `;
 
     let score = 0;
     
-    // အမှတ်တွက်ချက်ခြင်း
     questions.forEach((q, index) => {
         const correctAns = String(q['Correct Answer (အဖြေမှန်)']).trim().toUpperCase();
         const userAns = String(userAnswers[index]).trim().toUpperCase();
-        
-        // Correct Answer က 'A' လို့ပေးထားတာလား၊ Option ရဲ့ စာသားအပြည့်အစုံလား စစ်ဆေးမည်
         if (userAns === correctAns || q[`Option ${userAns}`] === q['Correct Answer (အဖြေမှန်)']) {
             score += Number(q['Points'] || 1);
         }
@@ -218,12 +239,10 @@ async function submitQuiz() {
     const percentage = Math.round((score / questions.length) * 100);
     const status = percentage >= 70 ? 'Pass' : 'Fail';
     
-    // 💡 ပြင်ဆင်ချက်: Screen ပေါ်က ကျန်တဲ့အချိန်ကို မယူဘဲ၊ တကယ်ကြာခဲ့တဲ့ စက္ကန့် (secondsElapsed) ကို ပြန်ဖွဲ့ပြီး ယူပါမည်
     let takenM = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
     let takenS = (secondsElapsed % 60).toString().padStart(2, '0');
     const timeTaken = `${takenM}:${takenS}`;
 
-    // Report Database သို့ လှမ်းပို့ခြင်း (POST Request - သက်ဆိုင်ရာ Database သို့ ပို့မည်)
     try {
         await fetch(currentApiUrl, {
             method: 'POST',
@@ -245,37 +264,37 @@ async function submitQuiz() {
         console.error("Report Save Error", e);
     }
 
-// ရလဒ်ပြသခြင်း UI
+    // 💡 ပြင်ဆင်ချက်: Results UI ကို Premium & Clean Design သို့ ပြောင်းလဲထားသည်
     resultsDiv.innerHTML = `
-        <div class="bg-white p-8 rounded-2xl shadow-sm border max-w-lg mx-auto">
-            <h2 class="text-3xl font-bold mb-2 ${status === 'Pass' ? 'text-green-600' : 'text-red-500'}">
+        <div class="bg-white p-8 md:p-10 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-50 max-w-lg mx-auto animate-fade-in">
+            <h2 class="text-3xl font-extrabold mb-2 ${status === 'Pass' ? 'text-green-600' : 'text-red-500'}">
                 ${status === 'Pass' ? '🎉 Congratulations!' : '💪 Keep Practicing!'}
             </h2>
-            <p class="text-gray-600 mb-6">You have completed the <strong>${currentTestName} (${levelNames[currentTestNo] || 'Part ' + currentTestNo})</strong>.</p>
+            <p class="text-gray-500 mb-8 text-sm font-medium">You have completed the <strong>${currentTestName} (${levelNames[currentTestNo] || 'Part ' + currentTestNo})</strong>.</p>
             
-            <div class="grid grid-cols-2 gap-4 mb-6 text-left">
-                <div class="bg-gray-50 p-4 rounded-xl border">
-                    <div class="text-sm text-gray-500">Your Score</div>
-                    <div id="finalScore" class="text-2xl font-bold text-gray-800">${score} / ${questions.length}</div>
+            <div class="grid grid-cols-2 gap-3 mb-8 text-left">
+                <div class="bg-slate-50 p-5 rounded-2xl">
+                    <div class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Your Score</div>
+                    <div id="finalScore" class="text-2xl font-extrabold text-gray-800">${score} <span class="text-lg text-gray-400">/ ${questions.length}</span></div>
                 </div>
-                <div class="bg-gray-50 p-4 rounded-xl border">
-                    <div class="text-sm text-gray-500">Percentage</div>
-                    <div class="text-2xl font-bold text-gray-800">${percentage}%</div>
+                <div class="bg-slate-50 p-5 rounded-2xl">
+                    <div class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Percentage</div>
+                    <div class="text-2xl font-extrabold text-gray-800">${percentage}%</div>
                 </div>
-                <div class="bg-gray-50 p-4 rounded-xl border col-span-2">
-                    <div class="text-sm text-gray-500">Time Taken</div>
-                    <div class="text-xl font-bold text-gray-800">${timeTaken}</div>
+                <div class="bg-slate-50 p-5 rounded-2xl col-span-2 flex justify-between items-center">
+                    <div class="text-xs text-gray-400 font-bold uppercase tracking-wider">Time Taken</div>
+                    <div class="text-xl font-extrabold text-gray-800">${timeTaken}</div>
                 </div>
             </div>
             
             <div class="space-y-3">
                 ${currentTestName === "Excel Daily Quiz" && status === 'Pass' ? `
-                    <button onclick="downloadCertificate()" class="w-full bg-blue-900 text-white font-bold py-3 rounded-lg hover:bg-blue-800 transition flex items-center justify-center gap-2">
+                    <button id="btn-cert" onclick="downloadCertificate()" class="w-full bg-blue-900 text-white font-bold py-3.5 px-4 rounded-xl hover:bg-blue-800 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2">
                         📥 Download Certificate
                     </button>
                 ` : ``}
                 
-                <button onclick="closeQuiz()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
+                <button onclick="closeQuiz()" class="w-full bg-slate-100 text-slate-700 font-bold py-3.5 px-4 rounded-xl hover:bg-slate-200 transition-all duration-200">
                     စာမေးပွဲမှ ထွက်မည်
                 </button>
             </div>
@@ -286,8 +305,6 @@ async function submitQuiz() {
 // --------------------------------------------------
 // ၅။ Timer Functions များ
 // --------------------------------------------------
-
-// PL-300 အတွက် ပုံမှန် အချိန်ရေတွက်သော Timer (Count Up)
 function startTimerStandard() {
     secondsElapsed = 0;
     quizTimer = setInterval(() => {
@@ -298,14 +315,13 @@ function startTimerStandard() {
     }, 1000);
 }
 
-// Excel Quiz အတွက် မိနစ် ၃၀ ကန့်သတ်ထားသော Timer (Count Down)
 function startTimer() {
-    let timeLeft = 30 * 60; // 30 Minutes in seconds
-    secondsElapsed = 0; // 💡 ပြင်ဆင်ချက်: အစကတည်းက 0 ပြန်ထားမည်
+    let timeLeft = 30 * 60; 
+    secondsElapsed = 0; 
     
     quizTimer = setInterval(() => {
         timeLeft--;
-        secondsElapsed++; // 💡 ပြင်ဆင်ချက်: တကယ်သုံးလိုက်တဲ့ အချိန်ကို ၁ စက္ကန့်စီ တိုးမှတ်ထားမည်
+        secondsElapsed++; 
         
         let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
         let s = (timeLeft % 60).toString().padStart(2, '0');
@@ -313,7 +329,6 @@ function startTimer() {
         let timerDisplay = document.getElementById('quizTimer');
         timerDisplay.innerText = `${m}:${s}`;
 
-        // ၅ မိနစ်ပဲကျန်တော့ရင် အနီရောင်ပြောင်းပြီး သတိပေးရန် (Optional)
         if (timeLeft <= 300) {
             timerDisplay.classList.add('text-red-600', 'animate-pulse');
         }
@@ -321,7 +336,7 @@ function startTimer() {
         if (timeLeft <= 0) {
             clearInterval(quizTimer);
             alert("အချိန်စေ့သွားပါပြီ။ အဖြေလွှာကို အလိုအလျောက် ပို့ပေးပါမည်။");
-            submitQuiz(); // အချိန်ပြည့်ရင် အလိုအလျောက် Submit လုပ်မည်
+            submitQuiz(); 
         }
     }, 1000);
 }
@@ -330,14 +345,15 @@ function startTimer() {
 // ၆။ Modal ပိတ်ရန် Function
 // --------------------------------------------------
 function closeQuiz() {
-    // Timer အလုပ်လုပ်နေတာရှိရင် ရပ်ပါမည်
     clearInterval(quizTimer);
     
-    // Quiz Modal ကို ဖျောက်ပါမည်
+    // ခလုတ် Container များကို ပြန်ဖော်ရန် Reset လုပ်မည်
+    const actionButtons = document.getElementById('btnPrev')?.parentElement?.parentElement;
+    if(actionButtons) actionButtons.classList.remove('hidden');
+
     document.getElementById('quizModal').classList.add('hidden');
     document.getElementById('quizModal').classList.remove('flex');
     
-    // နောက်တစ်ကြိမ် ဝင်လာရင် အသစ်ပြန်စရန် မျက်နှာပြင်များကို Reset လုပ်ပါမည်
     document.getElementById('questionContainer').classList.add('hidden');
     document.getElementById('quizResults').classList.add('hidden');
 }
@@ -346,28 +362,31 @@ function closeQuiz() {
 // ၇။ Certificate Download လုပ်ရန် Function
 // --------------------------------------------------
 function downloadCertificate() {
-    // ၁။ User Data များ ဆွဲယူခြင်း
+    const certBtn = document.getElementById('btn-cert');
+    if(certBtn) {
+        certBtn.disabled = true;
+        certBtn.innerHTML = `Downloading... ⏳`;
+        certBtn.classList.add('opacity-80', 'cursor-not-allowed');
+    }
+
     const userName = localStorage.getItem('tis_user_name') || 'Student';
     const displayLevel = levelNames[currentTestNo] || currentTestNo;
     const testName = currentTestName; 
 
-    // Result စာမျက်နှာမှ ရမှတ်ရာခိုင်နှုန်းကို လှမ်းယူခြင်း (DOM ထဲမှ ယူသည်)
-    // Percentage ပြထားသော div ကို အတိအကျလှမ်းဖမ်းခြင်း
     const percentageElements = document.querySelectorAll('#quizResults .text-2xl');
     let finalPercentage = "100%";
     if(percentageElements.length >= 2) {
-        finalPercentage = percentageElements[1].innerText; // ဒုတိယမြောက် div သည် Percentage ဖြစ်သည်
+        finalPercentage = percentageElements[1].innerText;
     }
 
-    // Certificate ID အသစ်ထုတ်ပေးခြင်း (TIS-EX-ခုနှစ်လရက်-ကျပန်းနံပါတ်)
     const dateStr = new Date().toISOString().slice(2,10).replace(/-/g, '');
     const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
     const certId = `TIS-EX-${dateStr}-${randomNum}`;
 
-    // ၂။ Template ထဲသို့ Data များ ထည့်သွင်းခြင်း
     const certNode = document.getElementById('certificate');
     if (!certNode) {
         alert("Certificate template ကို ရှာမတွေ့ပါ။ index.html ထဲတွင် ထည့်သွင်းထားရန် လိုအပ်ပါသည်။");
+        if(certBtn) { certBtn.disabled = false; certBtn.innerHTML = `📥 Download Certificate`; certBtn.classList.remove('opacity-80', 'cursor-not-allowed'); }
         return;
     }
 
@@ -376,16 +395,8 @@ function downloadCertificate() {
     document.getElementById('cert-score').innerText = finalPercentage;
     document.getElementById('cert-id').innerText = `ID: ${certId}`;
 
-    // ၃။ ပုံအဖြစ်ပြောင်းပြီး Download ဆွဲခြင်း
-    // Loading သိသာစေရန် Alert ပြခြင်း (သို့မဟုတ် Button စာသားပြောင်းနိုင်သည်)
-    alert("Certificate ကို Download လုပ်နေပါသည်။ ခေတ္တစောင့်ဆိုင်းပေးပါ... ⏳");
-
-    // html2canvas အသုံးပြု၍ `#certificate` div ကို ပုံပြောင်းခြင်း
     html2canvas(certNode, { scale: 2, useCORS: true }).then(canvas => {
-        // Canvas မှ Data URL (PNG) အဖြစ်ပြောင်းခြင်း
         const image = canvas.toDataURL("image/png");
-        
-        // Download ချရန် <a> tag ဖန်တီး၍ နှိပ်စေခြင်း
         const link = document.createElement('a');
         link.download = `${userName}_TIS_Certificate.png`;
         link.href = image;
@@ -393,9 +404,17 @@ function downloadCertificate() {
         link.click();
         document.body.removeChild(link);
         
+        if(certBtn) {
+            certBtn.disabled = false;
+            certBtn.innerHTML = `✅ Downloaded Successfully`;
+            certBtn.classList.remove('opacity-80', 'cursor-not-allowed', 'bg-blue-900');
+            certBtn.classList.add('bg-green-600');
+        }
+        
     }).catch(error => {
         console.error("Certificate Generation Error:", error);
         alert("Certificate ထုတ်ပေးရာတွင် အခက်အခဲရှိနေပါသည်။");
+        if(certBtn) { certBtn.disabled = false; certBtn.innerHTML = `📥 Try Again`; certBtn.classList.remove('opacity-80', 'cursor-not-allowed'); }
     });
 }
 
@@ -403,8 +422,5 @@ function downloadCertificate() {
 // ၈။ Home သို့ ပြန်သွားရန် Function 
 // --------------------------------------------------
 function goHome() {
-    // Quiz ပိတ်ပြီး မူလစာမျက်နှာကို ပြန်ပြမည်
     closeQuiz();
-    // (သို့) တခြား Page ကို သွားချင်ပါက အောက်ပါကုတ်ကို သုံးပါ
-    // window.location.href = 'index.html';
 }
