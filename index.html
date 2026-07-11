@@ -153,38 +153,49 @@
 
     <!-- Certificate Template Wrapper (Hidden from user view but readable by html2canvas) -->
     <div style="position: absolute; left: -9999px; top: -9999px;">
-        <div id="certificate" class="w-[800px] h-[600px] p-10 bg-white border-[20px] border-double border-blue-900 relative flex flex-col items-center text-center font-serif">
+        <!-- ပြင်ဆင်ထားသော Certificate Design -->
+        <div id="certificate" class="w-[800px] h-[600px] p-12 bg-white border-[12px] border-double border-blue-900 relative flex flex-col items-center text-center font-serif box-border">
             
             <!-- Watermark -->
-            <div class="absolute inset-0 flex items-center justify-center opacity-[0.05] pointer-events-none select-none">
-                <p class="text-6xl font-bold rotate-[-45deg]">ONLINE EXAM FOR SELF LEARNING</p>
+            <div class="absolute inset-0 flex items-center justify-center opacity-[0.04] pointer-events-none select-none z-0">
+                <p class="text-6xl font-bold rotate-[-45deg] tracking-widest whitespace-nowrap">ONLINE EXAM FOR SELF LEARNING</p>
             </div>
 
-            <!-- Header -->
-            <h1 class="text-4xl font-bold text-blue-900 mt-10">CERTIFICATE OF ACHIEVEMENT</h1>
-            <p class="text-lg italic mt-2">This is to certify that</p>
-            
-            <!-- Name -->
-            <h2 class="text-3xl font-bold text-gray-800 my-6 border-b-2 border-gray-400 w-3/4" id="cert-student-name">Student Name</h2>
-            
-            <p class="text-lg">has successfully completed the</p>
-            <h3 class="text-2xl font-bold text-blue-800 my-2" id="cert-level-name">Excel Quiz Level</h3>
-            
-            <p class="text-md mt-4 w-2/3 mx-auto">
-                with a score of <span class="font-bold" id="cert-score">0%</span>. 
-                This certificate recognizes the dedication to continuous learning and technical skill improvement.
-            </p>
+            <!-- Content Area (z-10 ဖြင့် Watermark အပေါ်မှ ပေါ်စေရန်) -->
+            <div class="relative z-10 flex flex-col items-center w-full h-full">
+                
+                <!-- Header -->
+                <h1 class="text-4xl font-bold text-blue-900 mt-6 tracking-wide">CERTIFICATE OF ACHIEVEMENT</h1>
+                <p class="text-xl italic text-gray-600 mt-4">This is to certify that</p>
+                
+                <!-- Name (မျဉ်းဖြတ်သော ပြဿနာ ဖြေရှင်းထားသည်) -->
+                <div class="mt-6 mb-6 w-3/4 flex flex-col items-center">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-2" id="cert-student-name">Student Name</h2>
+                    <!-- အောက်ခံမျဉ်းကို သီးသန့် div ဖြင့် ဖန်တီးထားသည် -->
+                    <div class="w-full h-[2px] bg-gray-400"></div> 
+                </div>
+                
+                <p class="text-lg text-gray-600">has successfully completed the</p>
+                <h3 class="text-3xl font-bold text-blue-800 my-3 tracking-wide" id="cert-level-name">Excel Quiz Level</h3>
+                
+                <p class="text-md mt-4 w-3/4 mx-auto text-gray-700 leading-relaxed">
+                    with a score of <span class="font-bold text-black" id="cert-score">0%</span>. <br>
+                    This certificate recognizes the dedication to continuous learning and technical skill improvement.
+                </p>
 
-            <!-- Footer -->
-            <div class="mt-auto w-full flex justify-between items-end border-t border-gray-300 pt-4">
-                <div class="text-left">
-                    <p class="text-sm font-bold">The Insights Solution</p>
-                    <p class="text-xs text-gray-500">Online self learning platform</p>
+                <!-- Footer -->
+                <div class="mt-auto w-full flex justify-between items-end border-t-2 border-gray-200 pt-6">
+                    <div class="text-left">
+                        <p class="text-base font-bold text-gray-800">The Insights Solution</p>
+                        <p class="text-sm text-gray-500 italic">Online self-learning platform</p>
+                    </div>
+                    <div class="text-right">
+                        <!-- Website Link (Underline ဖြုတ်ပြီး သပ်ရပ်အောင် ပြင်ထားသည်) -->
+                        <p class="text-sm font-semibold text-blue-700 tracking-wide">https://tis-mm.pages.dev</p>
+                        <p class="text-xs text-gray-400 mt-1" id="cert-id">ID: TIS-EX-000000</p>
+                    </div>
                 </div>
-                <div class="text-right">
-                    <p class="text-xs text-blue-600 underline">https://tis-mm.pages.dev</p>
-                    <p class="text-[10px] text-gray-400 mt-1" id="cert-id">ID: TIS-EX-000000</p>
-                </div>
+                
             </div>
         </div>
     </div>
