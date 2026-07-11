@@ -109,3 +109,29 @@ window.addEventListener('resize', () => {
         switchMobileTab('home');
     }
 });
+
+// =================================================================
+// 🖼️ Reviews Floating Gallery Logic
+// =================================================================
+function openReviewsModal() {
+    const modal = document.getElementById('reviewsModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    // ဖုန်းတွင် Back button နှိပ်ပါက ပြန်ပိတ်ရန် History တွင် မှတ်ထားမည်
+    history.pushState({ modalOpen: true }, ""); 
+}
+
+function closeReviewsModal() {
+    const modal = document.getElementById('reviewsModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+
+// ဖုန်းတွင် Back ခလုတ် (သို့) Swipe လုပ်ပါက Modal ပိတ်ရန်
+window.addEventListener('popstate', function(event) {
+    const modal = document.getElementById('reviewsModal');
+    if (!modal.classList.contains('hidden')) {
+        closeReviewsModal();
+    }
+});

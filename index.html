@@ -102,6 +102,33 @@
         </div>
     </div>
 
+    <!-- ================================================================= -->
+    <!-- 🖼️ Student Reviews Floating Gallery Modal                       -->
+    <!-- ================================================================= -->
+    <div id="reviewsModal" class="fixed inset-0 bg-black/95 z-[80] hidden flex-col h-screen overflow-hidden backdrop-blur-sm transition-opacity duration-300">
+        
+        <!-- Header (Back Button) -->
+        <div class="flex justify-between items-center p-4 bg-gradient-to-b from-black/80 to-transparent sticky top-0 z-10">
+            <button onclick="closeReviewsModal()" class="text-white bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full font-bold flex items-center gap-2 backdrop-blur-md transition">
+                <span>←</span> ပြန်ထွက်မည်
+            </button>
+            <span class="text-white/70 text-sm font-bold">Student Reviews</span>
+        </div>
+
+        <!-- Scrollable Images Area -->
+        <div class="flex-1 overflow-y-auto p-4 flex flex-col items-center space-y-6 pb-20">
+            <!-- Review 1 မှ 6 အထိ (လိုအပ်ပါက ထပ်တိုးနိုင်ပါသည်) -->
+            <img src="Media_Files/review-001.webp" class="w-full max-w-lg rounded-xl shadow-2xl border border-gray-700" alt="Review 1">
+            <img src="Media_Files/review-002.webp" class="w-full max-w-lg rounded-xl shadow-2xl border border-gray-700" alt="Review 2">
+            <img src="Media_Files/review-003.webp" class="w-full max-w-lg rounded-xl shadow-2xl border border-gray-700" alt="Review 3">
+            <img src="Media_Files/review-004.webp" class="w-full max-w-lg rounded-xl shadow-2xl border border-gray-700" alt="Review 4">
+            <img src="Media_Files/review-005.webp" class="w-full max-w-lg rounded-xl shadow-2xl border border-gray-700" alt="Review 5">
+            <img src="Media_Files/review-006.webp" class="w-full max-w-lg rounded-xl shadow-2xl border border-gray-700" alt="Review 6">
+        </div>
+    </div>
+    <!-- ================================================================= -->
+
+
     <!-- Script ဖိုင်များ ချိတ်ဆက်ခြင်း (quiz.js ထပ်ဖြည့်ထားပါသည်) -->
     <script src="js/auth.js"></script>
     <script src="js/api.js"></script>
