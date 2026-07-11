@@ -74,6 +74,7 @@ async function initializeQuiz() {
     secondsElapsed = 0;
     clearInterval(quizTimer);
     document.getElementById('quizTimer').innerText = "00:00";
+    document.getElementById('quizTimer').classList.remove('text-red-600', 'animate-pulse');
 
     try {
         const response = await fetch(`${currentApiUrl}?action=get_questions&sheetName=${currentTestNo}`);
@@ -85,10 +86,16 @@ async function initializeQuiz() {
             loadingDiv.classList.add('hidden');
             document.getElementById('questionContainer').classList.remove('hidden');
             
-            startTimer(); 
+            // 💡 Timer စတင်ခြင်း (Excel Quiz ဆိုလျှင် 30 min limit, အခြားဆိုလျှင် ပုံမှန်)
+            if (currentTestName === "Excel Daily Quiz") {
+                startTimer(); // 30 မိနစ် Limit ပါဝင်သော Timer
+            } else {
+                startTimerStandard(); // PL-300 အတွက် ပုံမှန် Timer
+            }
+            
             renderQuestion(); 
         } else {
-            // Data မရှိပါက ပြသမည့် စာသား (We're Preparing)
+            // Data မရှိပါက ပြသမည့် စာသား
             loadingDiv.innerHTML = `
                 <div class="flex flex-col items-center justify-center mt-10">
                     <div class="text-5xl mb-4">🚧</div>
@@ -234,18 +241,18 @@ async function submitQuiz() {
         console.error("Report Save Error", e);
     }
 
-    // ရလဒ်ပြသခြင်း UI
+// ရလဒ်ပြသခြင်း UI
     resultsDiv.innerHTML = `
         <div class="bg-white p-8 rounded-2xl shadow-sm border max-w-lg mx-auto">
             <h2 class="text-3xl font-bold mb-2 ${status === 'Pass' ? 'text-green-600' : 'text-red-500'}">
                 ${status === 'Pass' ? '🎉 Congratulations!' : '💪 Keep Practicing!'}
             </h2>
-            <p class="text-gray-600 mb-6">You have completed the <strong>${currentTestName} (Part ${currentTestNo})</strong>.</p>
+            <p class="text-gray-600 mb-6">You have completed the <strong>${currentTestName} (${levelNames[currentTestNo] || 'Part ' + currentTestNo})</strong>.</p>
             
             <div class="grid grid-cols-2 gap-4 mb-6 text-left">
                 <div class="bg-gray-50 p-4 rounded-xl border">
                     <div class="text-sm text-gray-500">Your Score</div>
-                    <div class="text-2xl font-bold text-gray-800">${score} / ${questions.length}</div>
+                    <div id="finalScore" class="text-2xl font-bold text-gray-800">${score} / ${questions.length}</div>
                 </div>
                 <div class="bg-gray-50 p-4 rounded-xl border">
                     <div class="text-sm text-gray-500">Percentage</div>
@@ -257,28 +264,17 @@ async function submitQuiz() {
                 </div>
             </div>
             
-            <button onclick="closeQuiz()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
-                စာမေးပွဲမှ ထွက်မည်
-            </button>
+            <div class="space-y-3">
+                ${currentTestName === "Excel Daily Quiz" && status === 'Pass' ? `
+                    <button onclick="downloadCertificate()" class="w-full bg-blue-900 text-white font-bold py-3 rounded-lg hover:bg-blue-800 transition flex items-center justify-center gap-2">
+                        📥 Download Certificate
+                    </button>
+                ` : ``}
+                
+                <button onclick="closeQuiz()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
+                    စာမေးပွဲမှ ထွက်မည်
+                </button>
+            </div>
         </div>
     `;
-}
-
-// --------------------------------------------------
-// ၅။ အခြား Utilities (Timer နှင့် အပိတ်လုပ်ဆောင်ချက်)
-// --------------------------------------------------
-function startTimer() {
-    document.getElementById('quizTimer').innerText = "00:00";
-    quizTimer = setInterval(() => {
-        secondsElapsed++;
-        const m = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
-        const s = String(secondsElapsed % 60).padStart(2, '0');
-        document.getElementById('quizTimer').innerText = `${m}:${s}`;
-    }, 1000);
-}
-
-function closeQuiz() {
-    clearInterval(quizTimer);
-    document.getElementById('quizModal').classList.add('hidden');
-    document.getElementById('quizModal').classList.remove('flex');
 }
