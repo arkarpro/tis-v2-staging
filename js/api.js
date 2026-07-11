@@ -18,8 +18,9 @@ async function fetchArticles() {
 
         // Data ရရှိပါက အောက်ပါအတိုင်း ဆက်လုပ်မည်
         if (data && data.length > 0) {
-            // Layout ပုံစံ သတ်မှတ်ခြင်း (Desktop တွင် ၂ ခုတန်း၊ Mobile တွင် ၁ ခုတန်း)
-            container.className = "grid grid-cols-1 md:grid-cols-2 gap-6";
+            
+            // 💡 Layout ပုံစံ သတ်မှတ်ခြင်း (Desktop ရော Mobile ပါ တစ်ခုတည်းသာ ပေါ်ရန် Flex Column ကို အသုံးပြုထားပါသည်)
+            container.className = "flex flex-col gap-6 w-full";
             
             // ရရှိလာသော Data များကို Card များအဖြစ် ပြောင်းလဲခြင်း
             container.innerHTML = data.map(item => {
@@ -39,49 +40,47 @@ async function fetchArticles() {
                 const isPremium = String(item.Is_Premium).toUpperCase() === 'TRUE';
                 
                 // auth.js မှ Login အခြေအနေကို စစ်ဆေးခြင်း 
-                // (typeof ဖြင့် စစ်ဆေးထားသောကြောင့် Error မတက်အောင် ကာကွယ်ထားပါသည်)
                 const isLoggedIn = typeof checkLoginStatus === 'function' ? checkLoginStatus() : false; 
 
                 // 🔒 Premium လည်းဖြစ်တယ်၊ Login လည်း မဝင်ရသေးဘူး ဆိုရင် Lock ချပါမည်
                 const isLocked = isPremium && !isLoggedIn;
 
                 return `
-                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden border border-gray-100">
+                <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden border border-gray-100 w-full">
                     <div class="aspect-video w-full bg-gray-900 relative">
                         ${isLocked ? `
-                            <!-- 🚫 Lock ကျနေသည့် အခြေအနေ (Login ဝင်ရန်လိုအပ်သည်) -->
+                            <!-- 🚫 Lock ကျနေသည့် အခြေအနေ -->
                             <img src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" alt="Premium Content" class="w-full h-full object-cover opacity-60 blur-[3px]">
                             <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
                                 <svg class="w-10 h-10 mb-2 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
                                 <span class="font-bold text-sm tracking-wide">Premium Video</span>
                             </div>
                         ` : `
-                            <!-- 🎥 ကြည့်ရှုခွင့်ရှိသည့် အခြေအနေ (YouTube Player တိုက်ရိုက်ပေါ်မည်) -->
+                            <!-- 🎥 ကြည့်ရှုခွင့်ရှိသည့် အခြေအနေ -->
                             <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${videoId}" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         `}
                     </div>
                     
-                    <div class="p-4 flex flex-col flex-grow">
+                    <!-- 💡 p-4 အစား p-6 ကိုသုံး၍ နေရာပိုကျယ်အောင် ပြင်ထားပါသည် -->
+                    <div class="p-6 flex flex-col flex-grow">
                         <span class="text-[10px] font-bold text-blue-600 uppercase tracking-wider">${item.Category}</span>
-                        <h3 class="font-bold text-base mt-1 text-gray-800 line-clamp-2">${item.Title}</h3>
-                        <p class="text-sm text-gray-600 mt-2 line-clamp-2 flex-grow">${item.Description}</p>
+                        <!-- 💡 text-base အစား text-lg ကိုသုံး၍ ခေါင်းစဉ်ပိုကြီးအောင် ပြင်ထားပါသည် -->
+                        <h3 class="font-bold text-lg mt-1 text-gray-800">${item.Title}</h3>
+                        <p class="text-sm text-gray-600 mt-2 leading-relaxed">${item.Body_Text || item.Description}</p>
                         
                         ${isLocked ? `
-                            <!-- 🔑 Lock ကျနေပါက Login Modal ဖွင့်မည့် ခလုတ်ပေါ်မည် -->
                             <div class="mt-4">
-                                <button onclick="openLoginModal()" class="w-full block text-center bg-gray-100 text-gray-700 py-2 rounded-lg text-sm font-bold hover:bg-gray-200 transition">🔒 Login to access</button>
+                                <button onclick="openLoginModal()" class="w-full block text-center bg-gray-100 text-gray-700 py-3 rounded-lg text-sm font-bold hover:bg-gray-200 transition">🔒 Login to access</button>
                             </div>
                         ` : ``}
                     </div>
                 </div>`;
-            }).join(''); // 👈 ဒီနေရာမှာ .join('') ဖြင့် Array များကို HTML အဖြစ် ပေါင်းစည်းပါသည်
+            }).join(''); 
             
         } else {
-            // Data မရှိပါက ပြသမည့် စာသား
             container.innerHTML = '<p class="col-span-full text-center text-gray-500">No content available.</p>';
         }
     } catch (error) {
-        // ချိတ်ဆက်မှု အမှားအယွင်းရှိပါက ပြသမည့် စာသား
         console.error("Fetch error:", error);
         container.innerHTML = '<p class="col-span-full text-center text-red-500">Failed to load content.</p>';
     }
