@@ -16,10 +16,6 @@ let userAnswers = {};
 let quizTimer;
 let secondsElapsed = 0;
 
-// --------------------------------------------------
-// ၁။ Quiz စတင်ခြင်း (Trigger Functions)
-// --------------------------------------------------
-
 // Level နာမည်များ Mapping
 const levelNames = {
     '1': 'Elementary',
@@ -28,6 +24,10 @@ const levelNames = {
     '4': 'Advanced',
     '5': 'Professional Master'
 };
+
+// --------------------------------------------------
+// ၁။ Quiz စတင်ခြင်း (Trigger Functions)
+// --------------------------------------------------
 
 // PL-300 ခလုတ်နှိပ်လျှင်
 async function startMockTest(sheetName = "1") {
@@ -47,9 +47,9 @@ async function startExcelQuiz(sheetName = "1") {
 
 // အဓိက Data လှမ်းဆွဲမည့် Function
 async function initializeQuiz() {
-    if (!checkLoginStatus()) {
+    if (typeof checkLoginStatus === 'function' && !checkLoginStatus()) {
         alert("စာမေးပွဲဖြေဆိုရန် Login အရင်ဝင်ပေးပါခင်ဗျာ။");
-        openLoginModal();
+        if (typeof openLoginModal === 'function') openLoginModal();
         return;
     }
 
@@ -90,7 +90,7 @@ async function initializeQuiz() {
             loadingDiv.classList.add('hidden');
             document.getElementById('questionContainer').classList.remove('hidden');
             
-            // 💡 Timer စတင်ခြင်း (Excel Quiz ဆိုလျှင် 30 min limit, အခြားဆိုလျှင် ပုံမှန်)
+            // Timer စတင်ခြင်း
             if (currentTestName === "Excel Daily Quiz") {
                 startTimer(); // 30 မိနစ် Limit ပါဝင်သော Timer
             } else {
@@ -99,7 +99,6 @@ async function initializeQuiz() {
             
             renderQuestion(); 
         } else {
-            // Data မရှိပါက ပြသမည့် စာသား
             loadingDiv.innerHTML = `
                 <div class="flex flex-col items-center justify-center mt-20 p-10 bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] text-center">
                     <div class="text-6xl mb-6 animate-pulse">🚧</div>
@@ -169,7 +168,7 @@ function renderQuestion() {
                 : `bg-white text-gray-500 shadow-sm border border-gray-200 ${shapeClass}`;
 
             optionsContainer.innerHTML += `
-                <div onclick="selectOption('${opt.key}')" class="cursor-pointer border ${bgClass} rounded-2xl p-4 transition-all duration-200 flex items-center group">
+                <div onclick="selectOption('${opt.key}')" class="cursor-pointer border ${bgClass} rounded-2xl p-4 transition-all duration-200 flex items-center group mb-3">
                     <div class="w-9 h-9 flex-shrink-0 flex items-center justify-center font-bold text-sm mr-4 transition-colors ${circleClass}">${opt.key}</div>
                     <div class="text-gray-800 font-medium text-[15px] leading-relaxed">${opt.text}</div>
                 </div>
@@ -178,7 +177,6 @@ function renderQuestion() {
     } catch (error) {
         console.error("Error in renderQuestion:", error);
     } finally {
-        // 💡 အပေါ်မှာ Error တက်ခဲ့လျှင်တောင်မှ Next/Prev ခလုတ်များ အမြဲတမ်း ပြန်ပေါ်စေရန် finally ထဲတွင် ထည့်ထားသည်
         if (typeof updateNavigationButtons === 'function') {
             updateNavigationButtons();
         }
@@ -194,16 +192,14 @@ function selectOption(optionKey) {
     const isMultiSelect = correctAnsStr.includes(',');
 
     if (isMultiSelect) {
-        // Multi-Select (၂ ခုရွေးရမည်ဆိုပါက)
+        // Multi-Select (၂ ခုရွေးရမည်ဆိုပါက Toggle လုပ်မည်)
         const currentUserAns = String(userAnswers[currentQuestionIndex] || '').toUpperCase();
         let currentAnswers = currentUserAns ? currentUserAns.split(',').map(s => s.trim()) : [];
         
         if (currentAnswers.includes(optionKey)) {
-            // ရွေးပြီးသားကို ထပ်နှိပ်ပါက ဖျက်မည်
-            currentAnswers = currentAnswers.filter(k => k !== optionKey);
+            currentAnswers = currentAnswers.filter(k => k !== optionKey); // ရွေးပြီးသားကို ထပ်နှိပ်ပါက ဖျက်မည်
         } else {
-            // မရွေးရသေးပါက ထည့်မည်
-            currentAnswers.push(optionKey);
+            currentAnswers.push(optionKey); // မရွေးရသေးပါက ထည့်မည်
             currentAnswers.sort(); // A, B စသဖြင့် အစဉ်လိုက်ဖြစ်အောင် စီမည်
         }
         
@@ -216,33 +212,24 @@ function selectOption(optionKey) {
     renderQuestion(); 
 }
 
-// --------------------------------------------------
-// ၃ (က)။ အရှေ့/အနောက် သွားရန် ခလုတ်များ ထိန်းချုပ်ခြင်း
-// --------------------------------------------------
 function updateNavigationButtons() {
     const btnPrev = document.getElementById('btnPrev');
     const btnNext = document.getElementById('btnNext');
     const btnSubmit = document.getElementById('btnSubmitQuiz');
     
-    if (btnPrev) {
-        btnPrev.style.display = currentQuestionIndex > 0 ? 'block' : 'none';
-    }
+    if (btnPrev) btnPrev.style.display = currentQuestionIndex > 0 ? 'block' : 'none';
     
     if (currentQuestionIndex === questions.length - 1) {
-        // နောက်ဆုံးမေးခွန်းရောက်လျှင် Next ကိုဖျောက်၍ Submit ကိုပြမည်
         if (btnNext) btnNext.style.display = 'none';
         if (btnSubmit) btnSubmit.style.display = 'block';
     } else {
-        // မရောက်သေးလျှင် Next ကိုပြ၍ Submit ကိုဖျောက်မည်
         if (btnNext) btnNext.style.display = 'block';
         if (btnSubmit) btnSubmit.style.display = 'none';
     }
     
     // ခလုတ်များ ပါဝင်သော အကွက်ကြီးကို သေချာပေါက် ပြန်ဖော်ပေးမည်
     const actionButtons = btnPrev?.parentElement?.parentElement;
-    if (actionButtons) {
-        actionButtons.classList.remove('hidden');
-    }
+    if (actionButtons) actionButtons.classList.remove('hidden');
 }
 
 function nextQuestion() {
@@ -263,7 +250,7 @@ function prevQuestion() {
 // ၄။ အဖြေလွှာ တင်ခြင်း နှင့် အမှတ်တွက်ခြင်း (Submit)
 // --------------------------------------------------
 async function submitQuiz() {
-    const answeredCount = Object.keys(userAnswers).length;
+    const answeredCount = Object.keys(userAnswers).filter(k => userAnswers[k] && userAnswers[k].trim() !== '').length;
     if (answeredCount < questions.length) {
         const confirmSubmit = confirm(`မေးခွန်း ${questions.length} ခုတွင် ${answeredCount} ခုသာ ဖြေဆိုရပါသေးသည်။ တကယ် Submit လုပ်မှာ သေချာပါသလား?`);
         if (!confirmSubmit) return;
@@ -272,14 +259,12 @@ async function submitQuiz() {
     clearInterval(quizTimer); 
     document.getElementById('questionContainer').classList.add('hidden');
     
-    // Button Container ကိုပါ ဖျောက်မည်
-    const actionButtons = document.getElementById('btnPrev').parentElement.parentElement;
+    const actionButtons = document.getElementById('btnPrev')?.parentElement?.parentElement;
     if(actionButtons) actionButtons.classList.add('hidden');
     
     const resultsDiv = document.getElementById('quizResults');
     resultsDiv.classList.remove('hidden');
     
-    // Premium Loading UI
     resultsDiv.innerHTML = `
         <div class="flex flex-col items-center justify-center mt-10">
             <div class="w-10 h-10 border-[3px] border-gray-100 border-t-green-500 rounded-full animate-spin mb-4"></div>
@@ -288,51 +273,46 @@ async function submitQuiz() {
     `;
 
     let score = 0;
-    let maxPossibleScore = 0; // မေးခွန်းအားလုံး မှန်ခဲ့လျှင် ရမည့် အမှတ်ပေါင်း
+    let maxPossibleScore = 0; 
     
     questions.forEach((q, index) => {
-        const correctAnsStr = String(q['Correct Answer (အဖြေမှန်)']).trim().toUpperCase();
+        const correctAnsStr = String(q['Correct Answer (အဖြေမှန်)'] || q['Correct Answer'] || '').trim().toUpperCase();
         const userAnsStr = String(userAnswers[index] || '').trim().toUpperCase();
         const questionPoints = Number(q['Points'] || 1);
         
         maxPossibleScore += questionPoints;
         
-        // ကော်မာ (,) ကို အခြေခံပြီး Array အဖြစ် ခွဲထုတ်မည် (ဥပမာ 'A, B' -> ['A', 'B'])
         const correctArr = correctAnsStr.split(',').map(s => s.trim()).filter(s => s);
         const userArr = userAnsStr.split(',').map(s => s.trim()).filter(s => s);
         
         if (correctArr.length === 1) {
-            // 💡 အဖြေ (၁) ခုတည်း ရွေးရမည့် မေးခွန်းများအတွက် (ယခင်အတိုင်း)
+            // 💡 အဖြေ (၁) ခုတည်း ရွေးရမည့် မေးခွန်းများ (Single Choice)
             if (userArr[0] === correctArr[0] || q[`Option ${userArr[0]}`] === q['Correct Answer (အဖြေမှန်)']) {
                 score += questionPoints;
             }
-        } else {
-            // 💡 Multi-Select: အဖြေ (၂) ခုနှင့်အထက် ရွေးရမည့် မေးခွန်းများအတွက် (Partial Scoring)
+        } else if (correctArr.length > 1) {
+            // 💡 Multi-Select: Partial Scoring စနစ် (PL-300 Standard)
             let correctMatches = 0;
             let wrongMatches = 0;
             
             userArr.forEach(ans => {
                 if (correctArr.includes(ans)) {
-                    correctMatches++; // မှန်ကန်သော Option ရွေးမိလျှင်
+                    correctMatches++; 
                 } else {
-                    wrongMatches++;   // မှားယွင်းသော Option ရွေးမိလျှင်
+                    wrongMatches++;   
                 }
             });
             
-            // အမှတ်တွက်နည်း: အဖြေမှန် (၂) ခုရှိပြီး (၁) ခုသာ ရွေးမိပါက အမှတ်တစ်ဝက် (0.5) ရမည်။
-            // (အဖြေမှားပါ ရွေးမိပါက User အား အကုန်ရွေးချယ်ခြင်းမှ ကာကွယ်ရန် အမှတ် ပြန်လျှော့မည်)
             let pointPerOption = questionPoints / correctArr.length;
             let earned = (correctMatches - wrongMatches) * pointPerOption;
             
-            // အနုတ်ပြအမှတ် မဖြစ်စေရန် 0 ထက်ကြီးမှသာ ပေါင်းထည့်မည်
             if (earned > 0) {
                 score += earned;
             }
         }
     });
 
-    // 💡 Percentage တွက်ရာတွင် မေးခွန်းအရေအတွက်အစား ရနိုင်သမျှ အမှတ်ပေါင်း (maxPossibleScore) ဖြင့် တွက်ပါမည်
-    const percentage = Math.round((score / maxPossibleScore) * 100);
+    const percentage = maxPossibleScore > 0 ? Math.round((score / maxPossibleScore) * 100) : 0;
     const status = percentage >= 70 ? 'Pass' : 'Fail';
     
     let takenM = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
@@ -340,13 +320,16 @@ async function submitQuiz() {
     const timeTaken = `${takenM}:${takenS}`;
 
     try {
+        const userEmail = localStorage.getItem('tis_user_email') || 'Unknown';
+        const userName = localStorage.getItem('tis_user_name') || 'Student';
+        
         await fetch(currentApiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify({
                 action: 'submit_report',
-                email: localStorage.getItem('tis_user_email'),
-                name: localStorage.getItem('tis_user_name'),
+                email: userEmail,
+                name: userName,
                 testNo: currentTestNo, 
                 attemptCount: 1, 
                 score: score,
@@ -360,24 +343,24 @@ async function submitQuiz() {
         console.error("Report Save Error", e);
     }
 
-    // 💡 ပြင်ဆင်ချက်: Results UI ကို Premium & Clean Design သို့ ပြောင်းလဲထားသည်
+    // Results UI
     resultsDiv.innerHTML = `
-        <div class="bg-white p-8 md:p-10 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-50 max-w-lg mx-auto animate-fade-in">
+        <div class="bg-white p-8 md:p-10 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-50 max-w-lg mx-auto animate-fade-in mt-4">
             <h2 class="text-3xl font-extrabold mb-2 ${status === 'Pass' ? 'text-green-600' : 'text-red-500'}">
                 ${status === 'Pass' ? '🎉 Congratulations!' : '💪 Keep Practicing!'}
             </h2>
             <p class="text-gray-500 mb-8 text-sm font-medium">You have completed the <strong>${currentTestName} (${levelNames[currentTestNo] || 'Part ' + currentTestNo})</strong>.</p>
             
             <div class="grid grid-cols-2 gap-3 mb-8 text-left">
-                <div class="bg-slate-50 p-5 rounded-2xl">
+                <div class="bg-slate-50 p-5 rounded-2xl border border-gray-100">
                     <div class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Your Score</div>
-                    <div id="finalScore" class="text-2xl font-extrabold text-gray-800">${score} <span class="text-lg text-gray-400">/ ${questions.length}</span></div>
+                    <div id="finalScore" class="text-2xl font-extrabold text-gray-800">${score} <span class="text-lg text-gray-400">/ ${maxPossibleScore}</span></div>
                 </div>
-                <div class="bg-slate-50 p-5 rounded-2xl">
+                <div class="bg-slate-50 p-5 rounded-2xl border border-gray-100">
                     <div class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Percentage</div>
                     <div class="text-2xl font-extrabold text-gray-800">${percentage}%</div>
                 </div>
-                <div class="bg-slate-50 p-5 rounded-2xl col-span-2 flex justify-between items-center">
+                <div class="bg-slate-50 p-5 rounded-2xl border border-gray-100 col-span-2 flex justify-between items-center">
                     <div class="text-xs text-gray-400 font-bold uppercase tracking-wider">Time Taken</div>
                     <div class="text-xl font-extrabold text-gray-800">${timeTaken}</div>
                 </div>
@@ -389,7 +372,6 @@ async function submitQuiz() {
                         📥 Download Certificate
                     </button>
                 ` : ``}
-                
                 <button onclick="closeQuiz()" class="w-full bg-slate-100 text-slate-700 font-bold py-3.5 px-4 rounded-xl hover:bg-slate-200 transition-all duration-200">
                     စာမေးပွဲမှ ထွက်မည်
                 </button>
@@ -443,7 +425,6 @@ function startTimer() {
 function closeQuiz() {
     clearInterval(quizTimer);
     
-    // ခလုတ် Container များကို ပြန်ဖော်ရန် Reset လုပ်မည်
     const actionButtons = document.getElementById('btnPrev')?.parentElement?.parentElement;
     if(actionButtons) actionButtons.classList.remove('hidden');
 
