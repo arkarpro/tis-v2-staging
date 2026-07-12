@@ -181,17 +181,17 @@ function generateCardsHTML(dataArray, fallbackCategory) {
             
             <div class="aspect-video w-full bg-slate-900 relative">
                 ${isLocked ? `
-                    <!-- 💡 Premium & Login Call-to-Action UI အသစ် -->
-                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/75 backdrop-blur-[6px] text-white z-10 p-4 text-center transition-all duration-300">
+                    <!-- 💡 Overlay ကို ၄၀% သာ မှောင်စေပြီး (bg-slate-900/40)၊ အနည်းငယ်သာ ဝါးစေရန် (backdrop-blur-sm) ပြင်ဆင်ထားသည် -->
+                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/40 backdrop-blur-sm text-white z-10 p-4 text-center transition-all duration-300 hover:bg-slate-900/50">
                         <div class="text-3xl mb-2 filter drop-shadow-lg">💎</div>
-                        <span class="font-bold text-[13px] tracking-wide mb-4 text-gray-200">Premium Lesson</span>
+                        <span class="font-bold text-[13px] tracking-wide mb-4 text-white drop-shadow-md">Premium Lesson</span>
                         <button onclick="if(typeof openLoginModal === 'function') openLoginModal()" class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full text-xs font-extrabold tracking-wider uppercase shadow-lg shadow-blue-900/50 hover:shadow-blue-600/40 hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                             Login to Learn
                         </button>
                     </div>
-                    <!-- Lock ဖြစ်နေချိန် နောက်ခံကို ခပ်မှိုင်းမှိုင်း (Grayscale) ပြပေးထားမည် -->
-                    <div class="w-full h-full opacity-30 grayscale pointer-events-none">${mediaContent}</div>
+                    <!-- 💡 Video အား အဖြူအမည်းဖြစ်စေသော grayscale နှင့် opacity များကို ဖယ်ရှားလိုက်ပါသည် -->
+                    <div class="w-full h-full pointer-events-none">${mediaContent}</div>
                 ` : `${mediaContent}`}
             </div>
             
