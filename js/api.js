@@ -225,7 +225,7 @@ function getHomeHeroHTML() {
                 <div>
                     <h3 class="font-extrabold text-lg text-slate-900">Arkar Linn</h3>
                     <p class="text-blue-600 text-[10px] font-extrabold uppercase tracking-widest mb-1">Senior Executive & Founder</p>
-                    <p class="text-slate-500 text-xs leading-relaxed max-w-sm font-medium">Advising CEO and Board on nationwide operational strategy. Trained over 300+ students in advanced data skills.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed max-w-sm font-medium">Advising CEO and Board on nationwide operational strategy. Trained over 500+ students in advanced data skills.</p>
                 </div>
             </div>
         </div>
