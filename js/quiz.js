@@ -121,67 +121,68 @@ async function initializeQuiz() {
 // ၂။ မေးခွန်း ဖော်ပြခြင်း (Render)
 // --------------------------------------------------
 function renderQuestion() {
-    const q = questions[currentQuestionIndex];
-    
-    // Multi-Select ဟုတ်/မဟုတ် စစ်ဆေးခြင်း (အဖြေမှန်တွင် ကော်မာ ပါ/မပါ စစ်မည်)
-    const correctAnsStr = String(q['Correct Answer (အဖြေမှန်)']).trim();
-    const isMultiSelect = correctAnsStr.includes(',');
-    
-    document.getElementById('qNumber').innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
-    document.getElementById('qId').innerText = q['Question ID'] || `Q-${currentQuestionIndex + 1}`;
-    
-    // 💡 Multi-select ဖြစ်ပါက မေးခွန်းဘေးတွင် "အဖြေမှန် ၂ ခု ရွေးပါ" ဟု အရိပ်အမြွက် (Hint) ပြပေးမည်
-    let questionText = q['Question Text (မေးခွန်း)'];
-    if (isMultiSelect) {
-        const requiredCount = correctAnsStr.split(',').length;
-        questionText += ` <br><span class="inline-block mt-2 bg-blue-50 text-blue-600 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">(အဖြေမှန် ${requiredCount} ခု ရွေးချယ်ပါ)</span>`;
-    }
-    document.getElementById('qText').innerHTML = questionText; 
-    
-    const optionsContainer = document.getElementById('optionsContainer');
-    optionsContainer.innerHTML = ''; // အဟောင်းများ ဖျက်မည်
-
-    const options = [
-        { key: 'A', text: q['Option A'] },
-        { key: 'B', text: q['Option B'] },
-        { key: 'C', text: q['Option C'] },
-        { key: 'D', text: q['Option D'] }
-    ];
-
-    options.forEach(opt => {
-        if (!opt.text) return; 
+    try {
+        const q = questions[currentQuestionIndex];
         
-        // 💡 လက်ရှိ Option ကို User ရွေးထားခြင်း ရှိ/မရှိ စစ်ဆေးမည်
-        let isSelected = false;
-        if (userAnswers[currentQuestionIndex]) {
-            if (isMultiSelect) {
-                // "A, B" ထဲတွင် လက်ရှိ opt.key ပါ/မပါ စစ်မည်
-                isSelected = userAnswers[currentQuestionIndex].split(',').map(s => s.trim()).includes(opt.key);
-            } else {
-                isSelected = userAnswers[currentQuestionIndex] === opt.key;
-            }
+        // Data အလွတ်ဖြစ်နေလျှင် (သို့) မှားယွင်းနေလျှင် Error မတက်အောင် String ဖြင့် သေချာပြောင်းမည်
+        const correctAnsStr = String(q['Correct Answer (အဖြေမှန်)'] || q['Correct Answer'] || '').trim().toUpperCase();
+        const isMultiSelect = correctAnsStr.includes(',');
+        
+        document.getElementById('qNumber').innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+        document.getElementById('qId').innerText = q['Question ID'] || `Q-${currentQuestionIndex + 1}`;
+        
+        // မေးခွန်းစာသား ထုတ်ခြင်း
+        let questionText = q['Question Text (မေးခွန်း)'] || 'Question text missing';
+        if (isMultiSelect) {
+            const requiredCount = correctAnsStr.split(',').filter(s => s.trim() !== '').length;
+            questionText += ` <br><span class="inline-block mt-2 bg-blue-50 text-blue-600 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">(အဖြေမှန် ${requiredCount} ခု ရွေးချယ်ပါ)</span>`;
         }
+        document.getElementById('qText').innerHTML = questionText; 
         
-        const bgClass = isSelected 
-            ? 'bg-blue-50/80 border-blue-300 ring-2 ring-blue-500 shadow-md' 
-            : 'bg-slate-50 border-transparent hover:bg-slate-100 hover:border-gray-200 shadow-sm';
-            
-        // 💡 Multi-select ဆိုလျှင် အထောင့် (Checkbox ပုံစံ)၊ Single ဆိုလျှင် အဝိုင်း (Radio ပုံစံ) ပြမည်
-        const shapeClass = isMultiSelect ? 'rounded-md' : 'rounded-full';
-            
-        const circleClass = isSelected 
-            ? `bg-blue-600 text-white shadow-sm ${shapeClass}` 
-            : `bg-white text-gray-500 shadow-sm border border-gray-200 ${shapeClass}`;
+        const optionsContainer = document.getElementById('optionsContainer');
+        optionsContainer.innerHTML = ''; 
 
-        optionsContainer.innerHTML += `
-            <div onclick="selectOption('${opt.key}')" class="cursor-pointer border ${bgClass} rounded-2xl p-4 transition-all duration-200 flex items-center group">
-                <div class="w-9 h-9 flex-shrink-0 flex items-center justify-center font-bold text-sm mr-4 transition-colors ${circleClass}">${opt.key}</div>
-                <div class="text-gray-800 font-medium text-[15px] leading-relaxed">${opt.text}</div>
-            </div>
-        `;
-    });
+        const options = [
+            { key: 'A', text: q['Option A'] },
+            { key: 'B', text: q['Option B'] },
+            { key: 'C', text: q['Option C'] },
+            { key: 'D', text: q['Option D'] }
+        ];
 
-    updateNavigationButtons();
+        // 💡 လက်ရှိ User ရွေးထားသော အဖြေများကို Array အဖြစ် သေချာစွာ ယူမည်
+        const currentUserAns = String(userAnswers[currentQuestionIndex] || '').toUpperCase();
+        const selectedArr = currentUserAns ? currentUserAns.split(',').map(s => s.trim()) : [];
+
+        options.forEach(opt => {
+            if (!opt.text) return; 
+            
+            // လက်ရှိ Option ကို ရွေးထားခြင်း ရှိ/မရှိ စစ်ဆေးမည်
+            const isSelected = selectedArr.includes(opt.key);
+            
+            const bgClass = isSelected 
+                ? 'bg-blue-50/80 border-blue-300 ring-2 ring-blue-500 shadow-md' 
+                : 'bg-slate-50 border-transparent hover:bg-slate-100 hover:border-gray-200 shadow-sm';
+                
+            const shapeClass = isMultiSelect ? 'rounded-md' : 'rounded-full';
+            const circleClass = isSelected 
+                ? `bg-blue-600 text-white shadow-sm ${shapeClass}` 
+                : `bg-white text-gray-500 shadow-sm border border-gray-200 ${shapeClass}`;
+
+            optionsContainer.innerHTML += `
+                <div onclick="selectOption('${opt.key}')" class="cursor-pointer border ${bgClass} rounded-2xl p-4 transition-all duration-200 flex items-center group">
+                    <div class="w-9 h-9 flex-shrink-0 flex items-center justify-center font-bold text-sm mr-4 transition-colors ${circleClass}">${opt.key}</div>
+                    <div class="text-gray-800 font-medium text-[15px] leading-relaxed">${opt.text}</div>
+                </div>
+            `;
+        });
+    } catch (error) {
+        console.error("Error in renderQuestion:", error);
+    } finally {
+        // 💡 အပေါ်မှာ Error တက်ခဲ့လျှင်တောင်မှ Next/Prev ခလုတ်များ အမြဲတမ်း ပြန်ပေါ်စေရန် finally ထဲတွင် ထည့်ထားသည်
+        if (typeof updateNavigationButtons === 'function') {
+            updateNavigationButtons();
+        }
+    }
 }
 
 // --------------------------------------------------
@@ -189,30 +190,30 @@ function renderQuestion() {
 // --------------------------------------------------
 function selectOption(optionKey) {
     const q = questions[currentQuestionIndex];
-    const correctAnsStr = String(q['Correct Answer (အဖြေမှန်)']).trim();
+    const correctAnsStr = String(q['Correct Answer (အဖြေမှန်)'] || q['Correct Answer'] || '').trim().toUpperCase();
     const isMultiSelect = correctAnsStr.includes(',');
 
     if (isMultiSelect) {
-        // Multi-Select ဖြစ်ပါက အဖြေများကို Array အဖြစ် ခွဲထုတ်မည်
-        let currentAnswers = userAnswers[currentQuestionIndex] ? userAnswers[currentQuestionIndex].split(',').map(s => s.trim()) : [];
+        // Multi-Select (၂ ခုရွေးရမည်ဆိုပါက)
+        const currentUserAns = String(userAnswers[currentQuestionIndex] || '').toUpperCase();
+        let currentAnswers = currentUserAns ? currentUserAns.split(',').map(s => s.trim()) : [];
         
         if (currentAnswers.includes(optionKey)) {
-            // ရွေးပြီးသားကို ထပ်နှိပ်ပါက ပြန်ဖျက်မည် (Toggle Off)
+            // ရွေးပြီးသားကို ထပ်နှိပ်ပါက ဖျက်မည်
             currentAnswers = currentAnswers.filter(k => k !== optionKey);
         } else {
-            // မရွေးရသေးပါက အသစ်ထည့်မည် (Toggle On)
+            // မရွေးရသေးပါက ထည့်မည်
             currentAnswers.push(optionKey);
-            // အက္ခရာစဉ်အတိုင်း ပြန်စီမည် (A, B, C)
-            currentAnswers.sort();
+            currentAnswers.sort(); // A, B စသဖြင့် အစဉ်လိုက်ဖြစ်အောင် စီမည်
         }
-        // "A, B" ပုံစံဖြင့် ပြန်သိမ်းမည်
+        
         userAnswers[currentQuestionIndex] = currentAnswers.join(', ');
     } else {
-        // Single Select ဖြစ်ပါက ယခင်အတိုင်း တစ်ခုတည်းသာ မှတ်မည်
+        // Single Select (၁ ခုတည်းဆိုပါက)
         userAnswers[currentQuestionIndex] = optionKey;
     }
     
-    renderQuestion(); // UI Update လုပ်ရန် ပြန်ခေါ်မည်
+    renderQuestion(); 
 }
 
 // --------------------------------------------------
