@@ -4,12 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Insights Solution</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { theme: { extend: { colors: { tis: { dark: '#0f172a', primary: '#2563eb', secondary: '#1e3a8a', gold: '#eab308' } } } } }
     </script>
+    
     <!-- 🟢 Google Identity Services လင့်ခ် -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- 💡 ကွန်ပျူတာတွင် Column ၃ ခု သီးခြားစီ Scroll ဆွဲနိုင်ရန် CSS အသစ် -->
+    <style>
+        @media (min-width: 768px) {
+            body { 
+                overflow: hidden; /* Page အကြီးကြီးတစ်ခုလုံး အပေါ်အောက် ရွေ့ခြင်းကို ပိတ်ထားမည် */
+            }
+            #sidebar, #content, #widgets {
+                height: calc(100vh - 64px); /* Navbar အမြင့် (64px) ကိုနုတ်ပြီး ကျန်တာအကုန် ယူမည် */
+                overflow-y: auto; /* ကိုယ့် Column ထဲမှာပဲကိုယ် Scroll ဆွဲခွင့်ပေးမည် */
+                padding-bottom: 2rem;
+            }
+            /* Scrollbar အတုံးကြီးတွေ ပေါ်မနေအောင် ဖျောက်ထားမည် (ပိုသပ်ရပ်စေရန်) */
+            #sidebar::-webkit-scrollbar, #content::-webkit-scrollbar, #widgets::-webkit-scrollbar {
+                width: 0px; 
+                background: transparent;
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 font-sans pt-16">
