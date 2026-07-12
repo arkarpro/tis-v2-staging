@@ -6,20 +6,19 @@
 <div class="bg-white/90 backdrop-blur-md w-full h-full flex items-center border-b border-gray-100 relative z-50">
     <div class="w-full max-w-7xl mx-auto px-4 md:px-6 flex items-center h-16">
         
-        <!-- Logo -->
         <a href="#" onclick="loadCategory('Home'); return false;" class="flex-shrink-0 text-xl font-extrabold tracking-tight mr-6 md:mr-10 flex items-center gap-1 group">
             <span class="text-blue-600 group-hover:text-blue-700 transition-colors">TIS</span>
             <span class="text-gray-800 group-hover:text-gray-900 transition-colors">Learning</span>
             <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 ml-0.5"></span>
         </a>
         
-        <!-- Menu -->
         <div class="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-end">
-            <div class="flex items-center space-x-1 sm:space-x-2 min-w-max py-2 pr-2">
-                <a href="#" onclick="loadCategory('Excel'); return false;" class="text-sm font-medium text-gray-600 hover:text-green-600 hover:bg-green-50/50 px-3.5 py-2 rounded-full transition-all">Excel</a>
-                <a href="#" onclick="loadCategory('PowerQuery'); return false;" class="text-sm font-medium text-gray-600 hover:text-orange-600 hover:bg-orange-50/50 px-3.5 py-2 rounded-full transition-all">Power Query</a>
-                <a href="#" onclick="loadCategory('PowerBI'); return false;" class="text-sm font-medium text-gray-600 hover:text-yellow-600 hover:bg-yellow-50/50 px-3.5 py-2 rounded-full transition-all">Power BI</a>
-                <a href="#" onclick="loadCategory('SQL'); return false;" class="text-sm font-medium text-gray-600 hover:text-sky-600 hover:bg-sky-50/50 px-3.5 py-2 rounded-full transition-all">SQL</a>
+            <!-- 💡 id="navMenu" နှင့် data-category များကို ထည့်သွင်းထားသည် -->
+            <div id="navMenu" class="flex items-center space-x-1 sm:space-x-2 min-w-max py-2 pr-2">
+                <a href="#" onclick="loadCategory('Excel'); return false;" data-category="Excel" class="nav-item text-sm font-medium text-gray-500 hover:text-green-600 hover:bg-green-50/50 px-3.5 py-2 rounded-full transition-all">Excel</a>
+                <a href="#" onclick="loadCategory('PowerQuery'); return false;" data-category="PowerQuery" class="nav-item text-sm font-medium text-gray-500 hover:text-orange-600 hover:bg-orange-50/50 px-3.5 py-2 rounded-full transition-all">Power Query</a>
+                <a href="#" onclick="loadCategory('PowerBI'); return false;" data-category="PowerBI" class="nav-item text-sm font-medium text-gray-500 hover:text-yellow-600 hover:bg-yellow-50/50 px-3.5 py-2 rounded-full transition-all">Power BI</a>
+                <a href="#" onclick="loadCategory('SQL'); return false;" data-category="SQL" class="nav-item text-sm font-medium text-gray-500 hover:text-sky-600 hover:bg-sky-50/50 px-3.5 py-2 rounded-full transition-all">SQL</a>
             </div>
         </div>
     </div>

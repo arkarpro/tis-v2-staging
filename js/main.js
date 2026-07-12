@@ -265,3 +265,40 @@ document.addEventListener('touchend', e => {
     touchEndY = e.changedTouches[0].screenY;
     handleSwipe(); // တွက်ချက်မှုကို စတင်မည်
 }, { passive: true });
+
+// =================================================================
+// ⏬ Auto-Load Next Category on Scroll (အောက်ဆုံးရောက်လျှင် နောက် Tab သို့ သွားရန်)
+// =================================================================
+let isFetchingNext = false;
+
+window.addEventListener('scroll', () => {
+    // ဖုန်း Screen (768px အောက်) နှင့် Content မျက်နှာပြင်တွင်သာ အလုပ်လုပ်မည်
+    if (window.innerWidth >= 768) return;
+    const contentDiv = document.getElementById('content');
+    if (!contentDiv || contentDiv.classList.contains('hidden')) return;
+    
+    // Page ရဲ့ အောက်ခြေသို့ ရောက်/မရောက် တွက်ချက်ခြင်း
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const threshold = document.body.offsetHeight - 80; // အောက်ဆုံးရောက်ဖို့ 80px အလို
+    
+    if (scrollPosition >= threshold && !isFetchingNext) {
+        isFetchingNext = true;
+        
+        let currentState = typeof currentCategory !== 'undefined' ? currentCategory : 'Home';
+        let currentIndex = swipeOrder.indexOf(currentState);
+        
+        // Home ကနေ SQL အတွင်းမှာပဲ Auto-scroll အလုပ်လုပ်မည် (Profile နှင့် Tests ကို ကျော်မည်)
+        if (currentIndex >= 1 && currentIndex < swipeOrder.length - 2) { 
+            const nextCategory = swipeOrder[currentIndex + 1];
+            
+            // နောက် Tab သို့ ပြောင်းမည်
+            navigateToSwipeState(nextCategory);
+            
+            // ပြောင်းသွားတာသိသာစေရန် Page အပေါ်ဆုံးသို့ Smooth ပြန်တက်မည်
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // ၂ စက္ကန့်အတွင်း ၂ ခါ ဆက်တိုက် မပြောင်းသွားစေရန် Lock ချထားခြင်း
+        setTimeout(() => { isFetchingNext = false; }, 2000); 
+    }
+});

@@ -22,6 +22,17 @@ const THEMES = {
 
 let currentCategory = 'Home';
 
+// 💡 ရောက်နေသော Category ကို အရောင်ရင့်ပြပြီး ကျန်တာကို အရောင်ဖျော့ပေးမည့် အပိုင်း
+    document.querySelectorAll('.nav-item').forEach(el => {
+        if (el.getAttribute('data-category') === categoryName) {
+            // ရောက်နေသော နေရာ (Dark Blue + Background)
+            el.className = "nav-item text-sm font-extrabold text-blue-800 bg-blue-50 px-3.5 py-2 rounded-full transition-all";
+        } else {
+            // မရောက်သော နေရာများ (Gray ဖျော့ဖျော့)
+            el.className = "nav-item text-sm font-medium text-gray-400 hover:text-gray-700 hover:bg-gray-50 px-3.5 py-2 rounded-full transition-all";
+        }
+    });
+
 // --------------------------------------------------
 // ၁။ Navbar မှ နှိပ်လိုက်သောအခါ သက်ဆိုင်ရာ Category ကို ခေါ်ယူခြင်း
 // --------------------------------------------------
