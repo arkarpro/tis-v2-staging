@@ -26,6 +26,11 @@ let currentCategory = 'Home';
 // ၁။ Navbar မှ နှိပ်လိုက်သောအခါ သက်ဆိုင်ရာ Category ကို ခေါ်ယူခြင်း
 // --------------------------------------------------
 async function loadCategory(categoryName) {
+    // 💡 Mobile တွင် Menu နှိပ်လိုက်ပါက Content (Home Tab) ဆီသို့ အလိုအလျောက် သွားပေးမည်
+    if (window.innerWidth < 768 && typeof switchMobileTab === 'function') {
+        switchMobileTab('home');
+    }
+
     currentCategory = categoryName;
     const targetUrl = CONTENT_DBS[categoryName];
     const container = document.getElementById('content'); 

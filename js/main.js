@@ -101,13 +101,18 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // 💻 ဖုန်းမှ Desktop သို့ Window Size ပြန်ဆွဲချဲ့လိုက်ပါက အကုန်ပြန်ပေါ်စေရန်
+let lastWidth = window.innerWidth;
+
 window.addEventListener('resize', () => {
+    // 💡 ဖုန်းတွင် အပေါ်/အောက် Scroll ဆွဲ၍ URL bar ပေါ်/ပျောက်ဖြစ်ခြင်းကို လျစ်လျူရှုမည်
+    if (window.innerWidth === lastWidth) return; 
+    lastWidth = window.innerWidth;
+
     if (window.innerWidth >= 768) {
-        document.getElementById('sidebar').classList.remove('hidden');
-        document.getElementById('content').classList.remove('hidden');
-        document.getElementById('widgets').classList.remove('hidden');
+        document.getElementById('sidebar')?.classList.remove('hidden');
+        document.getElementById('content')?.classList.remove('hidden');
+        document.getElementById('widgets')?.classList.remove('hidden');
     } else {
-        // Mobile Size သို့ ပြန်ကျုံ့သွားပါက Home သို့ ပြန်သွားမည်
         switchMobileTab('home');
     }
 });
