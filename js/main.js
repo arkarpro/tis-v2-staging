@@ -1,16 +1,13 @@
 // =================================================================
 // 🚀 Component Loader Engine
 // =================================================================
-
-// HTML Component များကို လှမ်းခေါ်သည့် Function
 async function loadComponent(id, file) {
     try {
         const response = await fetch(`components/${file}.html`);
         if (!response.ok) throw new Error(`Could not load ${file}.html`);
-        const html = await response.text();
         const element = document.getElementById(id);
         if (element) {
-            element.innerHTML = html;
+            element.innerHTML = await response.text();
         }
     } catch (error) {
         console.warn(`Component load warning (${file}):`, error);
@@ -18,7 +15,7 @@ async function loadComponent(id, file) {
 }
 
 // =================================================================
-// 🏁 Page စတင်လည်ပတ်သည့် အဓိက Function (ဒီတစ်ခုတည်းကိုပဲ သုံးပါ)
+// 🏁 Page စတင်လည်ပတ်သည့် အဓိက Function
 // =================================================================
 async function initApp() {
     await Promise.all([
@@ -28,86 +25,98 @@ async function initApp() {
         loadComponent('login-container', 'login')
     ]);
 
-    // =================================================================
-    // 👤 UI ကို Login အခြေအနေအလိုက် ပြောင်းလဲပေးသည့် အပိုင်း
-    // =================================================================
     const isLoggedIn = typeof checkLoginStatus === 'function' ? checkLoginStatus() : false;
     const userName = localStorage.getItem('tis_user_name');
 
-    // နာမည်ပြောင်းခြင်း
-    const nameSpan = document.getElementById('dynamic-username');
-    if (nameSpan) {
-        nameSpan.innerText = isLoggedIn && userName ? userName : "Data Enthusiast";
+    setTimeout(() => {
+        const nameSpan = document.getElementById('dynamic-username');
+        if (nameSpan) {
+            nameSpan.innerText = isLoggedIn && userName ? userName : "Data Enthusiast";
+        }
+        const logoutSection = document.getElementById('logout-section');
+        if (logoutSection) {
+            logoutSection.style.display = isLoggedIn ? 'block' : 'none';
+        }
+    }, 50);
+
+    // 💡 နောက်ကွယ်မှ Data များကို ကြိုတင်ဆွဲထားမည် (Background Caching)
+    if (typeof preloadAllData === 'function') {
+        preloadAllData();
     }
 
-    // Logout ခလုတ် အဖွင့်/အပိတ်
-    const logoutSection = document.getElementById('logout-section');
-    if (logoutSection) {
-        logoutSection.style.display = isLoggedIn ? 'block' : 'none';
-    }
-
-    // 💡 ပြင်ဆင်ချက်: URL မပါသော fetchArticles() အဟောင်းအစား စနစ်သစ် loadCategory ကို အသုံးပြုပါမည်
     if (typeof loadCategory === 'function') {
         loadCategory('Home');
     }
+
+    if (window.innerWidth < 768) {
+        switchMobileTab('home');
+    }
 }
-window.onload = initApp;
+
+window.addEventListener('DOMContentLoaded', initApp);
 
 // =================================================================
 // 📱 Mobile App-Like Navigation Logic
 // =================================================================
 function switchMobileTab(tabId) {
-    // ဖုန်း Screen မဟုတ်ပါက (Computer ဆိုလျှင်) ဘာမှမလုပ်ဘဲ ကျော်သွားမည်
     if (window.innerWidth >= 768) return; 
 
     const sidebar = document.getElementById('sidebar');
     const content = document.getElementById('content');
     const widgets = document.getElementById('widgets');
 
-    // ၁။ မျက်နှာပြင် (၃) ခုလုံးကို အရင်ဖျောက်မည် (Computer တွင်မူ ပြန်ပေါ်ရန် md:block ထားမည်)
-    sidebar.classList.add('hidden'); 
-    sidebar.classList.remove('md:block'); // Tailwind default conflict မဖြစ်ရန်
-    content.classList.add('hidden');
-    widgets.classList.add('hidden');
+    [sidebar, content, widgets].forEach(el => {
+        if(el) {
+            el.classList.add('hidden');
+            el.classList.remove('md:block', 'animate-fade-in'); 
+        }
+    });
 
-    // ၂။ အောက်ခြေခလုတ်များ အားလုံးကို မီးခိုးရောင် (Inactive) ပြောင်းမည်
     document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('text-blue-600');
+        btn.classList.remove('text-blue-600', 'scale-110');
         btn.classList.add('text-gray-400');
     });
 
-    // ၃။ ရွေးချယ်လိုက်သော Tab ကိုသာ ပြန်ဖော်မည်၊ ခလုတ်ကို အပြာရောင်ပြောင်းမည်
+    // 💡 Profile သို့မဟုတ် Tests ကို ရောက်ပါက အပေါ် Navbar အရောင်ကို ရိုးရိုး မီးခိုးရောင် ပြန်ပြောင်းမည်
+    if (tabId === 'profile' || tabId === 'tests') {
+        document.querySelectorAll('.nav-item').forEach(el => {
+            el.className = "nav-item text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-50 px-3.5 py-2 rounded-full transition-all duration-300";
+        });
+    }
+
+    let activeElement = null;
+    let activeBtn = null;
+
     if (tabId === 'profile') {
-        sidebar.classList.remove('hidden');
-        document.getElementById('nav-profile').classList.add('text-blue-600');
-        document.getElementById('nav-profile').classList.remove('text-gray-400');
+        activeElement = sidebar;
+        activeBtn = document.getElementById('nav-profile');
     } else if (tabId === 'home') {
-        content.classList.remove('hidden');
-        document.getElementById('nav-home').classList.add('text-blue-600');
-        document.getElementById('nav-home').classList.remove('text-gray-400');
+        activeElement = content;
+        activeBtn = document.getElementById('nav-home');
+        const comingSoon = document.getElementById('coming-soon-container');
+        if(comingSoon && !comingSoon.classList.contains('hidden')) {
+            comingSoon.classList.add('hidden');
+        }
     } else if (tabId === 'tests') {
-        widgets.classList.remove('hidden');
-        document.getElementById('nav-tests').classList.add('text-blue-600');
-        document.getElementById('nav-tests').classList.remove('text-gray-400');
+        activeElement = widgets;
+        activeBtn = document.getElementById('nav-tests');
+    }
+
+    if (activeElement) {
+        activeElement.classList.remove('hidden');
+        activeElement.classList.add('animate-fade-in'); 
+    }
+    
+    if (activeBtn) {
+        activeBtn.classList.add('text-blue-600', 'scale-110');
+        activeBtn.classList.remove('text-gray-400');
     }
 }
 
-// 🌐 Website စစဖွင့်ချင်း (သို့မဟုတ်) Refresh လုပ်ချိန်တွင်
-window.addEventListener('DOMContentLoaded', () => {
-    // Mobile View ဖြစ်နေပါက Home Tab ကို တန်းပွင့်နေစေမည်
-    if (window.innerWidth < 768) {
-        switchMobileTab('home');
-    }
-});
-
-// 💻 ဖုန်းမှ Desktop သို့ Window Size ပြန်ဆွဲချဲ့လိုက်ပါက အကုန်ပြန်ပေါ်စေရန်
 let lastWidth = window.innerWidth;
-
 window.addEventListener('resize', () => {
-    // 💡 ဖုန်းတွင် အပေါ်/အောက် Scroll ဆွဲ၍ URL bar ပေါ်/ပျောက်ဖြစ်ခြင်းကို လျစ်လျူရှုမည်
     if (window.innerWidth === lastWidth) return; 
     lastWidth = window.innerWidth;
-
     if (window.innerWidth >= 768) {
         document.getElementById('sidebar')?.classList.remove('hidden');
         document.getElementById('content')?.classList.remove('hidden');
@@ -116,55 +125,48 @@ window.addEventListener('resize', () => {
         switchMobileTab('home');
     }
 });
-// =================================================================
 
 // =================================================================
-// 🖼️ Reviews Floating Gallery Logic
+// 🖼️ Reviews & Coming Soon Modal Logic
 // =================================================================
 function openReviewsModal() {
     const modal = document.getElementById('reviewsModal');
+    if(!modal) return;
     modal.classList.remove('hidden');
     modal.classList.add('flex');
-    
-    // ဖုန်းတွင် Back button နှိပ်ပါက ပြန်ပိတ်ရန် History တွင် မှတ်ထားမည်
+    setTimeout(() => modal.classList.add('opacity-100'), 10);
     history.pushState({ modalOpen: true }, ""); 
 }
 
 function closeReviewsModal() {
     const modal = document.getElementById('reviewsModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
+    if(!modal) return;
+    modal.classList.remove('opacity-100');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }, 300);
 }
 
-// ဖုန်းတွင် Back ခလုတ် (သို့) Swipe လုပ်ပါက Modal ပိတ်ရန်
 window.addEventListener('popstate', function(event) {
     const modal = document.getElementById('reviewsModal');
-    if (!modal.classList.contains('hidden')) {
+    if (modal && !modal.classList.contains('hidden')) {
         closeReviewsModal();
     }
 });
-// =================================================================
 
-// =================================================================
-// 🚧 Coming Soon Placeholder Logic
-// =================================================================
 function showComingSoon(featureName, message) {
-    // မျက်နှာပြင်ပြောင်းခြင်း
-    document.getElementById('content').classList.add('hidden');
-    document.getElementById('coming-soon-container').classList.remove('hidden');
-    
-    // စာသားများ အစားထိုးခြင်း
+    const content = document.getElementById('content');
+    const comingSoon = document.getElementById('coming-soon-container');
+    content.classList.add('hidden');
+    comingSoon.classList.remove('hidden');
+    comingSoon.classList.add('animate-fade-in');
     document.getElementById('cs-title').innerText = `Your ${featureName} is Coming Soon!`;
     document.getElementById('cs-message').innerText = message;
-    
-    // မိုဘိုင်းတွင်ဆိုပါက အလယ် Pane သို့ အလိုအလျောက် ရွှေ့ပေးမည်
     if (window.innerWidth < 768) {
         document.getElementById('sidebar').classList.add('hidden');
-        document.getElementById('coming-soon-container').classList.remove('hidden');
-        
-        // အောက်ခြေခလုတ်များကိုပါ Inactive ပြောင်းမည်
         document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.classList.remove('text-blue-600');
+            btn.classList.remove('text-blue-600', 'scale-110');
             btn.classList.add('text-gray-400');
         });
     }
@@ -172,25 +174,31 @@ function showComingSoon(featureName, message) {
 
 function closeComingSoon() {
     document.getElementById('coming-soon-container').classList.add('hidden');
-    document.getElementById('content').classList.remove('hidden');
-    
+    const content = document.getElementById('content');
+    content.classList.remove('hidden');
+    content.classList.add('animate-fade-in');
     if (window.innerWidth < 768) {
-        switchMobileTab('home'); // Mobile တွင် Home (Video Feed) သို့ ပြန်သွားမည်
+        switchMobileTab('home'); 
+    }
+}
+
+function resetToMainContent() {
+    const comingSoon = document.getElementById('coming-soon-container');
+    if (comingSoon && !comingSoon.classList.contains('hidden')) {
+        closeComingSoon();
     }
 }
 
 // =================================================================
-// 👆 Mobile Swipe Navigation Logic (လက်ဖြင့် ဘယ်/ညာ ဆွဲ၍ Tab ပြောင်းရန်)
+// 👆 Mobile Swipe Navigation Logic & Auto-Scroll
 // =================================================================
 let touchStartX = 0;
 let touchEndX = 0;
 let touchStartY = 0;
 let touchEndY = 0;
 
-// မိတ်ဆွေသတ်မှတ်ထားသော အစီအစဉ်အတိုင်း Array တည်ဆောက်ထားခြင်း
-const swipeOrder = ['profile', 'Home', 'Excel', 'PowerQuery', 'PowerBI', 'SQL', 'tests'];
+const swipeOrder = ['profile', 'Home', 'Excel', 'PowerQuery', 'PowerBI', 'SQL', 'Tech', 'tests'];
 
-// သက်ဆိုင်ရာ နေရာသို့ ရွှေ့ပေးမည့် Function
 function navigateToSwipeState(state) {
     if (state === 'profile') {
         switchMobileTab('profile');
@@ -199,12 +207,11 @@ function navigateToSwipeState(state) {
     } else {
         switchMobileTab('home'); 
         if (typeof loadCategory === 'function') {
-            loadCategory(state, true); // 💡 true ဟုထည့်ထားသဖြင့် ညင်သာစွာ ကူးပြောင်းမည် (Smooth Load)
+            loadCategory(state, true); // Smooth transition
         }
     }
 }
 
-// ... (handleSwipe နှင့် touch event များ အရင်အတိုင်းထားပါ) ...
 function handleSwipe() {
     if (window.innerWidth >= 768) return; 
     const quizModal = document.getElementById('quizModal');
@@ -212,21 +219,27 @@ function handleSwipe() {
     if (quizModal && !quizModal.classList.contains('hidden')) return;
     if (reviewsModal && !reviewsModal.classList.contains('hidden')) return;
 
-    const swipeThreshold = 50; 
     const diffX = touchEndX - touchStartX;
     const diffY = touchEndY - touchStartY;
 
-    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > swipeThreshold) {
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
         let currentState = 'Home';
-        if (!document.getElementById('sidebar')?.classList.contains('hidden')) currentState = 'profile';
-        else if (!document.getElementById('widgets')?.classList.contains('hidden')) currentState = 'tests';
-        else if (typeof currentCategory !== 'undefined') currentState = currentCategory;
+        if (!document.getElementById('sidebar')?.classList.contains('hidden')) {
+            currentState = 'profile';
+        } else if (!document.getElementById('widgets')?.classList.contains('hidden')) {
+            currentState = 'tests';
+        } else if (typeof currentCategory !== 'undefined') {
+            currentState = currentCategory;
+        }
 
         let currentIndex = swipeOrder.indexOf(currentState);
         if (currentIndex === -1) currentIndex = 1; 
 
-        if (diffX > 0 && currentIndex > 0) navigateToSwipeState(swipeOrder[currentIndex - 1]);
-        else if (diffX < 0 && currentIndex < swipeOrder.length - 1) navigateToSwipeState(swipeOrder[currentIndex + 1]);
+        if (diffX > 0 && currentIndex > 0) {
+            navigateToSwipeState(swipeOrder[currentIndex - 1]);
+        } else if (diffX < 0 && currentIndex < swipeOrder.length - 1) {
+            navigateToSwipeState(swipeOrder[currentIndex + 1]);
+        }
     }
 }
 
@@ -243,11 +256,8 @@ document.addEventListener('touchend', e => {
     handleSwipe(); 
 }, { passive: true });
 
-// =================================================================
-// ⏬ Auto-Load Next Category on Scroll (အောက်ဆုံးရောက်လျှင် နောက် Tab သို့ သွားရန်)
-// =================================================================
+// Auto-Load Next Category on Scroll
 let isFetchingNext = false;
-
 window.addEventListener('scroll', () => {
     if (window.innerWidth >= 768) return;
     const contentDiv = document.getElementById('content');
@@ -264,7 +274,7 @@ window.addEventListener('scroll', () => {
         
         if (currentIndex >= 1 && currentIndex < swipeOrder.length - 2) { 
             const nextCategory = swipeOrder[currentIndex + 1];
-            navigateToSwipeState(nextCategory); // 💡 Smooth Load ဖြင့် ကူးသွားမည်
+            navigateToSwipeState(nextCategory);
         }
         
         setTimeout(() => { isFetchingNext = false; }, 2000); 
