@@ -178,3 +178,90 @@ function closeComingSoon() {
         switchMobileTab('home'); // Mobile တွင် Home (Video Feed) သို့ ပြန်သွားမည်
     }
 }
+
+// =================================================================
+// 👆 Mobile Swipe Navigation Logic (လက်ဖြင့် ဘယ်/ညာ ဆွဲ၍ Tab ပြောင်းရန်)
+// =================================================================
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
+
+// မိတ်ဆွေသတ်မှတ်ထားသော အစီအစဉ်အတိုင်း Array တည်ဆောက်ထားခြင်း
+const swipeOrder = ['profile', 'Home', 'Excel', 'PowerQuery', 'PowerBI', 'SQL', 'tests'];
+
+// သက်ဆိုင်ရာ နေရာသို့ ရွှေ့ပေးမည့် Function
+function navigateToSwipeState(state) {
+    if (state === 'profile') {
+        switchMobileTab('profile');
+    } else if (state === 'tests') {
+        switchMobileTab('tests');
+    } else {
+        // Content (Category) Tab များအတွက်
+        switchMobileTab('home'); 
+        if (typeof loadCategory === 'function') {
+            loadCategory(state);
+        }
+    }
+}
+
+// Swipe လုပ်ခြင်းကို တွက်ချက်မည့် Function
+function handleSwipe() {
+    // ဖုန်း Screen (768px အောက်) တွင်သာ အလုပ်လုပ်မည်
+    if (window.innerWidth >= 768) return; 
+
+    // Quiz သို့မဟုတ် Review Modal များပွင့်နေလျှင် နောက်ကွယ်မှ Tab ကို Swipe မလုပ်ပါ
+    const quizModal = document.getElementById('quizModal');
+    const reviewsModal = document.getElementById('reviewsModal');
+    if (quizModal && !quizModal.classList.contains('hidden')) return;
+    if (reviewsModal && !reviewsModal.classList.contains('hidden')) return;
+
+    const swipeThreshold = 50; // အနည်းဆုံး ဆွဲရမည့် အကွာအဝေး (Pixels)
+    const diffX = touchEndX - touchStartX;
+    const diffY = touchEndY - touchStartY;
+
+    // အထက်/အောက် ဆွဲခြင်းထက် ဘယ်/ညာ ဆွဲခြင်းက ပိုသိသာမှသာ အလုပ်လုပ်မည်
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > swipeThreshold) {
+        
+        // လက်ရှိ ဘယ် Tab ရောက်နေသလဲဆိုတာကို ရှာဖွေမည်
+        let currentState = 'Home';
+        if (!document.getElementById('sidebar')?.classList.contains('hidden')) {
+            currentState = 'profile';
+        } else if (!document.getElementById('widgets')?.classList.contains('hidden')) {
+            currentState = 'tests';
+        } else if (typeof currentCategory !== 'undefined') {
+            currentState = currentCategory;
+        }
+
+        let currentIndex = swipeOrder.indexOf(currentState);
+        if (currentIndex === -1) currentIndex = 1; // မသေချာပါက Home သို့ ပြန်ထားမည်
+
+        if (diffX > 0) {
+            // 👉 Swipe Right (ညာဘက်သို့ဆွဲလျှင် ယခင် Tab သို့သွားမည်)
+            if (currentIndex > 0) {
+                navigateToSwipeState(swipeOrder[currentIndex - 1]);
+            }
+        } else {
+            // 👈 Swipe Left (ဘယ်ဘက်သို့ဆွဲလျှင် နောက် Tab သို့သွားမည်)
+            if (currentIndex < swipeOrder.length - 1) {
+                navigateToSwipeState(swipeOrder[currentIndex + 1]);
+            }
+        }
+    }
+}
+
+// Screen ပေါ်စတင် ထိသည့်အချိန် (Touch Start)
+document.addEventListener('touchstart', e => {
+    // Navbar Menu ကဲ့သို့ ကိုယ်ပိုင် Horizontal Scroll ရှိသော နေရာများတွင် Swipe မလုပ်ပါ
+    if (e.target.closest('.overflow-x-auto')) return;
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+}, { passive: true });
+
+// Screen ပေါ်မှ လက်ခွာလိုက်သည့်အချိန် (Touch End)
+document.addEventListener('touchend', e => {
+    if (e.target.closest('.overflow-x-auto')) return;
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    handleSwipe(); // တွက်ချက်မှုကို စတင်မည်
+}, { passive: true });
