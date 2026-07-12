@@ -202,29 +202,30 @@ function getEmptyStateHTML(cat) {
 
 function getHomeHeroHTML() {
     return `
-        <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 sm:p-10 shadow-lg text-white mb-2">
-            <h2 class="text-2xl sm:text-3xl font-extrabold mb-6 tracking-tight flex items-center gap-3">
-                <span class="text-yellow-400">⚡</span> Empowering Decisions
+        <!-- 💡 အမည်းရောင်အစား မျက်စိအေးပြီး လင်းလက်သော Education Light Theme သို့ ပြောင်းထားသည် -->
+        <div class="bg-gradient-to-br from-white to-blue-50/50 rounded-3xl p-8 sm:p-10 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-blue-100 mb-2 animate-fade-in">
+            <h2 class="text-2xl sm:text-3xl font-extrabold mb-6 tracking-tight flex items-center gap-3 text-slate-900">
+                <span class="text-yellow-500">⚡</span> Empowering Decisions
             </h2>
             <div class="grid sm:grid-cols-2 gap-8">
                 <div>
-                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Our Vision</h4>
-                    <p class="text-gray-200 text-sm leading-relaxed">Empowering smarter decisions through data-driven insights.</p>
+                    <h4 class="text-xs font-extrabold text-blue-600 uppercase tracking-widest mb-2">Our Vision</h4>
+                    <p class="text-slate-600 text-[13px] leading-relaxed font-medium">Empowering smarter decisions through data-driven insights.</p>
                 </div>
                 <div>
-                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Our Mission</h4>
-                    <p class="text-gray-200 text-sm leading-relaxed">Helping professionals unlock the power of data with practical Excel & Power BI training.</p>
+                    <h4 class="text-xs font-extrabold text-blue-600 uppercase tracking-widest mb-2">Our Mission</h4>
+                    <p class="text-slate-600 text-[13px] leading-relaxed font-medium">Helping professionals unlock the power of data with practical Excel & Power BI training.</p>
                 </div>
             </div>
             
-            <div class="mt-8 pt-8 border-t border-slate-700/50 flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
-                <div class="w-16 h-16 rounded-full bg-white p-1 overflow-hidden flex-shrink-0 mx-auto sm:mx-0">
+            <div class="mt-8 pt-8 border-t border-blue-100 flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
+                <div class="w-16 h-16 rounded-full bg-white p-1 overflow-hidden flex-shrink-0 mx-auto sm:mx-0 shadow-sm border border-gray-100">
                     <img src="Media_Files/tis_logo.webp" class="w-full h-full rounded-full object-cover">
                 </div>
                 <div>
-                    <h3 class="font-extrabold text-lg text-white">Arkar Linn</h3>
-                    <p class="text-blue-400 text-[10px] font-bold uppercase tracking-widest mb-1">Senior Executive & Founder</p>
-                    <p class="text-gray-400 text-xs leading-relaxed max-w-sm">Advising CEO and Board on nationwide operational strategy. Trained over 300+ students in advanced data skills.</p>
+                    <h3 class="font-extrabold text-lg text-slate-900">Arkar Linn</h3>
+                    <p class="text-blue-600 text-[10px] font-extrabold uppercase tracking-widest mb-1">Senior Executive & Founder</p>
+                    <p class="text-slate-500 text-xs leading-relaxed max-w-sm font-medium">Advising CEO and Board on nationwide operational strategy. Trained over 300+ students in advanced data skills.</p>
                 </div>
             </div>
         </div>

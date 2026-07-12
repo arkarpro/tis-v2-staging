@@ -42,6 +42,9 @@ window.addEventListener('DOMContentLoaded', initApp);
 // --------------------------------------------------
 // Mobile Bottom Navigation
 // --------------------------------------------------
+// --------------------------------------------------
+// Mobile Bottom Navigation
+// --------------------------------------------------
 function switchMobileTab(tabId) {
     if (window.innerWidth >= 768) return; 
 
@@ -50,13 +53,23 @@ function switchMobileTab(tabId) {
     const widgets = document.getElementById('widgets');
 
     [sidebar, content, widgets].forEach(el => {
-        if(el) { el.classList.add('hidden'); el.classList.remove('md:block', 'animate-fade-in'); }
+        if(el) { 
+            el.classList.add('hidden'); 
+            // 💡 md:block ကို မဖျက်တော့ပါ။ သို့မှသာ Screen ပြန်ချဲ့လျှင် Desktop Mode အလိုလို ပြန်ဝင်မည်ဖြစ်သည်
+            el.classList.remove('animate-fade-in'); 
+        }
     });
 
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('text-blue-600', 'scale-110');
         btn.classList.add('text-gray-400');
     });
+
+    if (tabId === 'profile' || tabId === 'tests') {
+        document.querySelectorAll('.nav-item').forEach(el => {
+            el.className = "nav-item text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-50 px-3.5 py-2 rounded-full transition-all duration-300";
+        });
+    }
 
     let activeElement = null;
     let activeBtn = null;
@@ -65,19 +78,41 @@ function switchMobileTab(tabId) {
         activeElement = sidebar; activeBtn = document.getElementById('nav-profile');
     } else if (tabId === 'home') {
         activeElement = content; activeBtn = document.getElementById('nav-home');
-        
-        // 💡 Home ကိုနှိပ်လိုက်ပါက အပေါ်ဆုံးသို့ ပြန်တက်မည် (Loop effect)
         if (!content.classList.contains('hidden')) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
     } else if (tabId === 'tests') {
         activeElement = widgets; activeBtn = document.getElementById('nav-tests');
     }
 
-    if (activeElement) { activeElement.classList.remove('hidden'); activeElement.classList.add('animate-fade-in'); }
-    if (activeBtn) { activeBtn.classList.add('text-blue-600', 'scale-110'); activeBtn.classList.remove('text-gray-400'); }
+    if (activeElement) { 
+        activeElement.classList.remove('hidden'); 
+        activeElement.classList.add('animate-fade-in'); 
+    }
+    if (activeBtn) { 
+        activeBtn.classList.add('text-blue-600', 'scale-110'); 
+        activeBtn.classList.remove('text-gray-400'); 
+    }
 }
+
+let lastWidth = window.innerWidth;
+window.addEventListener('resize', () => {
+    if (window.innerWidth === lastWidth) return; 
+    lastWidth = window.innerWidth;
+    
+    if (window.innerWidth >= 768) {
+        // 💡 Screen အကျယ် 768px ထက်ကျော်သွားပါက Layout (၃) ခုစလုံးကို အလိုအလျောက် ပြန်ဖော်ပေးမည်
+        ['sidebar', 'content', 'widgets'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.remove('hidden');
+                el.classList.add('md:block'); 
+            }
+        });
+    } else {
+        switchMobileTab('home');
+    }
+});
 
 
 // --------------------------------------------------
