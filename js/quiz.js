@@ -123,14 +123,24 @@ async function initializeQuiz() {
 function renderQuestion() {
     const q = questions[currentQuestionIndex];
     
+    // Multi-Select ဟုတ်/မဟုတ် စစ်ဆေးခြင်း (အဖြေမှန်တွင် ကော်မာ ပါ/မပါ စစ်မည်)
+    const correctAnsStr = String(q['Correct Answer (အဖြေမှန်)']).trim();
+    const isMultiSelect = correctAnsStr.includes(',');
+    
     document.getElementById('qNumber').innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
     document.getElementById('qId').innerText = q['Question ID'] || `Q-${currentQuestionIndex + 1}`;
-    document.getElementById('qText').innerText = q['Question Text (မေးခွန်း)'];
+    
+    // 💡 Multi-select ဖြစ်ပါက မေးခွန်းဘေးတွင် "အဖြေမှန် ၂ ခု ရွေးပါ" ဟု အရိပ်အမြွက် (Hint) ပြပေးမည်
+    let questionText = q['Question Text (မေးခွန်း)'];
+    if (isMultiSelect) {
+        const requiredCount = correctAnsStr.split(',').length;
+        questionText += ` <br><span class="inline-block mt-2 bg-blue-50 text-blue-600 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">(အဖြေမှန် ${requiredCount} ခု ရွေးချယ်ပါ)</span>`;
+    }
+    document.getElementById('qText').innerHTML = questionText; 
     
     const optionsContainer = document.getElementById('optionsContainer');
     optionsContainer.innerHTML = ''; // အဟောင်းများ ဖျက်မည်
 
-    // ရွေးချယ်စရာ (၄) ခုကို ထုတ်မည်
     const options = [
         { key: 'A', text: q['Option A'] },
         { key: 'B', text: q['Option B'] },
@@ -138,24 +148,34 @@ function renderQuestion() {
         { key: 'D', text: q['Option D'] }
     ];
 
-    // 💡 ပြင်ဆင်ချက်: ရွေးချယ်စရာ (Options) များကို ပိုမိုနူးညံ့သော UI ဖြင့် ပြင်ဆင်ထားသည်
     options.forEach(opt => {
-        if (!opt.text) return; // စာသားမရှိပါက ကျော်မည်
+        if (!opt.text) return; 
         
-        const isSelected = userAnswers[currentQuestionIndex] === opt.key;
+        // 💡 လက်ရှိ Option ကို User ရွေးထားခြင်း ရှိ/မရှိ စစ်ဆေးမည်
+        let isSelected = false;
+        if (userAnswers[currentQuestionIndex]) {
+            if (isMultiSelect) {
+                // "A, B" ထဲတွင် လက်ရှိ opt.key ပါ/မပါ စစ်မည်
+                isSelected = userAnswers[currentQuestionIndex].split(',').map(s => s.trim()).includes(opt.key);
+            } else {
+                isSelected = userAnswers[currentQuestionIndex] === opt.key;
+            }
+        }
         
-        // Selected နှင့် Unselected အတွက် CSS Class များခွဲခြားခြင်း
         const bgClass = isSelected 
             ? 'bg-blue-50/80 border-blue-300 ring-2 ring-blue-500 shadow-md' 
             : 'bg-slate-50 border-transparent hover:bg-slate-100 hover:border-gray-200 shadow-sm';
             
+        // 💡 Multi-select ဆိုလျှင် အထောင့် (Checkbox ပုံစံ)၊ Single ဆိုလျှင် အဝိုင်း (Radio ပုံစံ) ပြမည်
+        const shapeClass = isMultiSelect ? 'rounded-md' : 'rounded-full';
+            
         const circleClass = isSelected 
-            ? 'bg-blue-600 text-white shadow-sm' 
-            : 'bg-white text-gray-500 shadow-sm border border-gray-200';
+            ? `bg-blue-600 text-white shadow-sm ${shapeClass}` 
+            : `bg-white text-gray-500 shadow-sm border border-gray-200 ${shapeClass}`;
 
         optionsContainer.innerHTML += `
             <div onclick="selectOption('${opt.key}')" class="cursor-pointer border ${bgClass} rounded-2xl p-4 transition-all duration-200 flex items-center group">
-                <div class="w-9 h-9 flex-shrink-0 rounded-full flex items-center justify-center font-bold text-sm mr-4 transition-colors ${circleClass}">${opt.key}</div>
+                <div class="w-9 h-9 flex-shrink-0 flex items-center justify-center font-bold text-sm mr-4 transition-colors ${circleClass}">${opt.key}</div>
                 <div class="text-gray-800 font-medium text-[15px] leading-relaxed">${opt.text}</div>
             </div>
         `;
@@ -168,34 +188,31 @@ function renderQuestion() {
 // ၃။ အဖြေရွေးချယ်ခြင်း နှင့် ခလုတ်များ ထိန်းချုပ်ခြင်း
 // --------------------------------------------------
 function selectOption(optionKey) {
-    userAnswers[currentQuestionIndex] = optionKey;
-    renderQuestion(); // UI Update လုပ်ရန် ပြန်ခေါ်မည်
-}
+    const q = questions[currentQuestionIndex];
+    const correctAnsStr = String(q['Correct Answer (အဖြေမှန်)']).trim();
+    const isMultiSelect = correctAnsStr.includes(',');
 
-function updateNavigationButtons() {
-    document.getElementById('btnPrev').style.display = currentQuestionIndex > 0 ? 'block' : 'none';
-    
-    if (currentQuestionIndex === questions.length - 1) {
-        document.getElementById('btnNext').style.display = 'none';
-        document.getElementById('btnSubmitQuiz').style.display = 'block';
+    if (isMultiSelect) {
+        // Multi-Select ဖြစ်ပါက အဖြေများကို Array အဖြစ် ခွဲထုတ်မည်
+        let currentAnswers = userAnswers[currentQuestionIndex] ? userAnswers[currentQuestionIndex].split(',').map(s => s.trim()) : [];
+        
+        if (currentAnswers.includes(optionKey)) {
+            // ရွေးပြီးသားကို ထပ်နှိပ်ပါက ပြန်ဖျက်မည် (Toggle Off)
+            currentAnswers = currentAnswers.filter(k => k !== optionKey);
+        } else {
+            // မရွေးရသေးပါက အသစ်ထည့်မည် (Toggle On)
+            currentAnswers.push(optionKey);
+            // အက္ခရာစဉ်အတိုင်း ပြန်စီမည် (A, B, C)
+            currentAnswers.sort();
+        }
+        // "A, B" ပုံစံဖြင့် ပြန်သိမ်းမည်
+        userAnswers[currentQuestionIndex] = currentAnswers.join(', ');
     } else {
-        document.getElementById('btnNext').style.display = 'block';
-        document.getElementById('btnSubmitQuiz').style.display = 'none';
+        // Single Select ဖြစ်ပါက ယခင်အတိုင်း တစ်ခုတည်းသာ မှတ်မည်
+        userAnswers[currentQuestionIndex] = optionKey;
     }
-}
-
-function nextQuestion() {
-    if (currentQuestionIndex < questions.length - 1) {
-        currentQuestionIndex++;
-        renderQuestion();
-    }
-}
-
-function prevQuestion() {
-    if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        renderQuestion();
-    }
+    
+    renderQuestion(); // UI Update လုပ်ရန် ပြန်ခေါ်မည်
 }
 
 // --------------------------------------------------
@@ -227,16 +244,51 @@ async function submitQuiz() {
     `;
 
     let score = 0;
+    let maxPossibleScore = 0; // မေးခွန်းအားလုံး မှန်ခဲ့လျှင် ရမည့် အမှတ်ပေါင်း
     
     questions.forEach((q, index) => {
-        const correctAns = String(q['Correct Answer (အဖြေမှန်)']).trim().toUpperCase();
-        const userAns = String(userAnswers[index]).trim().toUpperCase();
-        if (userAns === correctAns || q[`Option ${userAns}`] === q['Correct Answer (အဖြေမှန်)']) {
-            score += Number(q['Points'] || 1);
+        const correctAnsStr = String(q['Correct Answer (အဖြေမှန်)']).trim().toUpperCase();
+        const userAnsStr = String(userAnswers[index] || '').trim().toUpperCase();
+        const questionPoints = Number(q['Points'] || 1);
+        
+        maxPossibleScore += questionPoints;
+        
+        // ကော်မာ (,) ကို အခြေခံပြီး Array အဖြစ် ခွဲထုတ်မည် (ဥပမာ 'A, B' -> ['A', 'B'])
+        const correctArr = correctAnsStr.split(',').map(s => s.trim()).filter(s => s);
+        const userArr = userAnsStr.split(',').map(s => s.trim()).filter(s => s);
+        
+        if (correctArr.length === 1) {
+            // 💡 အဖြေ (၁) ခုတည်း ရွေးရမည့် မေးခွန်းများအတွက် (ယခင်အတိုင်း)
+            if (userArr[0] === correctArr[0] || q[`Option ${userArr[0]}`] === q['Correct Answer (အဖြေမှန်)']) {
+                score += questionPoints;
+            }
+        } else {
+            // 💡 Multi-Select: အဖြေ (၂) ခုနှင့်အထက် ရွေးရမည့် မေးခွန်းများအတွက် (Partial Scoring)
+            let correctMatches = 0;
+            let wrongMatches = 0;
+            
+            userArr.forEach(ans => {
+                if (correctArr.includes(ans)) {
+                    correctMatches++; // မှန်ကန်သော Option ရွေးမိလျှင်
+                } else {
+                    wrongMatches++;   // မှားယွင်းသော Option ရွေးမိလျှင်
+                }
+            });
+            
+            // အမှတ်တွက်နည်း: အဖြေမှန် (၂) ခုရှိပြီး (၁) ခုသာ ရွေးမိပါက အမှတ်တစ်ဝက် (0.5) ရမည်။
+            // (အဖြေမှားပါ ရွေးမိပါက User အား အကုန်ရွေးချယ်ခြင်းမှ ကာကွယ်ရန် အမှတ် ပြန်လျှော့မည်)
+            let pointPerOption = questionPoints / correctArr.length;
+            let earned = (correctMatches - wrongMatches) * pointPerOption;
+            
+            // အနုတ်ပြအမှတ် မဖြစ်စေရန် 0 ထက်ကြီးမှသာ ပေါင်းထည့်မည်
+            if (earned > 0) {
+                score += earned;
+            }
         }
     });
 
-    const percentage = Math.round((score / questions.length) * 100);
+    // 💡 Percentage တွက်ရာတွင် မေးခွန်းအရေအတွက်အစား ရနိုင်သမျှ အမှတ်ပေါင်း (maxPossibleScore) ဖြင့် တွက်ပါမည်
+    const percentage = Math.round((score / maxPossibleScore) * 100);
     const status = percentage >= 70 ? 'Pass' : 'Fail';
     
     let takenM = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
