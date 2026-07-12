@@ -83,11 +83,55 @@ async function fetchArticles(apiUrl, categoryName) {
         const result = await response.json();
         const data = result.data ? result.data : result;
 
+        // Container Layout ကို ကြိုတင်သတ်မှတ်မည်
+        container.className = "md:col-span-6 flex flex-col gap-8 w-full";
+        let finalHTML = '';
+
+        // =================================================================
+        // 💡 SQL Tab အတွက်သာ သီးသန့်ပြသမည့် Static Section
+        // =================================================================
+        if (categoryName === 'SQL') {
+            finalHTML += `
+                <!-- 1. SQL Data Warehouse Hero Card -->
+                <div class="bg-slate-900 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] overflow-hidden text-white flex flex-col md:flex-row w-full animate-fade-in">
+                    <div class="md:w-1/2">
+                        <img src="Media_Files/proj-sql.jpg" alt="SQL Data Warehouse" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-300 min-h-[250px]">
+                    </div>
+                    <div class="p-8 md:p-10 md:w-1/2 flex flex-col justify-center">
+                        <div class="mb-4">
+                            <span class="bg-yellow-500 text-slate-900 text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest">Data Engineering</span>
+                        </div>
+                        <h3 class="font-extrabold text-2xl sm:text-3xl mb-4 tracking-tight leading-snug text-white">SQL Data Warehouse & Analytics</h3>
+                        <p class="text-gray-300 text-[13px] mb-8 leading-relaxed">
+                            A complete end-to-end data engineering project demonstrating <strong>Medallion Architecture</strong> (Bronze, Silver, Gold layers). Includes ETL pipelines, data modeling, and reporting with SQL Server.
+                        </p>
+                        <div class="flex">
+                            <a href="https://github.com/arkarpro/sql-data-warehouse-project" target="_blank" class="bg-white text-slate-900 font-bold py-3.5 px-6 rounded-xl hover:bg-gray-100 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 text-sm flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                View Repository
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 2. GitHub Chart -->
+                <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-50 p-8 w-full text-center animate-fade-in">
+                    <h4 class="text-xs font-extrabold text-gray-400 uppercase tracking-widest mb-6">My Coding Activity</h4>
+                    <img src="https://ghchart.rshah.org/3b82f6/arkarpro" alt="Arkar's Github Chart" class="mx-auto w-full md:w-3/4 opacity-90 hover:opacity-100 transition-opacity duration-300">
+                </div>
+
+                <!-- 3. Divider (Posts မလာခင် ခြားပေးသည့်မျဉ်း) -->
+                <div class="flex items-center w-full my-2 animate-fade-in">
+                    <div class="flex-grow border-t border-gray-200"></div>
+                    <span class="flex-shrink-0 mx-4 text-gray-400 text-[10px] font-extrabold uppercase tracking-widest">Recent SQL Posts</span>
+                    <div class="flex-grow border-t border-gray-200"></div>
+                </div>
+            `;
+        }
+        // =================================================================
+
         if (data && data.length > 0) {
-            // Cards များကြား Spacing အနည်းငယ် ချဲထားပါသည် (gap-8)
-            container.className = "md:col-span-6 flex flex-col gap-8 w-full";
-            
-            container.innerHTML = data.map(item => {
+            finalHTML += data.map(item => {
                 let mediaContent = '';
                 const mediaVal = item.Media_URL ? item.Media_URL.trim() : '';
 
@@ -110,7 +154,7 @@ async function fetchArticles(apiUrl, categoryName) {
                 const isLocked = isPremium && !isLoggedIn;
 
                 return `
-                <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition-all duration-300 flex flex-col overflow-hidden w-full relative">
+                <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition-all duration-300 flex flex-col overflow-hidden w-full relative animate-fade-in">
                     
                     <div class="aspect-video w-full bg-slate-900 relative">
                         ${isLocked ? `
@@ -146,12 +190,17 @@ async function fetchArticles(apiUrl, categoryName) {
             }).join(''); 
             
         } else {
-            container.innerHTML = `
-                <div class="p-16 text-center bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] w-full">
-                    <p class="text-gray-400 font-medium">No content available for ${categoryName} yet.</p>
+            // Data မရှိရင်တောင်မှ SQL က Static Data အပေါ်ကနေ ပြပြီးဖြစ်လို့ အောက်ဆုံးမှာပဲ ဒီစာသားပေါ်ပါမည်
+            finalHTML += `
+                <div class="p-16 text-center bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] w-full animate-fade-in">
+                    <p class="text-gray-400 font-medium">No new posts available for ${categoryName} yet.</p>
                 </div>
             `;
         }
+
+        // တွက်ချက်ထားသော HTML အားလုံးကို ထည့်သွင်းမည်
+        container.innerHTML = finalHTML;
+
     } catch (error) {
         console.error("Fetch error:", error);
         container.innerHTML = `
