@@ -151,7 +151,7 @@ function updateTopNavbarUI(categoryName) {
 }
 
 // --------------------------------------------------
-// 4. HTML Generators
+// ၄။ HTML Generators
 // --------------------------------------------------
 function generateCardsHTML(dataArray, fallbackCategory) {
     return dataArray.map(item => {
@@ -178,20 +178,29 @@ function generateCardsHTML(dataArray, fallbackCategory) {
 
         return `
         <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition-all duration-300 flex flex-col overflow-hidden w-full relative animate-fade-in">
+            
             <div class="aspect-video w-full bg-slate-900 relative">
                 ${isLocked ? `
-                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/60 backdrop-blur-md text-white z-10">
-                        <div class="p-3 bg-white/10 rounded-full mb-3 backdrop-blur-lg"><svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div>
-                        <span class="font-extrabold text-sm tracking-widest uppercase">Premium Access</span>
+                    <!-- 💡 Premium & Login Call-to-Action UI အသစ် -->
+                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/75 backdrop-blur-[6px] text-white z-10 p-4 text-center transition-all duration-300">
+                        <div class="text-3xl mb-2 filter drop-shadow-lg">💎</div>
+                        <span class="font-bold text-[13px] tracking-wide mb-4 text-gray-200">Premium Lesson</span>
+                        <button onclick="if(typeof openLoginModal === 'function') openLoginModal()" class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full text-xs font-extrabold tracking-wider uppercase shadow-lg shadow-blue-900/50 hover:shadow-blue-600/40 hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            Login to Learn
+                        </button>
                     </div>
-                    <div class="w-full h-full opacity-40 pointer-events-none">${mediaContent}</div>
+                    <!-- Lock ဖြစ်နေချိန် နောက်ခံကို ခပ်မှိုင်းမှိုင်း (Grayscale) ပြပေးထားမည် -->
+                    <div class="w-full h-full opacity-30 grayscale pointer-events-none">${mediaContent}</div>
                 ` : `${mediaContent}`}
             </div>
+            
             <div class="p-6 md:p-8 flex flex-col flex-grow">
                 <span class="inline-block px-3.5 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest w-max mb-3 ${theme.tag}">${activeCategoryName}</span>
                 <h3 class="font-bold text-lg sm:text-xl mt-1 text-gray-900 tracking-tight leading-snug">${item.Title}</h3>
                 <p class="text-[13px] text-gray-600 mt-3 leading-relaxed">${item.Body_Text || item.Description}</p>
             </div>
+            
         </div>`;
     }).join(''); 
 }
