@@ -254,83 +254,75 @@ function getSQLStaticHTML() {
 
 function getTechStaticHTML() {
     return `
-        <!-- Project List (Vertical Layout) -->
+        <!-- Project List (All Vertical Layout) -->
         <div class="flex flex-col gap-8 mb-2"> 
             
             <!-- Population -->
-            <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col md:flex-row hover:shadow-lg transition-all duration-300">
-                <div class="md:w-1/3">
-                    <img src="Media_Files/proj-population.jpg" alt="Population" class="w-full aspect-video md:h-full object-cover object-top">
-                </div>
+            <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col hover:shadow-lg transition-all duration-300">
+                <img src="Media_Files/proj-population.jpg" alt="Population" class="w-full aspect-video object-cover object-top">
                 <div class="p-6 md:p-8 flex flex-col flex-grow">
                     <div class="mb-3"><span class="bg-red-50 text-red-600 text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest">Streamlit</span></div>
                     <h3 class="font-bold text-lg text-slate-900 mb-2 leading-snug">Myanmar Population Analytics</h3>
-                    <p class="text-gray-600 text-[13px] mb-6 flex-grow leading-relaxed">An interactive dashboard allowing users to filter census data by State, District, and Township to analyze demographics dynamically.</p>
+                    <p class="text-gray-600 text-[13px] mb-6 leading-relaxed">An interactive dashboard allowing users to filter census data by State, District, and Township to analyze demographics dynamically.</p>
                     <a href="https://dynamic-dashboard-filters.streamlit.app/" target="_blank" class="inline-flex items-center text-blue-600 font-bold text-sm hover:text-blue-800 transition">View Live App &rarr;</a>
                 </div>
             </div>
             
             <!-- Titanic -->
-            <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col md:flex-row hover:shadow-lg transition-all duration-300">
-                <div class="md:w-1/3">
-                    <img src="Media_Files/proj-titanic.jpg" alt="Titanic" class="w-full aspect-video md:h-full object-cover object-top">
-                </div>
+            <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col hover:shadow-lg transition-all duration-300">
+                <img src="Media_Files/proj-titanic.jpg" alt="Titanic" class="w-full aspect-video object-cover object-top">
                 <div class="p-6 md:p-8 flex flex-col flex-grow">
                     <div class="mb-3"><span class="bg-red-50 text-red-600 text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest">Streamlit</span></div>
                     <h3 class="font-bold text-lg text-slate-900 mb-2 leading-snug">Titanic EDA Dashboard</h3>
-                    <p class="text-gray-600 text-[13px] mb-6 flex-grow leading-relaxed">Comprehensive exploratory data analysis of the Titanic dataset, visualizing survival rates by class, gender, and age groups.</p>
+                    <p class="text-gray-600 text-[13px] mb-6 leading-relaxed">Comprehensive exploratory data analysis of the Titanic dataset, visualizing survival rates by class, gender, and age groups.</p>
                     <a href="https://titanic-eda-dashboard-dkd68fsawayaumwjkkow85.streamlit.app/" target="_blank" class="inline-flex items-center text-blue-600 font-bold text-sm hover:text-blue-800 transition">View Live App &rarr;</a>
                 </div>
             </div>
             
             <!-- Target vs Actual -->
-            <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col md:flex-row hover:shadow-lg transition-all duration-300">
-                <div class="md:w-1/3">
-                    <img src="Media_Files/proj-target.jpg" alt="Target" class="w-full aspect-video md:h-full object-cover object-top">
-                </div>
+            <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col hover:shadow-lg transition-all duration-300">
+                <img src="Media_Files/proj-target.jpg" alt="Target" class="w-full aspect-video object-cover object-top">
                 <div class="p-6 md:p-8 flex flex-col flex-grow">
                     <div class="mb-3"><span class="bg-red-50 text-red-600 text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest">Streamlit</span></div>
                     <h3 class="font-bold text-lg text-slate-900 mb-2 leading-snug">Target vs Actual KPI Tracker</h3>
-                    <p class="text-gray-600 text-[13px] mb-6 flex-grow leading-relaxed">Performance tracking dashboard comparing Target vs Actual sales across regions with achievement percentages.</p>
+                    <p class="text-gray-600 text-[13px] mb-6 leading-relaxed">Performance tracking dashboard comparing Target vs Actual sales across regions with achievement percentages.</p>
                     <a href="https://targetvsactual-arkarpro.streamlit.app/" target="_blank" class="inline-flex items-center text-blue-600 font-bold text-sm hover:text-blue-800 transition">View Live App &rarr;</a>
                 </div>
             </div>
             
             <!-- Password Generator -->
-            <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col md:flex-row hover:shadow-lg transition-all duration-300">
-                <div class="md:w-1/3">
-                    <img src="Media_Files/proj-pass.jpg" alt="Password" class="w-full aspect-video md:h-full object-cover object-top">
-                </div>
+            <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col hover:shadow-lg transition-all duration-300">
+                <img src="Media_Files/proj-pass.jpg" alt="Password" class="w-full aspect-video object-cover object-top">
                 <div class="p-6 md:p-8 flex flex-col flex-grow">
                     <div class="mb-3"><span class="bg-blue-50 text-blue-600 text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest">Web Tool</span></div>
                     <h3 class="font-bold text-lg text-slate-900 mb-2 leading-snug">Secure Password Generator</h3>
-                    <p class="text-gray-600 text-[13px] mb-6 flex-grow leading-relaxed">A handy utility tool built to generate strong, randomized passwords with customizable options.</p>
+                    <p class="text-gray-600 text-[13px] mb-6 leading-relaxed">A handy utility tool built to generate strong, randomized passwords with customizable options.</p>
                     <a href="https://arkarpro.github.io/password_generator/" target="_blank" class="inline-flex items-center text-blue-600 font-bold text-sm hover:text-blue-800 transition">View Live Tool &rarr;</a>
                 </div>
             </div>
-        </div>
-        
-        <!-- SQL Data Warehouse (Reused layout) -->
-        <div class="bg-slate-900 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] overflow-hidden text-white flex flex-col w-full mb-8">
-            <div class="w-full bg-slate-950">
-                <img src="Media_Files/proj-sql.jpg" alt="SQL Data Warehouse" class="w-full aspect-video object-cover object-top opacity-80 hover:opacity-100 transition-opacity duration-300">
-            </div>
-            <div class="p-8 md:p-10 w-full flex flex-col justify-center">
-                <div class="mb-4"><span class="bg-yellow-500 text-slate-900 text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest">Data Engineering</span></div>
-                <h3 class="font-extrabold text-2xl sm:text-3xl mb-4 tracking-tight leading-snug text-white">SQL Data Warehouse & Analytics</h3>
-                <p class="text-gray-300 text-[13px] mb-8 leading-relaxed">A complete end-to-end data engineering project demonstrating <strong>Medallion Architecture</strong>. Includes ETL pipelines, data modeling, and reporting with SQL Server.</p>
-                <div class="flex">
-                    <a href="https://github.com/arkarpro/sql-data-warehouse-project" target="_blank" class="bg-white text-slate-900 font-bold py-3.5 px-6 rounded-xl hover:bg-gray-100 transition-all duration-300 text-sm flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg> View Repository
-                    </a>
+            
+            <!-- SQL Data Warehouse (Vertical Layout) -->
+            <div class="bg-slate-900 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] overflow-hidden text-white flex flex-col w-full mb-8">
+                <div class="w-full bg-slate-950">
+                    <img src="Media_Files/proj-sql.jpg" alt="SQL Data Warehouse" class="w-full aspect-video object-cover object-top opacity-80 hover:opacity-100 transition-opacity duration-300">
+                </div>
+                <div class="p-8 md:p-10 w-full flex flex-col justify-center">
+                    <div class="mb-4"><span class="bg-yellow-500 text-slate-900 text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest">Data Engineering</span></div>
+                    <h3 class="font-extrabold text-2xl sm:text-3xl mb-4 tracking-tight leading-snug text-white">SQL Data Warehouse & Analytics</h3>
+                    <p class="text-gray-300 text-[13px] mb-8 leading-relaxed">A complete end-to-end data engineering project demonstrating <strong>Medallion Architecture</strong>. Includes ETL pipelines, data modeling, and reporting with SQL Server.</p>
+                    <div class="flex">
+                        <a href="https://github.com/arkarpro/sql-data-warehouse-project" target="_blank" class="bg-white text-slate-900 font-bold py-3.5 px-6 rounded-xl hover:bg-gray-100 transition-all duration-300 text-sm flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg> View Repository
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- GitHub Chart -->
-        <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-50 p-8 w-full text-center mb-8">
-            <h4 class="text-xs font-extrabold text-gray-400 uppercase tracking-widest mb-6">My Coding Activity</h4>
-            <img src="https://ghchart.rshah.org/3b82f6/arkarpro" alt="Arkar's Github Chart" class="mx-auto w-full md:w-3/4 opacity-90">
+            
+            <!-- GitHub Chart -->
+            <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-50 p-8 w-full text-center mb-8">
+                <h4 class="text-xs font-extrabold text-gray-400 uppercase tracking-widest mb-6">My Coding Activity</h4>
+                <img src="https://ghchart.rshah.org/3b82f6/arkarpro" alt="Arkar's Github Chart" class="mx-auto w-full md:w-3/4 opacity-90">
+            </div>
         </div>
     `;
 }
