@@ -36,21 +36,30 @@ let currentCategory = 'Home';
 // --------------------------------------------------
 // ၁။ Navbar မှ နှိပ်လိုက်သောအခါ သက်ဆိုင်ရာ Category ကို ခေါ်ယူခြင်း
 // --------------------------------------------------
-async function loadCategory(categoryName) {
-    // 💡 Mobile တွင် Menu နှိပ်လိုက်ပါက Content (Home Tab) ဆီသို့ အလိုအလျောက် သွားပေးမည်
+// 💡 isSmoothLoad ကို ထည့်သွင်းထားသည်
+async function loadCategory(categoryName, isSmoothLoad = false) {
     if (window.innerWidth < 768 && typeof switchMobileTab === 'function') {
         switchMobileTab('home');
     }
 
     currentCategory = categoryName;
+
+    // 💡 ရောက်နေသော Category ကို ပိုကြီး၍ အပြာရင့်၊ ကျန်တာကို မီးခိုးရောင် ပြောင်းမည်
+    document.querySelectorAll('.nav-item').forEach(el => {
+        if (el.getAttribute('data-category') === categoryName) {
+            el.className = "nav-item text-[15px] font-extrabold text-blue-800 bg-blue-50 px-4 py-2 rounded-full transition-all duration-300 shadow-sm";
+        } else {
+            el.className = "nav-item text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-50 px-3.5 py-2 rounded-full transition-all duration-300";
+        }
+    });
+
     const targetUrl = CONTENT_DBS[categoryName];
     const container = document.getElementById('content'); 
     
-    // URL မချိတ်ရသေးပါက Placeholder ပြသမည်
     if (!targetUrl || targetUrl === "URL_HERE") {
         container.className = "md:col-span-6 w-full";
         container.innerHTML = `
-            <div class="flex flex-col items-center justify-center bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-16 text-center">
+            <div class="flex flex-col items-center justify-center bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-16 text-center min-h-[50vh]">
                 <div class="text-6xl mb-6 animate-pulse">🚧</div>
                 <h2 class="text-2xl font-extrabold text-gray-800 mb-2">${categoryName} Content is Coming Soon!</h2>
                 <p class="text-gray-500 max-w-sm mx-auto text-sm">အချက်အလက်များ ဖြည့်သွင်းနေဆဲဖြစ်ပါသည်။ Database ချိတ်ဆက်ပြီးပါက ဤနေရာတွင် ပေါ်လာပါမည်။</p>
@@ -59,48 +68,49 @@ async function loadCategory(categoryName) {
         return;
     }
 
-    await fetchArticles(targetUrl, categoryName);
+    await fetchArticles(targetUrl, categoryName, isSmoothLoad);
 }
 
 // --------------------------------------------------
 // ၂။ Data လှမ်းဆွဲခြင်း နှင့် UI Render လုပ်ခြင်း
 // --------------------------------------------------
-async function fetchArticles(apiUrl, categoryName) {
+async function fetchArticles(apiUrl, categoryName, isSmoothLoad = false) {
     const container = document.getElementById('content');
     const theme = THEMES[categoryName] || THEMES['Home'];
     
-    // Loading State
-    container.className = "md:col-span-6 w-full";
-    container.innerHTML = `
-        <div class="flex flex-col items-center justify-center py-20 bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] opacity-80">
-            <div class="w-10 h-10 border-[3px] border-gray-100 border-t-blue-600 rounded-full animate-spin mb-4"></div>
-            <p class="text-sm font-semibold text-gray-400 tracking-wide uppercase">Data များ ဆွဲယူနေပါသည်...</p>
-        </div>
-    `;
+    // 💡 Smooth Load ဖြစ်လျှင် အဖြူကြီးမပြဘဲ၊ လက်ရှိစာမျက်နှာကိုသာ အနည်းငယ်မှိန်ထားမည်
+    if (!isSmoothLoad) {
+        container.className = "md:col-span-6 w-full";
+        container.innerHTML = `
+            <div class="flex flex-col items-center justify-center py-20 bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] opacity-80 min-h-[50vh]">
+                <div class="w-10 h-10 border-[3px] border-gray-100 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+                <p class="text-sm font-semibold text-gray-400 tracking-wide uppercase">Data များ ဆွဲယူနေပါသည်...</p>
+            </div>
+        `;
+    } else {
+        container.classList.add('opacity-50', 'pointer-events-none');
+        // အောက်ခြေတွင် Loading သေးသေးလေး ပြမည်
+        if (!document.getElementById('bottom-loader')) {
+            container.innerHTML += `<div id="bottom-loader" class="py-6 flex justify-center"><div class="w-6 h-6 border-[3px] border-gray-200 border-t-blue-600 rounded-full animate-spin"></div></div>`;
+        }
+    }
 
     try {
         const response = await fetch(apiUrl);
         const result = await response.json();
         const data = result.data ? result.data : result;
 
-        // Container Layout ကို ကြိုတင်သတ်မှတ်မည်
         container.className = "md:col-span-6 flex flex-col gap-8 w-full";
         let finalHTML = '';
 
-        // =================================================================
-        // 💡 SQL Tab အတွက်သာ သီးသန့်ပြသမည့် Static Section
-        // =================================================================
+        // SQL Static Data (ယခင်အတိုင်း)
         if (categoryName === 'SQL') {
             finalHTML += `
                 <!-- 1. SQL Data Warehouse Hero Card -->
                 <div class="bg-slate-900 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] overflow-hidden text-white flex flex-col w-full animate-fade-in">
-                    
-                    <!-- 💡 အပေါ်ခြမ်း (ပုံအပြည့်ပေါ်မည့် နေရာ) -->
                     <div class="w-full bg-slate-950">
                         <img src="Media_Files/proj-sql.jpg" alt="SQL Data Warehouse" class="w-full aspect-video object-cover object-top opacity-80 hover:opacity-100 transition-opacity duration-300">
                     </div>
-                    
-                    <!-- 💡 အောက်ခြမ်း (စာသားနှင့် ခလုတ်များ) -->
                     <div class="p-8 md:p-10 w-full flex flex-col justify-center">
                         <div class="mb-4">
                             <span class="bg-yellow-500 text-slate-900 text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest">Data Engineering</span>
@@ -117,14 +127,12 @@ async function fetchArticles(apiUrl, categoryName) {
                         </div>
                     </div>
                 </div>
-                
                 <!-- 2. GitHub Chart -->
                 <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-50 p-8 w-full text-center animate-fade-in">
                     <h4 class="text-xs font-extrabold text-gray-400 uppercase tracking-widest mb-6">My Coding Activity</h4>
                     <img src="https://ghchart.rshah.org/3b82f6/arkarpro" alt="Arkar's Github Chart" class="mx-auto w-full md:w-3/4 opacity-90 hover:opacity-100 transition-opacity duration-300">
                 </div>
-
-                <!-- 3. Divider (Posts မလာခင် ခြားပေးသည့်မျဉ်း) -->
+                <!-- 3. Divider -->
                 <div class="flex items-center w-full my-2 animate-fade-in">
                     <div class="flex-grow border-t border-gray-200"></div>
                     <span class="flex-shrink-0 mx-4 text-gray-400 text-[10px] font-extrabold uppercase tracking-widest">Recent SQL Posts</span>
@@ -132,20 +140,17 @@ async function fetchArticles(apiUrl, categoryName) {
                 </div>
             `;
         }
-        // =================================================================
 
         if (data && data.length > 0) {
             finalHTML += data.map(item => {
+                // ... (item map လုပ်သည့်အပိုင်း ယခင်အတိုင်းထားရန် - နေရာမဆန့်သဖြင့် အပြည့်မရေးပြတော့ပါ၊ အထဲက `return <div...` ကို ယခင်အတိုင်းထားပါ)
                 let mediaContent = '';
                 const mediaVal = item.Media_URL ? item.Media_URL.trim() : '';
 
                 if (mediaVal.includes('youtu.be/') || mediaVal.includes('youtube.com/')) {
                     let videoId = '';
-                    if (mediaVal.includes('youtu.be/')) {
-                        videoId = mediaVal.split('youtu.be/')[1].split('?')[0];
-                    } else if (mediaVal.includes('v=')) {
-                        videoId = mediaVal.split('v=')[1].split('&')[0];
-                    }
+                    if (mediaVal.includes('youtu.be/')) { videoId = mediaVal.split('youtu.be/')[1].split('?')[0]; } 
+                    else if (mediaVal.includes('v=')) { videoId = mediaVal.split('v=')[1].split('&')[0]; }
                     mediaContent = `<iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
                 } else if (mediaVal.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
                     mediaContent = `<img src="Media_Files/${mediaVal}" class="absolute top-0 left-0 w-full h-full object-cover" alt="${item.Title}">`;
@@ -176,37 +181,32 @@ async function fetchArticles(apiUrl, categoryName) {
                     
                     <div class="p-6 md:p-8 flex flex-col flex-grow">
                         <span class="inline-block px-3.5 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest w-max mb-3 ${theme.tag}">${item.Category || categoryName}</span>
-                        
                         <h3 class="font-bold text-lg sm:text-xl mt-1 text-gray-900 tracking-tight leading-snug">${item.Title}</h3>
-                        
                         <p class="text-[13px] text-gray-600 mt-3 leading-relaxed">${item.Body_Text || item.Description}</p>
-                        
-                        ${isLocked ? `
-                            <div class="mt-6">
-                                <button onclick="openLoginModal()" class="w-full flex items-center justify-center gap-2 bg-slate-100 text-slate-700 py-3.5 rounded-xl text-sm font-bold hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-sm">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
-                                    Login to Access
-                                </button>
-                            </div>
-                        ` : ``}
+                        ${isLocked ? `<div class="mt-6"><button onclick="openLoginModal()" class="w-full flex items-center justify-center gap-2 bg-slate-100 text-slate-700 py-3.5 rounded-xl text-sm font-bold hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-sm"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>Login to Access</button></div>` : ``}
                     </div>
                 </div>`;
             }).join(''); 
-            
         } else {
-            // Data မရှိရင်တောင်မှ SQL က Static Data အပေါ်ကနေ ပြပြီးဖြစ်လို့ အောက်ဆုံးမှာပဲ ဒီစာသားပေါ်ပါမည်
+            // 💡 Data မရှိရင်တောင် ဆက်ဆွဲလို့ရအောင် min-h-[50vh] ထည့်ထားပါသည်
             finalHTML += `
-                <div class="p-16 text-center bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] w-full animate-fade-in">
+                <div class="p-16 text-center bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] w-full min-h-[50vh] flex items-center justify-center animate-fade-in">
                     <p class="text-gray-400 font-medium">No new posts available for ${categoryName} yet.</p>
                 </div>
             `;
         }
 
-        // တွက်ချက်ထားသော HTML အားလုံးကို ထည့်သွင်းမည်
         container.innerHTML = finalHTML;
+        container.classList.remove('opacity-50', 'pointer-events-none');
+        
+        // 💡 ညင်သာစွာ ပြောင်းသွားစေရန် Smooth Scroll ဖြင့် အပေါ်ဆုံးသို့ ပြန်တက်မည်
+        if (isSmoothLoad) {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
 
     } catch (error) {
         console.error("Fetch error:", error);
+        container.classList.remove('opacity-50', 'pointer-events-none');
         container.innerHTML = `
             <div class="text-center text-red-500 font-bold bg-red-50 p-6 rounded-3xl w-full">
                 Failed to load content. Please check internet connection.
