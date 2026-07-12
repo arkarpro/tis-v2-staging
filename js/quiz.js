@@ -217,6 +217,49 @@ function selectOption(optionKey) {
 }
 
 // --------------------------------------------------
+// ၃ (က)။ အရှေ့/အနောက် သွားရန် ခလုတ်များ ထိန်းချုပ်ခြင်း
+// --------------------------------------------------
+function updateNavigationButtons() {
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnSubmit = document.getElementById('btnSubmitQuiz');
+    
+    if (btnPrev) {
+        btnPrev.style.display = currentQuestionIndex > 0 ? 'block' : 'none';
+    }
+    
+    if (currentQuestionIndex === questions.length - 1) {
+        // နောက်ဆုံးမေးခွန်းရောက်လျှင် Next ကိုဖျောက်၍ Submit ကိုပြမည်
+        if (btnNext) btnNext.style.display = 'none';
+        if (btnSubmit) btnSubmit.style.display = 'block';
+    } else {
+        // မရောက်သေးလျှင် Next ကိုပြ၍ Submit ကိုဖျောက်မည်
+        if (btnNext) btnNext.style.display = 'block';
+        if (btnSubmit) btnSubmit.style.display = 'none';
+    }
+    
+    // ခလုတ်များ ပါဝင်သော အကွက်ကြီးကို သေချာပေါက် ပြန်ဖော်ပေးမည်
+    const actionButtons = btnPrev?.parentElement?.parentElement;
+    if (actionButtons) {
+        actionButtons.classList.remove('hidden');
+    }
+}
+
+function nextQuestion() {
+    if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+    }
+}
+
+function prevQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+    }
+}
+
+// --------------------------------------------------
 // ၄။ အဖြေလွှာ တင်ခြင်း နှင့် အမှတ်တွက်ခြင်း (Submit)
 // --------------------------------------------------
 async function submitQuiz() {
