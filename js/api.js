@@ -181,7 +181,7 @@ function generateCardsHTML(dataArray, fallbackCategory) {
             
             <div class="aspect-video w-full bg-slate-900 relative">
                 ${isLocked ? `
-                    <!-- 💡 Overlay ကို ၄၀% သာ မှောင်စေပြီး (bg-slate-900/40)၊ အနည်းငယ်သာ ဝါးစေရန် (backdrop-blur-sm) ပြင်ဆင်ထားသည် -->
+                    <!-- 💡 Overlay ကို ၄၀% သာ မှောင်စေပြီး (bg-slate-900/20)၊ အနည်းငယ်သာ ဝါးစေရန် (backdrop-blur-sm) ပြင်ဆင်ထားသည် -->
                     <div class="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/40 backdrop-blur-sm text-white z-10 p-4 text-center transition-all duration-300 hover:bg-slate-900/50">
                         <div class="text-3xl mb-2 filter drop-shadow-lg">💎</div>
                         <span class="font-bold text-[13px] tracking-wide mb-4 text-white drop-shadow-md">Premium Lesson</span>
