@@ -93,11 +93,15 @@ async function fetchArticles(apiUrl, categoryName) {
         if (categoryName === 'SQL') {
             finalHTML += `
                 <!-- 1. SQL Data Warehouse Hero Card -->
-                <div class="bg-slate-900 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] overflow-hidden text-white flex flex-col md:flex-row w-full animate-fade-in">
-                    <div class="md:w-1/2">
-                        <img src="Media_Files/proj-sql.jpg" alt="SQL Data Warehouse" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-300 min-h-[250px]">
+                <div class="bg-slate-900 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] overflow-hidden text-white flex flex-col w-full animate-fade-in">
+                    
+                    <!-- 💡 အပေါ်ခြမ်း (ပုံအပြည့်ပေါ်မည့် နေရာ) -->
+                    <div class="w-full bg-slate-950">
+                        <img src="Media_Files/proj-sql.jpg" alt="SQL Data Warehouse" class="w-full aspect-video object-cover object-top opacity-80 hover:opacity-100 transition-opacity duration-300">
                     </div>
-                    <div class="p-8 md:p-10 md:w-1/2 flex flex-col justify-center">
+                    
+                    <!-- 💡 အောက်ခြမ်း (စာသားနှင့် ခလုတ်များ) -->
+                    <div class="p-8 md:p-10 w-full flex flex-col justify-center">
                         <div class="mb-4">
                             <span class="bg-yellow-500 text-slate-900 text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest">Data Engineering</span>
                         </div>
