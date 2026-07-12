@@ -197,73 +197,50 @@ function navigateToSwipeState(state) {
     } else if (state === 'tests') {
         switchMobileTab('tests');
     } else {
-        // Content (Category) Tab များအတွက်
         switchMobileTab('home'); 
         if (typeof loadCategory === 'function') {
-            loadCategory(state);
+            loadCategory(state, true); // 💡 true ဟုထည့်ထားသဖြင့် ညင်သာစွာ ကူးပြောင်းမည် (Smooth Load)
         }
     }
 }
 
-// Swipe လုပ်ခြင်းကို တွက်ချက်မည့် Function
+// ... (handleSwipe နှင့် touch event များ အရင်အတိုင်းထားပါ) ...
 function handleSwipe() {
-    // ဖုန်း Screen (768px အောက်) တွင်သာ အလုပ်လုပ်မည်
     if (window.innerWidth >= 768) return; 
-
-    // Quiz သို့မဟုတ် Review Modal များပွင့်နေလျှင် နောက်ကွယ်မှ Tab ကို Swipe မလုပ်ပါ
     const quizModal = document.getElementById('quizModal');
     const reviewsModal = document.getElementById('reviewsModal');
     if (quizModal && !quizModal.classList.contains('hidden')) return;
     if (reviewsModal && !reviewsModal.classList.contains('hidden')) return;
 
-    const swipeThreshold = 50; // အနည်းဆုံး ဆွဲရမည့် အကွာအဝေး (Pixels)
+    const swipeThreshold = 50; 
     const diffX = touchEndX - touchStartX;
     const diffY = touchEndY - touchStartY;
 
-    // အထက်/အောက် ဆွဲခြင်းထက် ဘယ်/ညာ ဆွဲခြင်းက ပိုသိသာမှသာ အလုပ်လုပ်မည်
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > swipeThreshold) {
-        
-        // လက်ရှိ ဘယ် Tab ရောက်နေသလဲဆိုတာကို ရှာဖွေမည်
         let currentState = 'Home';
-        if (!document.getElementById('sidebar')?.classList.contains('hidden')) {
-            currentState = 'profile';
-        } else if (!document.getElementById('widgets')?.classList.contains('hidden')) {
-            currentState = 'tests';
-        } else if (typeof currentCategory !== 'undefined') {
-            currentState = currentCategory;
-        }
+        if (!document.getElementById('sidebar')?.classList.contains('hidden')) currentState = 'profile';
+        else if (!document.getElementById('widgets')?.classList.contains('hidden')) currentState = 'tests';
+        else if (typeof currentCategory !== 'undefined') currentState = currentCategory;
 
         let currentIndex = swipeOrder.indexOf(currentState);
-        if (currentIndex === -1) currentIndex = 1; // မသေချာပါက Home သို့ ပြန်ထားမည်
+        if (currentIndex === -1) currentIndex = 1; 
 
-        if (diffX > 0) {
-            // 👉 Swipe Right (ညာဘက်သို့ဆွဲလျှင် ယခင် Tab သို့သွားမည်)
-            if (currentIndex > 0) {
-                navigateToSwipeState(swipeOrder[currentIndex - 1]);
-            }
-        } else {
-            // 👈 Swipe Left (ဘယ်ဘက်သို့ဆွဲလျှင် နောက် Tab သို့သွားမည်)
-            if (currentIndex < swipeOrder.length - 1) {
-                navigateToSwipeState(swipeOrder[currentIndex + 1]);
-            }
-        }
+        if (diffX > 0 && currentIndex > 0) navigateToSwipeState(swipeOrder[currentIndex - 1]);
+        else if (diffX < 0 && currentIndex < swipeOrder.length - 1) navigateToSwipeState(swipeOrder[currentIndex + 1]);
     }
 }
 
-// Screen ပေါ်စတင် ထိသည့်အချိန် (Touch Start)
 document.addEventListener('touchstart', e => {
-    // Navbar Menu ကဲ့သို့ ကိုယ်ပိုင် Horizontal Scroll ရှိသော နေရာများတွင် Swipe မလုပ်ပါ
     if (e.target.closest('.overflow-x-auto')) return;
     touchStartX = e.changedTouches[0].screenX;
     touchStartY = e.changedTouches[0].screenY;
 }, { passive: true });
 
-// Screen ပေါ်မှ လက်ခွာလိုက်သည့်အချိန် (Touch End)
 document.addEventListener('touchend', e => {
     if (e.target.closest('.overflow-x-auto')) return;
     touchEndX = e.changedTouches[0].screenX;
     touchEndY = e.changedTouches[0].screenY;
-    handleSwipe(); // တွက်ချက်မှုကို စတင်မည်
+    handleSwipe(); 
 }, { passive: true });
 
 // =================================================================
@@ -272,14 +249,12 @@ document.addEventListener('touchend', e => {
 let isFetchingNext = false;
 
 window.addEventListener('scroll', () => {
-    // ဖုန်း Screen (768px အောက်) နှင့် Content မျက်နှာပြင်တွင်သာ အလုပ်လုပ်မည်
     if (window.innerWidth >= 768) return;
     const contentDiv = document.getElementById('content');
     if (!contentDiv || contentDiv.classList.contains('hidden')) return;
     
-    // Page ရဲ့ အောက်ခြေသို့ ရောက်/မရောက် တွက်ချက်ခြင်း
     const scrollPosition = window.innerHeight + window.scrollY;
-    const threshold = document.body.offsetHeight - 80; // အောက်ဆုံးရောက်ဖို့ 80px အလို
+    const threshold = document.body.offsetHeight - 80; 
     
     if (scrollPosition >= threshold && !isFetchingNext) {
         isFetchingNext = true;
@@ -287,18 +262,11 @@ window.addEventListener('scroll', () => {
         let currentState = typeof currentCategory !== 'undefined' ? currentCategory : 'Home';
         let currentIndex = swipeOrder.indexOf(currentState);
         
-        // Home ကနေ SQL အတွင်းမှာပဲ Auto-scroll အလုပ်လုပ်မည် (Profile နှင့် Tests ကို ကျော်မည်)
         if (currentIndex >= 1 && currentIndex < swipeOrder.length - 2) { 
             const nextCategory = swipeOrder[currentIndex + 1];
-            
-            // နောက် Tab သို့ ပြောင်းမည်
-            navigateToSwipeState(nextCategory);
-            
-            // ပြောင်းသွားတာသိသာစေရန် Page အပေါ်ဆုံးသို့ Smooth ပြန်တက်မည်
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            navigateToSwipeState(nextCategory); // 💡 Smooth Load ဖြင့် ကူးသွားမည်
         }
         
-        // ၂ စက္ကန့်အတွင်း ၂ ခါ ဆက်တိုက် မပြောင်းသွားစေရန် Lock ချထားခြင်း
         setTimeout(() => { isFetchingNext = false; }, 2000); 
     }
 });
