@@ -203,3 +203,25 @@ window.addEventListener('scroll', () => {
 function openReviewsModal() { const m = document.getElementById('reviewsModal'); if(m) { m.classList.remove('hidden'); m.classList.add('flex'); setTimeout(() => m.classList.add('opacity-100'), 10); history.pushState({ modalOpen: true }, ""); } }
 function closeReviewsModal() { const m = document.getElementById('reviewsModal'); if(m) { m.classList.remove('opacity-100'); setTimeout(() => { m.classList.add('hidden'); m.classList.remove('flex'); }, 300); } }
 window.addEventListener('popstate', function() { closeReviewsModal(); });
+
+// --------------------------------------------------
+// 🚀 Coming Soon Modal Function
+// --------------------------------------------------
+function showComingSoon(featureName = 'Coming Soon') {
+    const modal = document.getElementById('comingSoonModal');
+    const title = document.getElementById('comingSoonTitle');
+    
+    if (modal) {
+        if (title) title.innerText = featureName;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+}
+
+function closeComingSoon() {
+    const modal = document.getElementById('comingSoonModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+}
